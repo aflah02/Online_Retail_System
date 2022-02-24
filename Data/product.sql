@@ -1,6 +1,6 @@
 create table category (
-	category_id INT Not null,
-	category_name VARCHAR(50) not null,
+	category_id INT NOT NULL,
+	category_name VARCHAR(50) NOT NULL,
 	category_info VARCHAR(50),
     PRIMARY KEY(category_id)
 );
@@ -18,7 +18,7 @@ insert into category (category_id, category_name, category_info) values (11, 'El
 insert into category (category_id, category_name, category_info) values (12, 'Sports Equipment', 'This category encompasses all you would want to satisfy the athlete within you');
 
 create table Brand (
-	brand_name VARCHAR(50),
+	brand_name VARCHAR(50) NOT NULL,
     primary key(brand_name)
 );
 insert into Brand (brand_name) values ('Amul');
@@ -48,10 +48,11 @@ insert into Brand (brand_name) values ('JBL');
 insert into Brand (brand_name) values ('Haldirams');
 
 create table product (
-	product_id INT,primary key(product_id),
-	product_name VARCHAR(50),
-    product_cost Decimal(10,2),
-	brand_name VARCHAR(50), 
+	product_id INT NOT NULL,
+	primary key(product_id),
+	product_name VARCHAR(50) NOT NULL,
+    product_cost Decimal(10,2) NOT NULL,
+	brand_name VARCHAR(50) NOT NULL, 
     Foreign key(brand_name) references Brand(brand_name) On delete Cascade
 );
 insert into product (product_id, product_name,product_cost ,brand_name) values (1, 'Milk',10, 'Amul');
@@ -101,10 +102,11 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (45, 'Dal Makhni',200 ,'Haldirams');
 
 create table belongsTo(
-product_id int,category_id int,
-Foreign key(product_id) references product(product_id) on delete cascade,
-Foreign key(category_id) references category(category_id) on delete cascade,
-Primary key(product_id,category_id)
+	product_id INT NOT NULL,
+	category_id INT NOT NULL,
+	Foreign key(product_id) references product(product_id) on delete cascade,
+	Foreign key(category_id) references category(category_id) on delete cascade,
+	Primary key(product_id,category_id)
 );
 insert into belongsTo(product_id, category_id) values (1,1);
 insert into belongsTo(product_id, category_id) values (1,6);

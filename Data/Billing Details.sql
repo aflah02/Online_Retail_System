@@ -1,7 +1,8 @@
 create table Billing_Details (
-	billing_id INT,
-	payment_mode VARCHAR(30),
-	billing_address VARCHAR(50)
+	billing_id INT NOT NULL,
+	payment_mode VARCHAR(30) NOT NULL,
+	billing_address VARCHAR(50) NOT NULL,
+	PRIMARY KEY (billing_id)
 );
 insert into Billing_Details (billing_id, payment_mode, billing_address) values (1, 'Net Banking', '39450 Leroy Street');
 insert into Billing_Details (billing_id, payment_mode, billing_address) values (2, 'Digital Wallet', '540 Melby Terrace');

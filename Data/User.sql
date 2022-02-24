@@ -1,10 +1,11 @@
 create table User (
-	id INT,
-	Address VARCHAR(50),
-	Name VARCHAR(50),
-	EmailID VARCHAR(50),
-	Password VARCHAR(50),
-	PhoneNumber VARCHAR(50)
+	id INT NOT NULL,
+	Address VARCHAR(50) NOT NULL,
+	Name VARCHAR(50) NOT NULL,
+	EmailID VARCHAR(50) NOT NULL,
+	Password VARCHAR(50) NOT NULL,
+	PhoneNumber VARCHAR(50) NOT NULL,
+	PRIMARY KEY (id)
 );
 insert into User (id, Address, Name, EmailID, Password, PhoneNumber) values (1, '827 Pearson Pass', 'Kerwinn Libby', 'klibby0@webeden.co.uk', 'iYRXekK', '1863621343');
 insert into User (id, Address, Name, EmailID, Password, PhoneNumber) values (2, '37 Lindbergh Park', 'Annetta Stanislaw', 'astanislaw1@sun.com', 'cKQNRxJguFR', '9896569130');

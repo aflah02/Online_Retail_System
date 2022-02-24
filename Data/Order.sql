@@ -1,23 +1,24 @@
 create table Order (
 	-- Triggers to add
-	Order_id INT,
-	Delivery_Address VARCHAR(50),
-	Shipper_id INT,
-	DateTime DATE,
-	Unique_id INT,
-	billing_id INT,
+	Order_id INT NOT NULL,
+	Delivery_Address VARCHAR(50) NOT NULL,
+	Shipper_id INT NOT NULL,
+	DateTime DATE NOT NULL,
+	Unique_id INT NOT NULL,
+	billing_id INT NOT NULL,
 	FOREIGN KEY (billing_id) 
 	REFERENCES Billing_Details(billing_id),
 	foreign key(Shipper_id)
 	REFERENCES Shipper(Shipper_id) on DELETE CASCADE,
 	foreign key(Unique_id)
 	REFERENCES User(Unique_id) on DELETE CASCADE
+	PRIMARY KEY (Order_id)
 );
 CREATE TABLE Items_Purchased
 (
-Order_id INT, 
-Product_ID INT,
-Quantity INT, 
+Order_id INT NOT NULL, 
+Product_ID INT NOT NULL,
+Quantity INT NOT NULL, 
 Primary key(Order_id , Product_ID), 
 foreign key(Order_id)
 REFERENCES Order(Order_id) on DELETE CASCADE

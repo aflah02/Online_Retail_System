@@ -1,9 +1,10 @@
 create table Coupon_Data (
-	Coupon_id VARCHAR(40),
-	Discount INT,
-	Expiry_Date DATE,
-	Unique_id INT,
+	Coupon_id VARCHAR(40) NOT NULL,
+	Discount INT NOT NULL,
+	Expiry_Date DATE NOT NULL,
+	Unique_id INT NOT NULL,
 	FOREIGN KEY(Unique_id) REFERENCES User(Unique_id) on DELETE CASCADE
+	PRIMARY KEY(Coupon_id)
 );
 insert into Coupon_Data (Coupon_id, Discount, Expiry_Date, Unique_id) values ('67697c5b-3ee5-4f67-921e-ae8dbb7d31d0', 7, '16/08/2022', 1);
 insert into Coupon_Data (Coupon_id, Discount, Expiry_Date, Unique_id) values ('a93cca35-d0c5-478a-ad4f-6423f5ae2a04', 10, '30/07/2022', 1);

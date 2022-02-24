@@ -1,7 +1,8 @@
 create table Shipper (
-	Shipper_id INT,
-	Shipper_name VARCHAR(50),
-	Delivery_speed INT
+	Shipper_id INT NOT NULL,
+	Shipper_name VARCHAR(50) NOT NULL,
+	Delivery_speed INT NOT NULL,
+	PRIMARY KEY(Shipper_id)
 );
 insert into Shipper (Shipper_id, Shipper_name, Delivery_speed) values (1, 'Witting, Jenkins and Fadel', 3);
 insert into Shipper (Shipper_id, Shipper_name, Delivery_speed) values (2, 'Stamm-DuBuque', 3);

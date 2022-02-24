@@ -1,13 +1,13 @@
 create table Cart_Data (
-	Unique_id INT, 
+	Unique_id INT NOT NULL, 
 	FOREIGN KEY (Unique_id) REFERENCES User on DELETE CASCADE
+	PRIMARY KEY (Unique_id)
 );
 
-CREATE TABLE Items_Contained
-(
-Unique_id INT, 
-Product_ID INT,
-Quantity INT, 
+CREATE TABLE Items_Contained (
+Unique_id INT NOT NULL, 
+Product_ID INT NOT NULL,
+Quantity INT NOT NULL, 
 Primary key(Unique_id , Product_ID, Quantity), 
 foreign key(Unique_id)
 REFERENCES Cart_Data(Unique_id) on DELETE CASCADE

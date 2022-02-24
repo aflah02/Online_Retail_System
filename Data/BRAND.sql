@@ -1,5 +1,6 @@
 create table BRAND (
-	brand_name VARCHAR(50)
+	brand_name VARCHAR(50) NOT NULL,
+	PRIMARY KEY(brand_name)
 );
 insert into BRAND (brand_name) values ('Amul');
 insert into BRAND (brand_name) values ('London Dairy');
