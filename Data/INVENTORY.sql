@@ -1,6 +1,7 @@
 create table INVENTORY (
 	product_id INT,
 	quantity INT
+	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id) ON DELETE CASCADE
 );
 insert into INVENTORY (product_id, quantity) values (1, 447);
 insert into INVENTORY (product_id, quantity) values (2, 283);
