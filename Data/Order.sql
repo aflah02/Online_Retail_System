@@ -1,11 +1,14 @@
+DROP TABLE IF EXISTS Items_Purchased;
+DROP TABLE IF EXISTS Order_Table;
+
 create table Order_Table (
-	-- Triggers to add
 	Order_id INT NOT NULL,
 	Delivery_Address VARCHAR(50) NOT NULL,
 	Shipper_id INT NOT NULL,
 	Date_Time datetime NOT NULL,
 	Unique_id INT NOT NULL,
 	billing_id INT NOT NULL,
+    totalCost INT DEFAULT 0,
 	FOREIGN KEY (billing_id) 
 	REFERENCES Billing_Details(billing_id),
 	foreign key(Shipper_id)
@@ -25,10 +28,22 @@ foreign key(Order_id)
 REFERENCES Order_Table(Order_id) on DELETE CASCADE
 );
 
+-- create trigger modifyOrderCost
+--   after insert 
+--   on Order_Table for each row
+--   insert into FacultyEmail (facultyid, email)
+--     values(
+--       NEW.facultyid,
+--       lower(CONCAT(NEW.firstname,'.',NEW.lastname,'@wossamotta.edu'))
+--     );
+    
 DELIMITER $$
-CREATE TRIGGER `capital` BEFORE INSERT ON `Items_Purchased`
+CREATE TRIGGER `getCurrentCost` BEFORE INSERT ON `Items_Purchased`
 FOR EACH ROW BEGIN
-  SET NEW.Cost = (Select product_cost*NEW.Quantity From Product Where product_id = NEW.Product_ID);
+    SET NEW.Cost = (Select product_cost*NEW.Quantity From Product Where product_id = NEW.Product_ID);
+    UPDATE Order_Table
+	SET totalCost = totalCost + NEW.Cost
+	WHERE NEW.Order_id = Order_Table.Order_id;
 END $$
 DELIMITER ;
 
