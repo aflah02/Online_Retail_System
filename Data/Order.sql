@@ -27,15 +27,6 @@ Primary key(Order_id , Product_ID),
 foreign key(Order_id)
 REFERENCES Order_Table(Order_id) on DELETE CASCADE
 );
-
--- create trigger modifyOrderCost
---   after insert 
---   on Order_Table for each row
---   insert into FacultyEmail (facultyid, email)
---     values(
---       NEW.facultyid,
---       lower(CONCAT(NEW.firstname,'.',NEW.lastname,'@wossamotta.edu'))
---     );
     
 DELIMITER $$
 CREATE TRIGGER `getCurrentCost` BEFORE INSERT ON `Items_Purchased`
