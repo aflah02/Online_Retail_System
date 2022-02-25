@@ -24,15 +24,28 @@ Primary key(Order_id , Product_ID),
 foreign key(Order_id)
 REFERENCES Order_Table(Order_id) on DELETE CASCADE
 );
+-- DELIMITER $$
+-- CREATE 
+-- 	TRIGGER getCost AFTER INSERT
+-- 	ON Items_Purchased
+--     -- SET NOCOUNT ON;
+--     FOR EACH ROW
+-- 		UPDATE Items_Purchased I SET cost = INSERTED.Quantity*(SELECT product_cost FROM product Where product_id = INSERTED.Product_ID) 
+-- 		WHERE I.Order_id = INSERTED.Order_id AND I.Product_ID = INSERTED.Product_ID; 
+-- END$$
+-- DELIMITER ;
 DELIMITER $$
-CREATE 
-	TRIGGER getCost AFTER INSERT
-	ON Items_Purchased
-    -- SET NOCOUNT ON;
-    FOR EACH ROW
+
+CREATE TRIGGER after_members_insert
+AFTER INSERT
+ON Items_Purchased FOR EACH ROW
+BEGIN
+    IF NEW.Cost IS NULL THEN
 		UPDATE Items_Purchased I SET cost = INSERTED.Quantity*(SELECT product_cost FROM product Where product_id = INSERTED.Product_ID) 
 		WHERE I.Order_id = INSERTED.Order_id AND I.Product_ID = INSERTED.Product_ID; 
+    END IF;
 END$$
+
 DELIMITER ;
 insert into Order_Table (Order_id, Delivery_Address, Shipper_id, Date_Time, Unique_id, billing_id ) values (1, '827 Pearson Pass', 14, '2021-09-20 11:00:27', 1, 1);
 insert into Order_Table (Order_id, Delivery_Address, Shipper_id, Date_Time, Unique_id, billing_id ) values (2, '37 Lindbergh Park', 11, '2021-10-23 12:28:43', 2, 2);
@@ -76,7 +89,7 @@ insert into Items_Purchased (Order_id, Product_ID, Quantity) values (7, 7, 10);
 insert into Items_Purchased (Order_id, Product_ID, Quantity) values (7, 4, 3);
 insert into Items_Purchased (Order_id, Product_ID, Quantity) values (8, 44, 3);
 insert into Items_Purchased (Order_id, Product_ID, Quantity) values (8, 5, 3);
-insert into Items_Purchased (Order_id, Product_ID, Quantity) values (8, 44, 1);
+insert into Items_Purchased (Order_id, Product_ID, Quantity) values (8, 41, 1);
 insert into Items_Purchased (Order_id, Product_ID, Quantity) values (9, 17, 5);
 insert into Items_Purchased (Order_id, Product_ID, Quantity) values (9, 8, 8);
 insert into Items_Purchased (Order_id, Product_ID, Quantity) values (10, 24, 9);
