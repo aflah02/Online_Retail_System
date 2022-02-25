@@ -1,6 +1,7 @@
+Use RetailDB;
 create table Cart_Data (
 	Unique_id INT NOT NULL, 
-	FOREIGN KEY (Unique_id) REFERENCES User on DELETE CASCADE
+	FOREIGN KEY (Unique_id) REFERENCES User (id) on DELETE CASCADE,
 	PRIMARY KEY (Unique_id)
 );
 
