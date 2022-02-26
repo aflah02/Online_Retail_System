@@ -18,9 +18,3 @@ SELECT * from order_table where order_id in (
         )
     )
 );
-
--- List all shippers with speed >=2
-SELECT S.shipper_name, S.delivery_speed
-FROM Shipper S
-WHERE S.delivery_speed >= 2;
-
