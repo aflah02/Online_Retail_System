@@ -27,7 +27,7 @@ where category_id IN
 from category
 where category_name='Electronics');
 
--- list all categories
-select category_name
+-- list all categories and information
+select category_name,category_info
 from category
 
