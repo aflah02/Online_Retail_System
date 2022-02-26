@@ -1,6 +1,6 @@
 create table category (
 	category_id INT NOT NULL,
-	category_name VARCHAR(50) NOT NULL,
+	category_name VARCHAR(50) NOT NULL unique,
 	category_info VARCHAR(100),
     PRIMARY KEY(category_id)
 );
@@ -91,7 +91,7 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (34, 'Fridge', 10000,'Samsung');
 insert into product (product_id, product_name,product_cost ,brand_name) values (35, 'S22',500,'Samsung');
 insert into product (product_id, product_name,product_cost ,brand_name) values (36, 'Air Conditioner', 50000,'Samsung');
-insert into product (product_id, product_name,product_cost ,brand_name) values (37, 'TV',6000 ,'LG');
+insert into product (product_id, product_name,product_cost ,brand_name) values (37, 'TV',60000 ,'LG');
 insert into product (product_id, product_name,product_cost ,brand_name) values (38, 'Fridge',50000 ,'LG');
 insert into product (product_id, product_name,product_cost ,brand_name) values (39, 'Washing Machine',10000 ,'Whirlpool');
 insert into product (product_id, product_name,product_cost ,brand_name) values (40, 'Sofa', 5000,'Godrej Interio');
