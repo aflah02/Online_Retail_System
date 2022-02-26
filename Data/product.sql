@@ -3,6 +3,7 @@ create table category (
 	category_name VARCHAR(50) NOT NULL unique,
 	category_info VARCHAR(100),
     PRIMARY KEY(category_id)
+    
 );
 insert into category (category_id, category_name, category_info) values (1, 'Food', 'This category encompasses all food items');
 insert into category (category_id, category_name, category_info) values (2, 'Health', 'This category is aimed for the people trying to live healthier lives');
@@ -53,7 +54,8 @@ create table product (
 	product_name VARCHAR(50) NOT NULL,
     product_cost Decimal(10,2) NOT NULL,
 	brand_name VARCHAR(50) NOT NULL, 
-    Foreign key(brand_name) references Brand(brand_name) On delete Cascade
+    Foreign key(brand_name) references Brand(brand_name) On delete Cascade,
+    unique(product_name,brand_name)
 );
 insert into product (product_id, product_name,product_cost ,brand_name) values (1, 'Milk',10, 'Amul');
 insert into product (product_id, product_name,product_cost ,brand_name) values (2, 'Ghee', 20,'Amul');
