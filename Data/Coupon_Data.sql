@@ -1,8 +1,10 @@
+Use retaildb;
 create table Coupon_Data (
 	Coupon_id VARCHAR(40) NOT NULL,
-	Discount INT NOT NULL,
+	Discount DOUBLE NOT NULL,
 	Expiry_Date DATE NOT NULL,
 	Unique_id INT NOT NULL,
+	isUsed INT DEFAULT 0,
 	FOREIGN KEY(Unique_id) REFERENCES User(id) on DELETE CASCADE,
 	PRIMARY KEY(Coupon_id)
 );
