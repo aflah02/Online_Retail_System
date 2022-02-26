@@ -4,5 +4,9 @@ from product P,Items_Contained I
 where P.product_id=I.Product_ID and I.Unique_id = 1 and P.product_id IN (select product_id from INVENTORY where quantity>0);
 
 -- list out total cart cost 
+select Temp.Username, Temp.Total as "Total cost"
+from (select I.Unique_id,I.Product_ID,U.NAME as Username, SUM(I.Quantity*P.product_cost) as Total
+from User U, Items_Contained I,product P
+where P.product_id=I.Product_ID and I.Unique_id=U.id and P.product_id IN (select product_id from INVENTORY where quantity>0) Group BY (I.Unique_id,I.Product_ID)) as Temp;
 
 -- list users with empty carts
