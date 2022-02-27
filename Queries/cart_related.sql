@@ -21,7 +21,7 @@ delete from Items_Contained where Items_Contained.Unique_id = 19 and Items_Conta
 insert into Items_Contained values (19,20,5);
 
 --calculate cost of a particular order
-select order_id as "Order Number", sum(Items_purchased.quantity * (select product_cost from product where product.product_id = Items_purchased.product_id and Items_purchased.order_id =1)) from Items_purchased where Items_purchased.order_id = 1;
+select order_id as "Order Number", sum(Items_purchased.quantity * (select product_cost from product where product.product_id = Items_purchased.product_id )) from Items_purchased where Items_purchased.order_id = 1;
 
 --cancel an order
 DELETE FROM Items_Purchased  INNER JOIN Order_Table  
