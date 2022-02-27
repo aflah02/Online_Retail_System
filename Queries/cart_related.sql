@@ -12,10 +12,10 @@ group by Temp.Username;
 
 
 --empty cart for a particular user
-delete from Items_Contained where Items_Contained.Unique_id = '19';
+delete from Items_Contained where Items_Contained.Unique_id = 19;
 
 --Remove particular product from cart for a particular user
-delete from Items_Contained where Items_Contained.Unique_id = '19' and Items_Contained.product_id = '20';
+delete from Items_Contained where Items_Contained.Unique_id = 19 and Items_Contained.product_id = 20;
 
 --add to cart a particular product in a particular quantity to a particular user's cart
 insert into Items_Contained values (19,20,5);
