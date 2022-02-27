@@ -2,7 +2,7 @@ Use retaildb;
 DROP TABLE IF EXISTS Items_Purchased;
 DROP TABLE IF EXISTS belongsto;
 DROP TABLE IF EXISTS inventory;
-DROP TABLE IF EXISTS Order_Table;
+DROP TABLE IF EXISTS order_table;
 DROP TABLE IF EXISTS items_contained;
 DROP TABLE IF EXISTS shipper;
 DROP TABLE IF EXISTS admin;
