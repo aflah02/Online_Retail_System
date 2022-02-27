@@ -10,4 +10,7 @@ from User U, Items_Contained I,product P
 where P.product_id=I.Product_ID and I.Unique_id=U.id and P.product_id IN (select product_id from INVENTORY where quantity>0) Group BY I.Unique_id,I.Product_ID) as Temp
 group by Temp.Username;
 
+
+--empty cart for a particular user
+delete from Items_Contained where Items_Contained.Unique_id = '19';
 -- list users with empty carts
