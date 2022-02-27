@@ -23,4 +23,8 @@ insert into Items_Contained values (19,20,5);
 --calculate cost of a particular order
 select order_id as "Order Number", sum(Items_purchased.quantity * (select product_cost from product where product.product_id = Items_purchased.product_id and Items_purchased.order_id =1)) from Items_purchased where Items_purchased.order_id = 1;
 
+--cancel an order
+DELETE FROM Items_Purchased  INNER JOIN Order_Table  
+WHERE Items_Purchased.order_id= 1 and Order_Table.order_id =1 ;
+
 -- list users with empty carts
