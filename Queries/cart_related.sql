@@ -32,4 +32,32 @@ order_id = 2 and inventory.product_id = items_purchased.product_id) where produc
 delete from items_purchased where order_id = 2;
 delete from order_table where order_id = 2;
 
+-- buy now
+-- update inventory, update billing, insert into order, remove from cart
+-- you have cart_id and Unique_id
+
+
+
+update inventory set quantity = quantity - (select quantity from Items_contained 
+where inventory.product_id = Items_contained.product_id and Items_contained.Unique_id = 1)
+where product_id in (select product_id from Items_contained where Unique_id = 1);
+-- inventory updated
+
+insert into Billing_Details (payment_mode,billing_address) values ('Net Banking','East Avenue, New York');
+-- inserted into billing_address
+
+insert into order_table (31,'East Avenue, New York', 3,'2021-07-26 14:15:55',1,31);
+insert into Items_purchased (31,5,15);
+insert into Items_purchased (31,3,5);
+insert into Items_purchased (31,8,2);
+
+-- inserted into Order tables
+delete from Items_contained where Unique_id = 1;
+
+--buy now done
+
+-- deleted from cart
+
+
+
 -- list users with empty carts
