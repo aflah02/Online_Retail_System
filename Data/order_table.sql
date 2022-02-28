@@ -42,6 +42,14 @@ FOR EACH ROW BEGIN
 	ELSE totalCost + (NEW.Cost) 
     END
     WHERE NEW.Order_id = order_table.Order_id;
+    
+	UPDATE coupon_data
+    Set isUsed = 
+    Case
+    WHEN (couponID IS NOT NULL) THEN 1
+	ELSE 0
+    END
+    WHERE NEW.Order_id = order_table.Order_id AND NEW.couponID IS NOT NULL AND NEW.couponID = coupon_data.Coupon_id;
 END $$
 DELIMITER ;
 
