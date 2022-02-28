@@ -216,7 +216,7 @@ insert into category (category_id, category_name, category_info) values (11, 'El
 insert into category (category_id, category_name, category_info) values (12, 'Sports Equipment', 'This category encompasses all you would want to satisfy the athlete within you');
 
 create table Brand (
-	brand_name VARCHAR(50) NOT NULL AUTO_INCREMENT,
+	brand_name VARCHAR(50) NOT NULL,
     primary key(brand_name)
 );
 insert into Brand (brand_name) values ('Amul');
