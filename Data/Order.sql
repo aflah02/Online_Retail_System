@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS Items_Purchased;
 DROP TABLE IF EXISTS Order_Table;
 
 create table Order_Table (
-	Order_id INT NOT NULL,
+	Order_id INT NOT NULL AUTO_INCREMENT,
 	Delivery_Address VARCHAR(50) NOT NULL,
 	Shipper_id INT DEFAULT 1,
 	Date_Time datetime NOT NULL,

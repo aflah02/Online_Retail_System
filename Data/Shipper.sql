@@ -1,5 +1,5 @@
 create table Shipper (
-	Shipper_id INT NOT NULL,
+	Shipper_id INT NOT NULL AUTO_INCREMENT,
 	Shipper_name VARCHAR(50) NOT NULL,
 	Delivery_speed INT NOT NULL,
 	PRIMARY KEY(Shipper_id)

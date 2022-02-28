@@ -1,5 +1,5 @@
 create table category (
-	category_id INT NOT NULL,
+	category_id INT NOT NULL AUTO_INCREMENT,
 	category_name VARCHAR(50) NOT NULL unique,
 	category_info VARCHAR(100),
     PRIMARY KEY(category_id)
@@ -19,7 +19,7 @@ insert into category (category_id, category_name, category_info) values (11, 'El
 insert into category (category_id, category_name, category_info) values (12, 'Sports Equipment', 'This category encompasses all you would want to satisfy the athlete within you');
 
 create table Brand (
-	brand_name VARCHAR(50) NOT NULL,
+	brand_name VARCHAR(50) NOT NULL AUTO_INCREMENT,
     primary key(brand_name)
 );
 insert into Brand (brand_name) values ('Amul');
@@ -49,7 +49,7 @@ insert into Brand (brand_name) values ('JBL');
 insert into Brand (brand_name) values ('Haldirams');
 
 create table product (
-	product_id INT NOT NULL,
+	product_id INT NOT NULL AUTO_INCREMENT,
 	primary key(product_id),
 	product_name VARCHAR(50) NOT NULL,
     product_cost Decimal(10,2) NOT NULL,

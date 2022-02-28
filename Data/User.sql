@@ -1,6 +1,6 @@
 Use RetailDB;
 create table User (
-	id INT NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT,
 	Address VARCHAR(50) NOT NULL,
 	Name VARCHAR(50) NOT NULL,
 	EmailID VARCHAR(50) NOT NULL,

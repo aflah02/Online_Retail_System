@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS User;
 
 Use RetailDB;
 create table User (
-	id INT NOT NULL,
+	id INT NOT NULL AUTO_INCREMENT,
 	Address VARCHAR(50) NOT NULL,
 	Name VARCHAR(50) NOT NULL,
 	EmailID VARCHAR(50) NOT NULL,
@@ -196,7 +196,7 @@ insert into Items_Contained (Unique_id, Product_ID, Quantity) values (14, 18, 3)
 insert into Items_Contained (Unique_id, Product_ID, Quantity) values (14, 16, 6);
 insert into Items_Contained (Unique_id, Product_ID, Quantity) values (14, 38, 7);
 create table category (
-	category_id INT NOT NULL,
+	category_id INT NOT NULL AUTO_INCREMENT,
 	category_name VARCHAR(50) NOT NULL unique,
 	category_info VARCHAR(100),
     PRIMARY KEY(category_id)
@@ -216,7 +216,7 @@ insert into category (category_id, category_name, category_info) values (11, 'El
 insert into category (category_id, category_name, category_info) values (12, 'Sports Equipment', 'This category encompasses all you would want to satisfy the athlete within you');
 
 create table Brand (
-	brand_name VARCHAR(50) NOT NULL,
+	brand_name VARCHAR(50) NOT NULL AUTO_INCREMENT,
     primary key(brand_name)
 );
 insert into Brand (brand_name) values ('Amul');
@@ -246,7 +246,7 @@ insert into Brand (brand_name) values ('JBL');
 insert into Brand (brand_name) values ('Haldirams');
 
 create table product (
-	product_id INT NOT NULL,
+	product_id INT NOT NULL AUTO_INCREMENT,
 	primary key(product_id),
 	product_name VARCHAR(50) NOT NULL,
     product_cost Decimal(10,2) NOT NULL,
@@ -380,7 +380,7 @@ insert into belongsTo (product_id,category_id) values (45,1);
 insert into belongsTo (product_id,category_id) values (45,10);
 
 create table Billing_Details (
-	billing_id INT NOT NULL,
+	billing_id INT NOT NULL AUTO_INCREMENT,
 	payment_mode VARCHAR(30) NOT NULL,
 	billing_address VARCHAR(50) NOT NULL,
 	PRIMARY KEY (billing_id)
@@ -417,7 +417,7 @@ insert into Billing_Details (billing_id, payment_mode, billing_address) values (
 insert into Billing_Details (billing_id, payment_mode, billing_address) values (30, 'Net Banking', '708 Butternut Place');
 
 create table ADMIN (
-	admin_id INT NOT NULL,
+	admin_id INT NOT NULL AUTO_INCREMENT,
 	username VARCHAR(50) NOT NULL,
 	password VARCHAR(50) NOT NULL,
     PRIMARY KEY(admin_id)
@@ -428,7 +428,7 @@ insert into ADMIN (admin_id, username, password) values (3, 'Faizan', 'Haider3')
 insert into ADMIN values(4,'Shivaansh','Mital4');
 
 create table Shipper (
-	Shipper_id INT NOT NULL,
+	Shipper_id INT NOT NULL AUTO_INCREMENT,
 	Shipper_name VARCHAR(50) NOT NULL,
 	Delivery_speed INT NOT NULL,
 	PRIMARY KEY(Shipper_id)
@@ -458,7 +458,7 @@ DROP TABLE IF EXISTS Items_Purchased;
 DROP TABLE IF EXISTS Order_Table;
 
 create table Order_Table (
-	Order_id INT NOT NULL,
+	Order_id INT NOT NULL AUTO_INCREMENT,
 	Delivery_Address VARCHAR(50) NOT NULL,
 	Shipper_id INT NOT NULL,
 	Date_Time datetime NOT NULL,
@@ -574,7 +574,7 @@ insert into Items_Purchased (Order_id, Product_ID, Quantity) values (1, 12, 4);
 insert into Items_Purchased (Order_id, Product_ID, Quantity) values (1, 14, 1);
 
 create table INVENTORY (
-	product_id INT NOT NULL,
+	product_id INT NOT NULL AUTO_INCREMENT,
 	quantity INT NOT NULL,
 	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id) ON DELETE CASCADE,
 	PRIMARY KEY (product_id)

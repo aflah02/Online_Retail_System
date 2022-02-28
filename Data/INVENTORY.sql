@@ -1,5 +1,5 @@
 create table INVENTORY (
-	product_id INT NOT NULL,
+	product_id INT NOT NULL AUTO_INCREMENT,
 	quantity INT NOT NULL,
 	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id) ON DELETE CASCADE,
 	PRIMARY KEY (product_id)
