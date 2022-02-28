@@ -54,9 +54,13 @@ insert into items_purchased (31,8,2);
 -- inserted into Order tables
 delete from items_contained where Unique_id = 1;
 
+-- deleted from cart
 --buy now done
 
--- deleted from cart
+-- all orders with cost < average 
+ select * from order_table where (select Order_id from items_purchased where cost < (select avg(cost) from items_purchased group by (Order_id)));
+-- all orders from a particular user
+select * from items_purchased where Order_id in (select Order_id from order_table where Unique_id = 1);
 
 
 
