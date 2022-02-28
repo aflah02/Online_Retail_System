@@ -17,8 +17,16 @@ delete from items_contained where items_contained.Unique_id = 19;
 --Remove particular product from cart for a particular user
 delete from items_contained where items_contained.Unique_id = 19 and items_contained.product_id = 20;
 
---add to cart a particular product in a particular quantity to a particular user's cart
+--add to cart a particular product in a particular quantity to a particular user's cart if order doesn't exist
 insert into items_contained values (19,20,5);
+
+--add to cart a particular product in a particular quantity to a particular user's cart if order exists
+
+update  items_contained 
+set quantity = case 
+    when product_id in (select product_id from items_contained where unique_id = 5) 
+    then quantity + 10 
+    else quantity  end;
 
 --calculate cost of a particular order
 select order_id as "Order Number", sum(items_purchased.quantity * (select product_cost from product where product.product_id = items_purchased.product_id )) from items_purchased where items_purchased.order_id = 1;
