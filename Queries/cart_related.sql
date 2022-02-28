@@ -24,8 +24,6 @@ insert into items_contained values (19,20,5);
 select order_id as "Order Number", sum(items_purchased.quantity * (select product_cost from product where product.product_id = items_purchased.product_id )) from items_purchased where items_purchased.order_id = 1;
 
 --cancel an order
-
-
 update inventory set quantity = quantity + (select quantity from items_purchased where 
 order_id = 2 and inventory.product_id = items_purchased.product_id) where product_id in (select product_id from items_purchased where order_id = 2);
 
