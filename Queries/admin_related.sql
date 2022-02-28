@@ -38,3 +38,8 @@ insert into brand values ('Google');
 insert into product (product_id, product_name,product_cost ,brand_name) values (46, 'Pixel',20000 ,'Google');
 insert into belongsTo (product_id,category_id) values (46,11);
 insert into inventory (product_id, quantity) values (46, 1);
+
+-- View users using admin privileges
+Create VIEW protectedUserView AS
+SELECT id, address, name, EmailID, PhoneNumber
+From user

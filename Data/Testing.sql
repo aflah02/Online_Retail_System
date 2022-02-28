@@ -1,16 +1,14 @@
--- Use retaildb;
--- DROP TABLE IF EXISTS admin;
--- create table ADMIN (
--- 	admin_id INT NOT NULL AUTO_INCREMENT,
--- 	username VARCHAR(50) NOT NULL,
--- 	password VARCHAR(50) NOT NULL,
---     PRIMARY KEY(admin_id)
--- );
--- insert into ADMIN (admin_id, username, password) values (1, 'Aryaman', 'Raina1');
--- insert into ADMIN (admin_id, username, password) values (2, 'Aflah', 'Khan2');
--- insert into ADMIN (admin_id, username, password) values (3, 'Faizan', 'Haider3');
--- insert into ADMIN values(4,'Shivaansh','Mital4');
--- insert into ADMIN (username, password) values ('ABC','XYZ');
-delete from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE;
-Select *
-From coupon_data;
+delete from billing_details where billing_details.billing_id 
+IN (Select billing_id From order_table where order_table.Unique_id = 1) 
+AND NOT EXISTS (Select * From order_table,shipper 
+Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
+AND order_table.Shipper_id = shipper.shipper_id);
+delete from user where user.id = 1 AND NOT EXISTS (Select * From order_table,shipper 
+Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0 
+AND order_table.Shipper_id = shipper.shipper_id);
+SELECT 
+    *
+FROM
+    order_table
+WHERE
+    Unique_id = 1
