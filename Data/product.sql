@@ -18,35 +18,35 @@ insert into category (category_id, category_name, category_info) values (10, 'Re
 insert into category (category_id, category_name, category_info) values (11, 'Electronics', 'Electronic items');
 insert into category (category_id, category_name, category_info) values (12, 'Sports Equipment', 'This category encompasses all you would want to satisfy the athlete within you');
 
-create table Brand (
+create table brand (
 	brand_name VARCHAR(50) NOT NULL,
     primary key(brand_name)
 );
-insert into Brand (brand_name) values ('Amul');
-insert into Brand (brand_name) values ('London Dairy');
-insert into Brand (brand_name) values ('Britannia');
-insert into Brand (brand_name) values ('Nestle');
-insert into Brand (brand_name) values ('Kelloggs');
-insert into Brand (brand_name) values ('FitBit');
-insert into Brand (brand_name) values ('Amway');
-insert into Brand (brand_name) values ('Loreal');
-insert into Brand (brand_name) values ('Nivea');
-insert into Brand (brand_name) values ('Gillette');
-insert into Brand (brand_name) values ('Dove');
-insert into Brand (brand_name) values ('Adidas');
-insert into Brand (brand_name) values ('Nike');
-insert into Brand (brand_name) values ('Puma');
-insert into Brand (brand_name) values ('Gap');
-insert into Brand (brand_name) values ('Coca-Cola');
-insert into Brand (brand_name) values ('Dabur');
-insert into Brand (brand_name) values ('PepsiCo');
-insert into Brand (brand_name) values ('Samsung');
-insert into Brand (brand_name) values ('LG');
-insert into Brand (brand_name) values ('Whirlpool');
-insert into Brand (brand_name) values ('Godrej Interio');
-insert into Brand (brand_name) values ('Apple');
-insert into Brand (brand_name) values ('JBL');
-insert into Brand (brand_name) values ('Haldirams');
+insert into brand (brand_name) values ('Amul');
+insert into brand (brand_name) values ('London Dairy');
+insert into brand (brand_name) values ('Britannia');
+insert into brand (brand_name) values ('Nestle');
+insert into brand (brand_name) values ('Kelloggs');
+insert into brand (brand_name) values ('FitBit');
+insert into brand (brand_name) values ('Amway');
+insert into brand (brand_name) values ('Loreal');
+insert into brand (brand_name) values ('Nivea');
+insert into brand (brand_name) values ('Gillette');
+insert into brand (brand_name) values ('Dove');
+insert into brand (brand_name) values ('Adidas');
+insert into brand (brand_name) values ('Nike');
+insert into brand (brand_name) values ('Puma');
+insert into brand (brand_name) values ('Gap');
+insert into brand (brand_name) values ('Coca-Cola');
+insert into brand (brand_name) values ('Dabur');
+insert into brand (brand_name) values ('PepsiCo');
+insert into brand (brand_name) values ('Samsung');
+insert into brand (brand_name) values ('LG');
+insert into brand (brand_name) values ('Whirlpool');
+insert into brand (brand_name) values ('Godrej Interio');
+insert into brand (brand_name) values ('Apple');
+insert into brand (brand_name) values ('JBL');
+insert into brand (brand_name) values ('Haldirams');
 
 create table product (
 	product_id INT NOT NULL AUTO_INCREMENT,
@@ -54,7 +54,7 @@ create table product (
 	product_name VARCHAR(50) NOT NULL,
     product_cost Decimal(10,2) NOT NULL,
 	brand_name VARCHAR(50) NOT NULL, 
-    Foreign key(brand_name) references Brand(brand_name) On delete Cascade,
+    Foreign key(brand_name) references brand(brand_name) On delete Cascade,
     unique(product_name,brand_name)
 );
 insert into product (product_id, product_name,product_cost ,brand_name) values (1, 'Milk',10, 'Amul');
@@ -103,82 +103,82 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (44, 'Bhujia',100 ,'Haldirams');
 insert into product (product_id, product_name,product_cost ,brand_name) values (45, 'Dal Makhni',200 ,'Haldirams');
 
-create table belongsTo(
+create table belongsto(
 	product_id INT NOT NULL,
 	category_id INT NOT NULL,
 	Foreign key(product_id) references product(product_id) on delete cascade,
 	Foreign key(category_id) references category(category_id) on delete cascade,
 	Primary key(product_id,category_id)
 );
-insert into belongsTo(product_id, category_id) values (1,1);
-insert into belongsTo(product_id, category_id) values (1,6);
-insert into belongsTo(product_id, category_id) values (1,9);
-insert into belongsTo(product_id, category_id) values (2,1);
-insert into belongsTo(product_id, category_id) values (2,6);
-insert into belongsTo(product_id, category_id) values (3,1);
-insert into belongsTo(product_id, category_id) values (3,6);
-insert into belongsTo(product_id, category_id) values (3,9);
-insert into belongsTo(product_id, category_id) values (4,1);
-insert into belongsTo(product_id, category_id) values (5,1);
-insert into belongsTo(product_id, category_id) values (5,6);
-insert into belongsTo(product_id, category_id) values (6,1);
-insert into belongsTo(product_id, category_id) values (7,1);
-insert into belongsTo(product_id, category_id) values (8,1);
-insert into belongsTo(product_id, category_id) values (8,6);
-insert into belongsTo(product_id, category_id) values (8,2);
-insert into belongsTo(product_id, category_id) values (8,10);
-insert into belongsTo(product_id, category_id) values (9,1);
-insert into belongsTo(product_id, category_id) values (9,6);
-insert into belongsTo(product_id, category_id) values (9,10);
-insert into belongsTo(product_id, category_id) values (10,2);
-insert into belongsTo(product_id, category_id) values (10,11);
-insert into belongsTo(product_id, category_id) values (10,12);
-insert into belongsTo(product_id, category_id) values (11,3);
-insert into belongsTo(product_id, category_id) values (12,2);
-insert into belongsTo(product_id, category_id) values (13,6);
-insert into belongsTo(product_id, category_id) values (13,3);
-insert into belongsTo(product_id, category_id) values (13,2);
-insert into belongsTo(product_id, category_id) values (14,6);
-insert into belongsTo(product_id, category_id) values (14,3);
-insert into belongsTo(product_id, category_id) values (14,2);
-insert into belongsTo(product_id, category_id) values (15,3);
-insert into belongsTo(product_id, category_id) values (16,3);
-insert into belongsTo(product_id, category_id) values (17,3);
-insert into belongsTo(product_id, category_id) values (18,3);
-insert into belongsTo(product_id, category_id) values (19,3);
-insert into belongsTo(product_id, category_id) values (20,3);
-insert into belongsTo(product_id, category_id) values (20,6);
-insert into belongsTo(product_id, category_id) values (21,12);
-insert into belongsTo(product_id, category_id) values (22,12);
-insert into belongsTo(product_id, category_id) values (23,6);
-insert into belongsTo(product_id, category_id) values (24,4);
-insert into belongsTo (product_id,category_id) values (25,12);
-insert into belongsTo (product_id,category_id) values (26,12);
-insert into belongsTo (product_id,category_id) values (27,4);
-insert into belongsTo (product_id,category_id) values (28,4);
-insert into belongsTo (product_id,category_id) values (29,9);
-insert into belongsTo (product_id,category_id) values (29,1);
-insert into belongsTo (product_id,category_id) values (30,9);
-insert into belongsTo (product_id,category_id) values (30,1);
-insert into belongsTo (product_id,category_id) values (31,1);
-insert into belongsTo (product_id,category_id) values (31,2);
-insert into belongsTo (product_id,category_id) values (32,9);
-insert into belongsTo (product_id,category_id) values (32,1);
-insert into belongsTo (product_id,category_id) values (33,11);
-insert into belongsTo (product_id,category_id) values (33,7);
-insert into belongsTo (product_id,category_id) values (34,7);
-insert into belongsTo (product_id,category_id) values (35,11);
-insert into belongsTo (product_id,category_id) values (36,7);
-insert into belongsTo (product_id,category_id) values (37,11);
-insert into belongsTo (product_id,category_id) values (37,7);
-insert into belongsTo (product_id,category_id) values (38,7);
-insert into belongsTo (product_id,category_id) values (39,7);
-insert into belongsTo (product_id,category_id) values (40,5);
-insert into belongsTo (product_id,category_id) values (41,11);
-insert into belongsTo (product_id,category_id) values (42,11);
-insert into belongsTo (product_id,category_id) values (43,11);
-insert into belongsTo (product_id,category_id) values (44,1);
-insert into belongsTo (product_id,category_id) values (44,10);
-insert into belongsTo (product_id,category_id) values (45,1);
-insert into belongsTo (product_id,category_id) values (45,10);
+insert into belongsto(product_id, category_id) values (1,1);
+insert into belongsto(product_id, category_id) values (1,6);
+insert into belongsto(product_id, category_id) values (1,9);
+insert into belongsto(product_id, category_id) values (2,1);
+insert into belongsto(product_id, category_id) values (2,6);
+insert into belongsto(product_id, category_id) values (3,1);
+insert into belongsto(product_id, category_id) values (3,6);
+insert into belongsto(product_id, category_id) values (3,9);
+insert into belongsto(product_id, category_id) values (4,1);
+insert into belongsto(product_id, category_id) values (5,1);
+insert into belongsto(product_id, category_id) values (5,6);
+insert into belongsto(product_id, category_id) values (6,1);
+insert into belongsto(product_id, category_id) values (7,1);
+insert into belongsto(product_id, category_id) values (8,1);
+insert into belongsto(product_id, category_id) values (8,6);
+insert into belongsto(product_id, category_id) values (8,2);
+insert into belongsto(product_id, category_id) values (8,10);
+insert into belongsto(product_id, category_id) values (9,1);
+insert into belongsto(product_id, category_id) values (9,6);
+insert into belongsto(product_id, category_id) values (9,10);
+insert into belongsto(product_id, category_id) values (10,2);
+insert into belongsto(product_id, category_id) values (10,11);
+insert into belongsto(product_id, category_id) values (10,12);
+insert into belongsto(product_id, category_id) values (11,3);
+insert into belongsto(product_id, category_id) values (12,2);
+insert into belongsto(product_id, category_id) values (13,6);
+insert into belongsto(product_id, category_id) values (13,3);
+insert into belongsto(product_id, category_id) values (13,2);
+insert into belongsto(product_id, category_id) values (14,6);
+insert into belongsto(product_id, category_id) values (14,3);
+insert into belongsto(product_id, category_id) values (14,2);
+insert into belongsto(product_id, category_id) values (15,3);
+insert into belongsto(product_id, category_id) values (16,3);
+insert into belongsto(product_id, category_id) values (17,3);
+insert into belongsto(product_id, category_id) values (18,3);
+insert into belongsto(product_id, category_id) values (19,3);
+insert into belongsto(product_id, category_id) values (20,3);
+insert into belongsto(product_id, category_id) values (20,6);
+insert into belongsto(product_id, category_id) values (21,12);
+insert into belongsto(product_id, category_id) values (22,12);
+insert into belongsto(product_id, category_id) values (23,6);
+insert into belongsto(product_id, category_id) values (24,4);
+insert into belongsto (product_id,category_id) values (25,12);
+insert into belongsto (product_id,category_id) values (26,12);
+insert into belongsto (product_id,category_id) values (27,4);
+insert into belongsto (product_id,category_id) values (28,4);
+insert into belongsto (product_id,category_id) values (29,9);
+insert into belongsto (product_id,category_id) values (29,1);
+insert into belongsto (product_id,category_id) values (30,9);
+insert into belongsto (product_id,category_id) values (30,1);
+insert into belongsto (product_id,category_id) values (31,1);
+insert into belongsto (product_id,category_id) values (31,2);
+insert into belongsto (product_id,category_id) values (32,9);
+insert into belongsto (product_id,category_id) values (32,1);
+insert into belongsto (product_id,category_id) values (33,11);
+insert into belongsto (product_id,category_id) values (33,7);
+insert into belongsto (product_id,category_id) values (34,7);
+insert into belongsto (product_id,category_id) values (35,11);
+insert into belongsto (product_id,category_id) values (36,7);
+insert into belongsto (product_id,category_id) values (37,11);
+insert into belongsto (product_id,category_id) values (37,7);
+insert into belongsto (product_id,category_id) values (38,7);
+insert into belongsto (product_id,category_id) values (39,7);
+insert into belongsto (product_id,category_id) values (40,5);
+insert into belongsto (product_id,category_id) values (41,11);
+insert into belongsto (product_id,category_id) values (42,11);
+insert into belongsto (product_id,category_id) values (43,11);
+insert into belongsto (product_id,category_id) values (44,1);
+insert into belongsto (product_id,category_id) values (44,10);
+insert into belongsto (product_id,category_id) values (45,1);
+insert into belongsto (product_id,category_id) values (45,10);
 
