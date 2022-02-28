@@ -11,7 +11,7 @@ create table order_table (
     totalCost INT DEFAULT 0,
 	couponID VARCHAR(40) DEFAULT NULL,
 	FOREIGN KEY (couponID) 
-	REFERENCES coupon_data(Coupon_id),
+	REFERENCES coupon_data(Coupon_id) ON DELETE SET NULL,
 	FOREIGN KEY (billing_id) 
 	REFERENCES billing_details(billing_id),
 	foreign key(Shipper_id)

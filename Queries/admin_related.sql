@@ -1,6 +1,6 @@
 -- List customer orders by shipper name
 SELECT O.order_id, U.name AS "Customer Name", O.delivery_address, S.shipper_name, S.delivery_speed
-FROM Order_table O, Shipper S, User U
+FROM order_table O, shipper S, user U
 WHERE O.shipper_id = S.shipper_id AND U.id = O.unique_id;
 
 -- Update the inventory of a product by its name & brand
@@ -21,7 +21,7 @@ SELECT * from order_table where order_id in (
 
 -- List all shippers with speed >=2
 SELECT S.shipper_name, S.delivery_speed
-FROM Shipper S
+FROM shipper S
 WHERE S.delivery_speed >= 2;
 
 -- update product cost 
@@ -37,4 +37,4 @@ delete from inventory where product_id=46;
 insert into brand values ('Google');
 insert into product (product_id, product_name,product_cost ,brand_name) values (46, 'Pixel',20000 ,'Google');
 insert into belongsTo (product_id,category_id) values (46,11);
-insert into INVENTORY (product_id, quantity) values (46, 1);
+insert into inventory (product_id, quantity) values (46, 1);

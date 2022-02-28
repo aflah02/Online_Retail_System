@@ -1,4 +1,2 @@
 -- Remove Expired Coupons
-SET FOREIGN_KEY_CHECKS=0;
-delete from Coupon_Data where Coupon_Data.Expiry_Date < CURRENT_DATE;
-SET FOREIGN_KEY_CHECKS=1;
+delete from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE;

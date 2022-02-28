@@ -11,13 +11,6 @@
 -- insert into ADMIN (admin_id, username, password) values (3, 'Faizan', 'Haider3');
 -- insert into ADMIN values(4,'Shivaansh','Mital4');
 -- insert into ADMIN (username, password) values ('ABC','XYZ');
-create table dummy (
-	Coupon_id VARCHAR(40) NOT NULL,
-	PRIMARY KEY(Coupon_id)
-);
-insert into dummy values ('012');
-insert into dummy values ('0AB');
-insert into dummy values ('ABC');
-insert into dummy values ('A12');
+delete from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE;
 Select *
-From dummy;
+From coupon_data;
