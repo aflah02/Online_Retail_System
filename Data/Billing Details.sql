@@ -1,5 +1,5 @@
 create table Billing_Details (
-	billing_id INT NOT NULL,
+	billing_id INT NOT NULL auto_increment,
 	payment_mode VARCHAR(30) NOT NULL,
 	billing_address VARCHAR(50) NOT NULL,
 	PRIMARY KEY (billing_id)
