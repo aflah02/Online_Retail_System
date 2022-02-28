@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS Order_Table;
 create table Order_Table (
 	Order_id INT NOT NULL,
 	Delivery_Address VARCHAR(50) NOT NULL,
-	Shipper_id INT NOT NULL,
+	Shipper_id INT DEFAULT 1,
 	Date_Time datetime NOT NULL,
 	Unique_id INT NOT NULL,
 	billing_id INT NOT NULL,
