@@ -50,10 +50,10 @@ where product_id in (select product_id from items_contained where Unique_id = 1)
 insert into billing_details (payment_mode,billing_address) values ('Net Banking','East Avenue, New York');
 -- inserted into billing_address
 
-insert into order_table (31,'East Avenue, New York', 3,'2021-07-26 14:15:55',1,31);
-insert into items_purchased (31,5,15);
-insert into items_purchased (31,3,5);
-insert into items_purchased (31,8,2);
+insert into order_table values (31,'East Avenue, New York', 3,'2021-07-26 14:15:55',1,31);
+insert into items_purchased values (31,5,15);
+insert into items_purchased values (31,3,5);
+insert into items_purchased values (31,8,2);
 
 -- inserted into Order tables
 delete from items_contained where Unique_id = 1;
