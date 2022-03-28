@@ -11,7 +11,8 @@ Product_ID INT NOT NULL,
 Quantity INT NOT NULL, 
 Primary key(Unique_id , Product_ID, Quantity), 
 foreign key(Unique_id)
-REFERENCES cart_data(Unique_id) on DELETE CASCADE
+REFERENCES cart_data(Unique_id) on DELETE CASCADE,
+CONSTRAINT quan_pos CHECK (Quantity > 0)
 );
 
 INSERT INTO cart_data(Unique_id) VALUES(1);

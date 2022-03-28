@@ -18,7 +18,8 @@ create table order_table (
 	REFERENCES shipper(Shipper_id) on DELETE CASCADE,
 	foreign key(Unique_id)
 	REFERENCES user(id) on DELETE CASCADE,
-	PRIMARY KEY (Order_id)
+	PRIMARY KEY (Order_id),
+	CONSTRAINT cos_pos CHECK ( totalCost>= 0)
 );
 CREATE TABLE items_purchased
 (
@@ -28,7 +29,9 @@ Quantity INT NOT NULL,
 Cost INT DEFAULT 0, 
 Primary key(Order_id , Product_ID), 
 foreign key(Order_id)
-REFERENCES order_table(Order_id) on DELETE CASCADE
+REFERENCES order_table(Order_id) on DELETE CASCADE,
+CONSTRAINT quant_pos CHECK ( Quantity> 0),
+CONSTRAINT cost_pos CHECK ( Cost> 0)
 );
     
 DELIMITER $$

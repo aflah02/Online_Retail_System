@@ -1,12 +1,14 @@
 Use retaildb;
+drop table coupon_data;
 create table coupon_data (
 	Coupon_id VARCHAR(40) NOT NULL,
-	Discount DOUBLE NOT NULL,
+	Discount DOUBLE NOT NULL ,
 	ExpiryDate DATE NOT NULL,
 	Unique_id INT NOT NULL,
 	isUsed INT DEFAULT 0,
 	FOREIGN KEY(Unique_id) REFERENCES User(id) on DELETE CASCADE,
-	PRIMARY KEY(Coupon_id)
+	PRIMARY KEY(Coupon_id),
+    CONSTRAINT discount_pos CHECK (Discount > 0)
 );
 insert into coupon_data (Coupon_id, Discount, ExpiryDate, Unique_id) values ('67697c5b-3ee5-4f67-921e-ae8dbb7d31d0', 7, '2022/08/16', 1);
 insert into coupon_data (Coupon_id, Discount, ExpiryDate, Unique_id) values ('a93cca35-d0c5-478a-ad4f-6423f5ae2a04', 10, '2022/07/30', 1);
