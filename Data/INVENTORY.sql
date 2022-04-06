@@ -2,7 +2,8 @@ create table inventory (
 	product_id INT NOT NULL AUTO_INCREMENT,
 	quantity INT NOT NULL,
 	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id) ON DELETE CASCADE,
-	PRIMARY KEY (product_id)
+	PRIMARY KEY (product_id),
+	CONSTRAINT quantity_pos CHECK ( quantity>= 0)
 );
 insert into inventory (product_id, quantity) values (1, 0);
 insert into inventory (product_id, quantity) values (2, 283);

@@ -55,7 +55,8 @@ create table product (
     product_cost Decimal(10,2) NOT NULL,
 	brand_name VARCHAR(50) NOT NULL, 
     Foreign key(brand_name) references brand(brand_name) On delete Cascade,
-    unique(product_name,brand_name)
+    unique(product_name,brand_name),
+	CONSTRAINT quantity_positive CHECK ( product_cost> 0)
 );
 insert into product (product_id, product_name,product_cost ,brand_name) values (1, 'Milk',10, 'Amul');
 insert into product (product_id, product_name,product_cost ,brand_name) values (2, 'Ghee', 20,'Amul');

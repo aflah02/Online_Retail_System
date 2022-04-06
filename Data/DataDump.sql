@@ -19,7 +19,7 @@ create table user (
 	id INT NOT NULL AUTO_INCREMENT,
 	Address VARCHAR(50) NOT NULL,
 	Name VARCHAR(50) NOT NULL,
-	EmailID VARCHAR(50) NOT NULL,
+	EmailID VARCHAR(50) NOT NULL unique,
 	Password VARCHAR(50) NOT NULL,
 	PhoneNumber VARCHAR(50) NOT NULL,
 	PRIMARY KEY (id)
@@ -53,7 +53,8 @@ create table coupon_data (
 	Unique_id INT NOT NULL,
 	isUsed INT DEFAULT 0,
 	FOREIGN KEY(Unique_id) REFERENCES User(id) on DELETE CASCADE,
-	PRIMARY KEY(Coupon_id)
+	PRIMARY KEY(Coupon_id),
+    CONSTRAINT discount_pos CHECK (Discount > 0)
 );
 insert into coupon_data (Coupon_id, Discount, ExpiryDate, Unique_id) values ('67697c5b-3ee5-4f67-921e-ae8dbb7d31d0', 7, '2022/08/16', 1);
 insert into coupon_data (Coupon_id, Discount, ExpiryDate, Unique_id) values ('a93cca35-d0c5-478a-ad4f-6423f5ae2a04', 10, '2022/07/30', 1);
@@ -122,7 +123,8 @@ Product_ID INT NOT NULL,
 Quantity INT NOT NULL, 
 Primary key(Unique_id , Product_ID, Quantity), 
 foreign key(Unique_id)
-REFERENCES cart_data(Unique_id) on DELETE CASCADE
+REFERENCES cart_data(Unique_id) on DELETE CASCADE,
+CONSTRAINT quan_pos CHECK (Quantity > 0)
 );
 
 INSERT INTO cart_data(Unique_id) VALUES(1);
@@ -253,7 +255,8 @@ create table product (
     product_cost Decimal(10,2) NOT NULL,
 	brand_name VARCHAR(50) NOT NULL, 
     Foreign key(brand_name) references brand(brand_name) On delete Cascade,
-    unique(product_name,brand_name)
+    unique(product_name,brand_name),
+	CONSTRAINT quantity_positive CHECK ( product_cost> 0)
 );
 insert into product (product_id, product_name,product_cost ,brand_name) values (1, 'Milk',10, 'Amul');
 insert into product (product_id, product_name,product_cost ,brand_name) values (2, 'Ghee', 20,'Amul');
@@ -474,7 +477,8 @@ create table order_table (
 	REFERENCES shipper(Shipper_id) on DELETE CASCADE,
 	foreign key(Unique_id)
 	REFERENCES user(id) on DELETE CASCADE,
-	PRIMARY KEY (Order_id)
+	PRIMARY KEY (Order_id),
+	CONSTRAINT cos_pos CHECK ( totalCost>=0)
 );
 CREATE TABLE items_purchased
 (
@@ -484,7 +488,9 @@ Quantity INT NOT NULL,
 Cost INT DEFAULT 0, 
 Primary key(Order_id , Product_ID), 
 foreign key(Order_id)
-REFERENCES order_table(Order_id) on DELETE CASCADE
+REFERENCES order_table(Order_id) on DELETE CASCADE,
+CONSTRAINT quant_pos CHECK ( Quantity> 0),
+CONSTRAINT cost_pos CHECK ( Cost>= 0)
 );
     
 DELIMITER $$
@@ -585,7 +591,8 @@ create table inventory (
 	product_id INT NOT NULL AUTO_INCREMENT,
 	quantity INT NOT NULL,
 	FOREIGN KEY (product_id) REFERENCES PRODUCT(product_id) ON DELETE CASCADE,
-	PRIMARY KEY (product_id)
+	PRIMARY KEY (product_id),
+	CONSTRAINT quantity_pos CHECK ( quantity>=0)
 );
 insert into inventory (product_id, quantity) values (1, 0);
 insert into inventory (product_id, quantity) values (2, 283);
