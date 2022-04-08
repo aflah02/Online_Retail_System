@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'store.dart';
 
 void main() => runApp(
       MaterialApp(
@@ -9,16 +10,10 @@ void main() => runApp(
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Online retail Store"),
-      ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: <Widget>[
-          Text("This is the body"),
-        ],
-      )),
+    return MaterialApp(
+      title: 'Online retail store',
+      debugShowCheckedModeBanner: false,
+      home: const store(),
     );
   }
 }
