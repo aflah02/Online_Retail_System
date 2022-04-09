@@ -48,13 +48,13 @@ def addBrand(name):
 #API for deleting brand
 @app.route('/deleteBrand/<string:brandname>')
 def deleteBrand(brandname):
-    try:
-        c=db.cursor()
-        c.execute(f"delete from product where brand.brand_name={brandname}")
-        db.commit()
-        return "Success"
-    except:
-        return "Error"
+    # try:
+    c=db.cursor()
+    c.execute(f"delete from brand where brand_name={brandname}")
+    db.commit()
+    return "Success"
+    # except:
+    #     return "Error"
 
 #list all products 
 @app.route('/listAllProducts')
@@ -81,13 +81,13 @@ def listAllBrands():
 #API for searching using product name
 @app.route('/searchUsingProductName/<string:name>')
 def searchUsingProductName(name):
-    try:
-        c=db.cursor()
-        c.execute(f"Select * from product where product_name={name}and exists(select product_id from inventory where inventory.product_id = product.product_id and inventory.quantity>0)")
-        result = c.fetchall()
-        return flask.jsonify(result)
-    except:
-        return "Error"
+    # try:
+    c=db.cursor()
+    c.execute(f"Select * from product where product_name={name}and exists(select product_id from inventory where inventory.product_id = product.product_id and inventory.quantity>0)")
+    result = c.fetchall()
+    return flask.jsonify(result)
+    # except:
+    #     return "Error"
 
 if __name__ == '__main__':
     app.run(debug=True)
