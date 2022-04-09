@@ -69,7 +69,7 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (9, 'Chocos',120 ,'Kelloggs');
 insert into product (product_id, product_name,product_cost ,brand_name) values (10, 'Watch',5000,'FitBit');
 insert into product (product_id, product_name,product_cost ,brand_name) values (11, 'Cream', 80,'Amway');
-insert into product (product_id, product_name,product_cost ,brand_name) values (12, 'Suppliments',500 ,'Amway');
+insert into product (product_id, product_name,product_cost ,brand_name) values (12, 'Supplements',500 ,'Amway');
 insert into product (product_id, product_name,product_cost ,brand_name) values (13, 'Toothpaste',1000,'Amway');
 insert into product (product_id, product_name,product_cost ,brand_name) values (14, 'Shampoo',100 ,'Loreal');
 insert into product (product_id, product_name,product_cost ,brand_name) values (15, 'Shaving Cream',200 ,'Loreal');
