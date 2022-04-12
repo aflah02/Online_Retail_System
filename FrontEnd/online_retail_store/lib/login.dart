@@ -104,56 +104,69 @@ class _loginState extends State<login> {
         ),
         body: Padding(
           padding: EdgeInsets.all(30),
-          child: Column(children: <Widget>[
-            buildUsername(),
-            buildPassword(),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(
-                    width: 150,
-                    child: FloatingActionButton(
-                      onPressed: () {
-                        if (!formKey.currentState!.validate()) {
-                          return;
-                        }
+          child: Form(
+            key: formKey,
+            child: Column(children: <Widget>[
+              buildUsername(),
+              buildPassword(),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                      width: 150,
+                      child: FloatingActionButton(
+                        heroTag: "button1",
+                        onPressed: () {
+                          var state = formKey.currentState;
+                          if (state == null || !state.validate()) {
+                            if (state == null) print("bad");
 
-                        formKey.currentState!.save();
-                      },
-                      backgroundColor: Colors.teal,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                            return;
+                          }
+
+                          formKey.currentState!.save();
+                          Navigator.pushNamed(context, '/Store');
+                          print('Hello');
+                        },
+                        backgroundColor: Colors.teal,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                    )),
-                SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                    width: 150,
-                    child: FloatingActionButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          color: Colors.teal,
+                      )),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  SizedBox(
+                      width: 150,
+                      child: FloatingActionButton(
+                        heroTag: "button2",
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/signUp");
+                        },
+                        child: Text(
+                          "Sign Up",
+                          style: TextStyle(
+                            color: Colors.teal,
+                          ),
                         ),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      backgroundColor: Colors.white,
-                    ))
-              ],
-            )
-          ]),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        backgroundColor: Colors.white,
+                      ))
+                ],
+              )
+            ]),
+          ),
         ));
   }
 }

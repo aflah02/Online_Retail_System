@@ -2,6 +2,7 @@
 import 'amazon_clone.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'Signup.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,10 +14,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/home',
+      routes: {
+        '/home': (context) => login(),
+        '/Store': (context) => YoutubeClone(),
+        '/signUp': (context) => Signup(),
+      },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const login(),
     );
   }
 }
