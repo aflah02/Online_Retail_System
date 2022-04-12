@@ -63,7 +63,53 @@ def listShippersbySpeed(speed):
         result = cursor.fetchall()
         return flask.jsonify(result)
     except:
-        return "Error"    
+        return "Error"
+
+# insert into billing_details
+@app.route('/addBillingDetails/<int:billing_id>/<string:payment_mode>/<string:billing_address>', methods=['GET'])   
+def addBillingDetails(billing_id, payment_mode, billing_address):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""INSERT INTO billing_details (billing_id, payment_mode, billing_address)
+                            VALUES ({billing_id}, '{payment_mode}', '{billing_address}');""")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+# delete from billing_details
+@app.route('/deleteBillingDetails/<int:billing_id>', methods=['GET'])
+def deleteBillingDetails(billing_id):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""DELETE FROM billing_details WHERE billing_id = {billing_id};""")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+# insert into inventory
+@app.route('/addInventory/<int:product_id>/<int:quantity>', methods=['GET'])
+def addInventory(product_id, quantity):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""INSERT INTO inventory (product_id, quantity)
+                            VALUES ({product_id}, {quantity});""")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+# delete from inventory
+@app.route('/deleteInventory/<int:product_id>', methods=['GET'])
+def deleteInventory(product_id):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""DELETE FROM inventory WHERE product_id = {product_id};""")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
 
 
 if __name__ == '__main__':
