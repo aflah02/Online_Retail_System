@@ -1,4 +1,4 @@
-name: online_retail_store
+name: amazon_clone
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=2.17.0-67.0.dev <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,11 +28,16 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   ant_icons: ^1.0.0
-  cupertino_icons: ^1.0.4
+  auto_size_text: ^3.0.0
+  carousel_slider: ^4.0.0
+  cupertino_icons: ^1.0.2
+  eva_icons_flutter: ^3.1.0
+  feather_icons: ^1.0.1
   flutter:
     sdk: flutter
   flutter_svg: ^1.0.3
   ionicons: ^0.1.2
+  modal_bottom_sheet: ^2.0.0
 
 dev_dependencies:
   flutter_lints: ^1.0.0
@@ -48,6 +53,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/prime.jpeg
@@ -75,9 +81,6 @@ flutter:
     - assets/images/amazon_pay.png
     - assets/images/minitv.png
     - assets/images/amazon_in.png
-    
-
-  #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

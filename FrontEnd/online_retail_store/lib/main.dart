@@ -1,20 +1,21 @@
+//@dart=2.9
+import 'amazon_clone.dart';
 import 'package:flutter/material.dart';
-import 'store.dart';
 
-void main() => runApp(
-      MaterialApp(
-        home: Home(),
-      ),
-    );
+void main() {
+  runApp(const MyApp());
+}
 
-class Home extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Online retail Store',
+      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const store(),
+      home: const YoutubeClone(),
     );
   }
 }
