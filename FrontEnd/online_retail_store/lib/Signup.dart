@@ -8,6 +8,8 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   late String name;
   late String mobileNumber;
   late String emailId;
@@ -15,14 +17,20 @@ class _SignupState extends State<Signup> {
   late String confirmPassword;
   late String address;
 
-  late FocusNode nameField;
-  late FocusNode mobileNumberField;
-  late FocusNode emailIdField;
-  late FocusNode passwordField;
-  late FocusNode confirmPasswordField;
-  late FocusNode addressField;
+  late FocusNode nameField = FocusNode();
+  late FocusNode mobileNumberField = FocusNode();
+  late FocusNode emailIdField = FocusNode();
+  late FocusNode passwordField = FocusNode();
+  late FocusNode confirmPasswordField = FocusNode();
+  late FocusNode addressField = FocusNode();
 
   Widget buildName() {
+    @override
+    void dispose() {
+      nameField.dispose();
+      super.dispose();
+    }
+
     void requestFocus() {
       setState(() {
         FocusScope.of(context).requestFocus(nameField);
@@ -33,6 +41,7 @@ class _SignupState extends State<Signup> {
       onTap: () {
         requestFocus();
       },
+      focusNode: nameField,
       decoration: InputDecoration(
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: Colors.teal)),
@@ -55,6 +64,12 @@ class _SignupState extends State<Signup> {
   }
 
   Widget buildPassword() {
+    @override
+    void dispose() {
+      passwordField.dispose();
+      super.dispose();
+    }
+
     void requestFocus() {
       setState(() {
         FocusScope.of(context).requestFocus(passwordField);
@@ -65,6 +80,7 @@ class _SignupState extends State<Signup> {
       onTap: () {
         requestFocus();
       },
+      focusNode: passwordField,
       decoration: InputDecoration(
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: Colors.teal)),
@@ -87,6 +103,12 @@ class _SignupState extends State<Signup> {
   }
 
   Widget buildConfirmPassword() {
+    @override
+    void dispose() {
+      confirmPasswordField.dispose();
+      super.dispose();
+    }
+
     void requestFocus() {
       setState(() {
         FocusScope.of(context).requestFocus(confirmPasswordField);
@@ -97,6 +119,7 @@ class _SignupState extends State<Signup> {
       onTap: () {
         requestFocus();
       },
+      focusNode: confirmPasswordField,
       decoration: InputDecoration(
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: Colors.teal)),
@@ -119,6 +142,12 @@ class _SignupState extends State<Signup> {
   }
 
   Widget buildAddress() {
+    @override
+    void dispose() {
+      addressField.dispose();
+      super.dispose();
+    }
+
     void requestFocus() {
       setState(() {
         FocusScope.of(context).requestFocus(addressField);
@@ -129,6 +158,7 @@ class _SignupState extends State<Signup> {
       onTap: () {
         requestFocus();
       },
+      focusNode: addressField,
       decoration: InputDecoration(
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: Colors.teal)),
@@ -151,6 +181,12 @@ class _SignupState extends State<Signup> {
   }
 
   Widget buildMobileNumber() {
+    @override
+    void dispose() {
+      mobileNumberField.dispose();
+      super.dispose();
+    }
+
     void requestFocus() {
       setState(() {
         FocusScope.of(context).requestFocus(mobileNumberField);
@@ -158,13 +194,14 @@ class _SignupState extends State<Signup> {
     }
 
     return TextFormField(
+      focusNode: mobileNumberField,
       onTap: () {
         requestFocus();
       },
       decoration: InputDecoration(
         focusedBorder:
             OutlineInputBorder(borderSide: BorderSide(color: Colors.teal)),
-        labelText: "Name",
+        labelText: "Mobile Number",
         labelStyle: TextStyle(
           color: mobileNumberField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -183,6 +220,12 @@ class _SignupState extends State<Signup> {
   }
 
   Widget buildEmailId() {
+    @override
+    void dispose() {
+      emailIdField.dispose();
+      super.dispose();
+    }
+
     void requestFocus() {
       setState(() {
         FocusScope.of(context).requestFocus(emailIdField);
@@ -193,10 +236,14 @@ class _SignupState extends State<Signup> {
       onTap: () {
         requestFocus();
       },
+      focusNode: emailIdField,
       decoration: InputDecoration(
-        focusedBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.teal)),
-        labelText: "Name",
+        focusColor: Colors.teal,
+        focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(
+          color: Colors.teal,
+        )),
+        labelText: "Email Id",
         labelStyle: TextStyle(
           color: emailIdField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -223,30 +270,51 @@ class _SignupState extends State<Signup> {
       ),
       body: Padding(
         padding: EdgeInsets.all(30),
-        child: Column(
-          children: <Widget>[
-            buildName(),
-            buildEmailId(),
-            buildPassword(),
-            buildConfirmPassword(),
-            buildMobileNumber(),
-            buildAddress(),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 40,
-                  child: FloatingActionButton(
-                    onPressed: () {},
-                    child: Text("Sign Up!!"),
-                    backgroundColor: Colors.teal,
-                  ),
-                )
-              ],
-            )
-          ],
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: <Widget>[
+              buildName(),
+              buildEmailId(),
+              buildPassword(),
+              buildConfirmPassword(),
+              buildMobileNumber(),
+              buildAddress(),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        if (formKey.currentState == null ||
+                            !formKey.currentState!.validate()) {
+                          print("Null ");
+
+                          return;
+                        }
+
+                        print("Success");
+
+                        formKey.currentState!.save();
+                        Navigator.pushNamed(context, '/Store');
+                      },
+                      child: Text(
+                        "Sign Up!!",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      backgroundColor: Colors.teal,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50))),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
