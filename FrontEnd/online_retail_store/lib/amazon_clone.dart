@@ -7,19 +7,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class YoutubeClone extends StatefulWidget {
-  const YoutubeClone({Key key}) : super(key: key);
+  final String username;
+  YoutubeClone({Key key, this.username}) : super(key: key);
 
   @override
   _YoutubeCloneState createState() => _YoutubeCloneState();
 }
 
 class _YoutubeCloneState extends State<YoutubeClone> {
-  final List<Widget> tabs = [
-    const HomePage(),
-    const AccountPage(),
-    const CartPage(),
-    const DashboardPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    print("Hello");
+    un = widget.username;
+    print(un);
+    tabs = [
+      HomePage(username: un),
+      const AccountPage(),
+      const CartPage(),
+      const DashboardPage(),
+    ];
+  }
+
+  static String un;
+
+  List<Widget> tabs;
 
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -30,7 +42,10 @@ class _YoutubeCloneState extends State<YoutubeClone> {
         child: BottomNavigationBar(
           elevation: 2.5,
           type: BottomNavigationBarType.fixed,
-          onTap: (int index) => setState(() => _selectedIndex = index),
+          onTap: (int index) {
+            setState(() => _selectedIndex = index);
+            print('$un');
+          },
           currentIndex: selectedIndex,
           selectedFontSize: 12,
           backgroundColor: Colors.white,

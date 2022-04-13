@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
       initialRoute: '/home',
       routes: {
         '/home': (context) => login(),
-        '/Store': (context) => YoutubeClone(),
         '/signUp': (context) => Signup(),
         '/adminDashboard': (context) => dashboard(),
       },

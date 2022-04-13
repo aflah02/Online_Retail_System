@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'amazon_clone.dart';
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -150,7 +151,11 @@ class _loginState extends State<login> {
                       child: FloatingActionButton(
                         heroTag: "button2",
                         onPressed: () {
-                          Navigator.pushNamed(context, "/signUp");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      YoutubeClone(username: username)));
                         },
                         child: Text(
                           "Sign Up",

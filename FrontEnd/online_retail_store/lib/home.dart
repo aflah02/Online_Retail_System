@@ -7,13 +7,23 @@ import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  String username;
+  HomePage({Key key, this.username}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  String un;
+  @override
+  void initState() {
+    super.initState();
+    un = widget.username;
+    print("Inside init");
+    print("${widget.username}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,7 +195,7 @@ class _HomePageState extends State<HomePage> {
       ),
       padding: const EdgeInsets.only(left: 10.0),
       child: Row(
-        children: const [
+        children: [
           Icon(
             FeatherIcons.mapPin,
             size: 20.0,
@@ -193,7 +203,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: EdgeInsets.only(left: 5.0),
             child: Text(
-              'Delivery to Anika - Bengaluru 530068',
+              'Delivery to $un - Bengaluru 530068',
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
