@@ -9,12 +9,11 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Admin Page"),
-      ),
+      key: scaffoldKey,
       drawer: Sidebar(),
       backgroundColor: Colors.teal,
       body: SafeArea(
@@ -26,10 +25,15 @@ class _dashboardState extends State<dashboard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                  size: 50.0,
+                IconButton(
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                    size: 50.0,
+                  ),
+                  onPressed: () {
+                    scaffoldKey.currentState?.openDrawer();
+                  },
                 ),
                 Image.asset(
                   'assets/images/user.png',
