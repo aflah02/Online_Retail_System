@@ -300,7 +300,7 @@ class _SignupState extends State<Signup> {
                         print("Success");
 
                         formKey.currentState!.save();
-                        Navigator.pushNamed(context, '/Store');
+                        Navigator.pushNamed(context, '/adminDashboard');
                       },
                       child: Text(
                         "Sign Up!!",
