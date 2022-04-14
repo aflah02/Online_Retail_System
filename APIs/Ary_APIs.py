@@ -88,6 +88,17 @@ def deleteBillingDetails(billing_id):
     except:
         return "Error"
 
+# update billing_address in billing_details table
+@app.route('/updateBillingAddress/<int:billing_id>/<string:billing_address>', methods=['GET'])
+def updateBillingAddress(billing_id, billing_address):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""UPDATE billing_details SET billing_address = '{billing_address}' WHERE billing_id = {billing_id};""")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
 # insert into inventory
 @app.route('/addInventory/<int:product_id>/<int:quantity>', methods=['GET'])
 def addInventory(product_id, quantity):
