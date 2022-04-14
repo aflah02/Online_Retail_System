@@ -98,7 +98,7 @@ def deleteUser(userID):
         db.commit()
         c.execute(f"select * from user where id='{userID}'")
         data=c.fetchall()
-        if len(data)>0:
+        if len(data) == 0:
             return "Success"
         else:
             return "Error"
