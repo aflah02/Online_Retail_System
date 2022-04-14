@@ -639,3 +639,19 @@ insert into inventory (product_id, quantity) values (42, 253);
 insert into inventory (product_id, quantity) values (43, 444);
 insert into inventory (product_id, quantity) values (44, 456);
 insert into inventory (product_id, quantity) values (45, 142);
+drop view if exists userProductView;
+drop view if exists categoryUserView;
+drop view if exists protectedUserView;
+-- View products using user privileges
+Create VIEW userProductView AS
+SELECT product_name, product_cost, brand_name
+From product;
+
+-- view categories from user privileges
+create view categoryUserView as 
+select category_name, category_info from category;
+
+-- View users using admin privileges
+Create VIEW protectedUserView AS
+SELECT id, address, name, EmailID, PhoneNumber
+From user
