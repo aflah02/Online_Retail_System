@@ -1,10 +1,8 @@
 //@dart=2.9
-import 'dart:developer';
-
-import 'amazon_clone.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'Signup.dart';
+import 'datafetch.dart';
 import 'adminDashboard.dart';
 
 void main() {
@@ -19,9 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/home',
       routes: {
-        '/home': (context) => login(),
-        '/signUp': (context) => Signup(),
-        '/adminDashboard': (context) => dashboard(),
+        '/home': (context) => const login(),
+        '/signUp': (context) => const Signup(),
+        '/adminDashboard': (context) => const dashboard(),
+        '/Store': (context) => const Datafetch(),
       },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
