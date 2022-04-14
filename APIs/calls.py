@@ -13,11 +13,24 @@ app = flask.Flask(__name__)
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
     try:
-        f = open('APIs/links.json')
+        f = open('APIs/productLinks.json')
         data = json.load(f)
         key = product_name + ' ' + brand_name
         if key in data:
             return flask.jsonify(data[key])
+        else:
+            return flask.jsonify('No image found')
+    except:
+        return "Error"
+
+"""API endpoint to get URL for category Images"""
+@app.route('/getProductImage/<string:categoryName>', methods=['GET'])
+def getCategoryImage(categoryName):
+    try:
+        f = open('APIs/categoryLinks.json')
+        data = json.load(f)
+        if categoryName in data:
+            return flask.jsonify(data[categoryName])
         else:
             return flask.jsonify('No image found')
     except:

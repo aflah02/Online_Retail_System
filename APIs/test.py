@@ -1,4 +1,4 @@
 import json
-f = open('APIs/links.json')
+f = open('APIs/categorylinks.json')
 data = json.load(f)
-print(data['Sprite coca cola'])
+print(data['Electronics'])
