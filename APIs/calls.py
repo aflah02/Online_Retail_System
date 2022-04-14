@@ -9,6 +9,68 @@ db = mysql.connector.connect(
 
 app = flask.Flask(__name__)
 
+"""API endpoint to authenticate if user credentials are correct"""
+@app.route('/authenticate/<string:username>/<string:password>')
+def authenticate(username,password):
+    try:
+        cursor=db.cursor()
+        cursor.execute(f"select * from user where Name='{username}' and Password='{password}'")
+        data=cursor.fetchall()
+        if len(data)>0:
+            return "Success"
+        else:
+            return "Error"
+    except:
+        return "Error"
+
+"""API endpoint to delete user given userID if no pending orders"""
+@app.route('/deleteUser/<int:userID>')
+def deleteUser(userID):
+    try:
+        c=db.cursor()
+        c.execute(f"""
+            delete from billing_details where billing_details.billing_id 
+            IN (Select billing_id From order_table where order_table.Unique_id = {userID}) 
+            AND EXISTS (Select * From order_table,shipper 
+            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
+            AND order_table.Shipper_id = shipper.shipper_id And order_table.billing_id=billing_details.billing_id);
+            delete from user where user.id = 3 AND NOT EXISTS (Select * From order_table,shipper 
+            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0 
+            AND order_table.Shipper_id = shipper.shipper_id);
+            SELECT 
+                *
+            FROM
+                order_table
+            WHERE
+                Unique_id = {userID}
+        """)
+        db.commit()
+        c.execute(f"select * from user where id='{userID}'")
+        data=c.fetchall()
+        if len(data)>0:
+            return "Success"
+        else:
+            return "Error"
+    except:
+        return "Error"
+
+"""API endpoint to add products when the product is already in cart it increases it's quantity by a given quantity"""
+@app.route('/addProductsWhenAlreadyExistsInCart/<int:productID>/<int:quantity>/<int:cartID>')
+def addProductsToCart(productID, quantity, cartID):
+    try:
+        cursor=db.cursor()
+        cursor.execute(f"""
+        update items_contained 
+        set quantity = case 
+            when {productID} in (select product_id from items_contained where unique_id = {cartID}) 
+            then quantity + {quantity} 
+            else quantity end;
+        """)
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
 """API endpoint called listAllOrders to list all Orders by a User"""
 @app.route('/listAllOrders/<int:uniqueID>')
 def listAllOrders(uniqueID):
