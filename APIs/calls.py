@@ -1,6 +1,6 @@
 import flask
 import mysql.connector
-
+import json
 db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -8,6 +8,20 @@ db = mysql.connector.connect(
     database = 'retaildb')
 
 app = flask.Flask(__name__)
+
+"""API endpoint to get URL for product Images"""
+@app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
+def getProductImage(brand_name, product_name):
+    try:
+        f = open('APIs/links.json')
+        data = json.load(f)
+        key = product_name + ' ' + brand_name
+        if key in data:
+            return flask.jsonify(data[key])
+        else:
+            return flask.jsonify('No image found')
+    except:
+        return "Error"
 
 """API endpoint to authenticate if user credentials are correct"""
 @app.route('/authenticate/<string:email>/<string:password>')
