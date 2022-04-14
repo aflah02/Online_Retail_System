@@ -60,7 +60,7 @@ def deleteBrand(brandname):
 def listAllProducts():
     try:
         c=db.cursor()
-        c.execute("Select product_name, product_cost,brand_name from product")
+        c.execute("Select product_name, product_cost,brand_name from userProductView")
         result = c.fetchall()
         return flask.jsonify(result)
     except:
@@ -105,7 +105,7 @@ def searchUsingBrandName(name):
 def displayCategories():
     try:
         c=db.cursor()
-        c.execute(f"select category_name,category_info from category ")
+        c.execute(f"select category_name,category_info from categoryUserView ")
         result = c.fetchall()
         return flask.jsonify(result)
     except:
@@ -142,6 +142,65 @@ def deleteCategory(categoryname):
         c.execute(f"delete from category where category_name='{categoryname}'")
         db.commit()
         return "Success"
+    except:
+        return "Error"
+
+
+#API for updating category information
+@app.route('/updateCategory/<string:categoryname>/<string:description>')
+def updateCategory(categoryname,description):
+    try:
+        c=db.cursor()
+        c.execute(f"update category set category_info = '{description}' where category_name='{categoryname}'")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+
+#API for updating product cost
+@app.route('/updateCost/<int:productID>/<int:cost>')
+def updateCost(productID,cost):
+    try:
+        c=db.cursor()
+        c.execute(f"update product set product_cost = {cost} where product_id={productID}")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+
+
+#API for adding in belongs to table
+@app.route('/addBelongsTo/<int:productID>/<int:categoryID>')
+def addBelongsTo(productID,categoryID):
+    try:
+        c=db.cursor()
+        c.execute(f"insert into belongsto(product_id, category_id) values ({productID},{categoryID})")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+#API for deleting in belongs to table
+@app.route('/deleteBelongsTo/<int:productID>/<int:categoryID>')
+def deleteBelongsTo(productID,categoryID):
+    try:
+        c=db.cursor()
+        c.execute(f"delete from belongsto where product_id = {productID} and category_id = {categoryID}")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+#API for displaying belongsTo
+@app.route('/BelongsTo')
+def BelongsTo():
+    try:
+        c=db.cursor()
+        c.execute(f"select * from belongsto")
+        result = c.fetchall()
+        return flask.jsonify(result)
     except:
         return "Error"
 

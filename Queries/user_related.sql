@@ -12,4 +12,14 @@ SELECT
 FROM
     order_table
 WHERE
-    Unique_id = 3
+    Unique_id = 3;
+
+
+-- View products using user privileges
+Create VIEW userProductView AS
+SELECT product_name, product_cost, brand_name
+From product;
+
+-- view categories from user privileges
+create view categoryUserView as 
+select category_name, category_info from category;
