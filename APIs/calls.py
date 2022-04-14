@@ -10,11 +10,11 @@ db = mysql.connector.connect(
 app = flask.Flask(__name__)
 
 """API endpoint to authenticate if user credentials are correct"""
-@app.route('/authenticate/<string:username>/<string:password>')
-def authenticate(username,password):
+@app.route('/authenticate/<string:email>/<string:password>')
+def authenticate(email,password):
     try:
         cursor=db.cursor()
-        cursor.execute(f"select * from user where Name='{username}' and Password='{password}'")
+        cursor.execute(f"select * from user where EmailID='{email}' and Password='{password}'")
         data=cursor.fetchall()
         if len(data)>0:
             return "Success"
