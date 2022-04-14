@@ -23,6 +23,57 @@ def authenticate(username,password):
     except:
         return "Error"
 
+"""API endpoint to get allShipperData"""
+@app.route('/getAllShipperData')
+def getAllShipperData():
+    try:
+        cursor=db.cursor()
+        cursor.execute("select * from shipper")
+        data=cursor.fetchall()
+        return flask.jsonify(data)
+    except:
+        return "Error"
+
+"""API endpoint to get couponData"""
+@app.route('/getCouponData')
+def getCouponData():
+    try:
+        cursor=db.cursor()
+        cursor.execute("select * from coupon_data")
+        data=cursor.fetchall()
+        return flask.jsonify(data)
+    except:
+        return "Error"
+
+"""API endpoint to list usable coupons for a particular User"""
+@app.route('/listCoupons/<int:userID>')
+def listCoupons(userID):
+    try:
+        cursor=db.cursor()
+        cursor.execute(f"""
+        CREATE VIEW usableCoupon AS
+        select *
+        from coupon_data
+        where coupon_data.ExpiryDate > CURRENT_DATE AND coupon_data.Unique_id = 5 AND coupon_data.isUsed = 0;
+        select *
+        from usableCoupon
+        """)
+        data=cursor.fetchall()
+        return flask.jsonify(data)
+    except:
+        return "Error"
+
+"""API endpoint to Delete all Expired Coupons"""
+@app.route('/deleteExpiredCoupons')
+def deleteExpiredCoupons():
+    try:
+        cursor=db.cursor()
+        cursor.execute("delete from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE;")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
 """API endpoint to delete user given userID if no pending orders"""
 @app.route('/deleteUser/<int:userID>')
 def deleteUser(userID):
