@@ -4,7 +4,7 @@ import 'login.dart';
 import 'Signup.dart';
 import 'datafetch.dart';
 import 'adminDashboard.dart';
-import 'card.dart';
+import 'ProductList.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const login(),
         '/signUp': (context) => const Signup(),
         '/adminDashboard': (context) => const dashboard(),
-        '/Store': (context) => const Datafetch(),
+        '/Store': (context) => const ProductList(),
       },
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
