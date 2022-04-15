@@ -15,7 +15,7 @@ def getProductImage(brand_name, product_name):
     try:
         f = open('APIs/productLinks.json')
         data = json.load(f)
-        key = product_name + ' ' + brand_name
+        key = brand_name + ' ' + product_name
         if key in data:
             return flask.jsonify(data[key])
         else:
