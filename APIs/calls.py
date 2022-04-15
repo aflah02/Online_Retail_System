@@ -1,6 +1,6 @@
 import flask
 import mysql.connector
-
+import json
 db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -8,6 +8,33 @@ db = mysql.connector.connect(
     database = 'retaildb')
 
 app = flask.Flask(__name__)
+
+"""API endpoint to get URL for product Images"""
+@app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
+def getProductImage(brand_name, product_name):
+    try:
+        f = open('APIs/productLinks.json')
+        data = json.load(f)
+        key = product_name + ' ' + brand_name
+        if key in data:
+            return flask.jsonify(data[key])
+        else:
+            return flask.jsonify('No image found')
+    except:
+        return "Error"
+
+"""API endpoint to get URL for category Images"""
+@app.route('/getProductImage/<string:categoryName>', methods=['GET'])
+def getCategoryImage(categoryName):
+    try:
+        f = open('APIs/categoryLinks.json')
+        data = json.load(f)
+        if categoryName in data:
+            return flask.jsonify(data[categoryName])
+        else:
+            return flask.jsonify('No image found')
+    except:
+        return "Error"
 
 """API endpoint to authenticate if user credentials are correct"""
 @app.route('/authenticate/<string:email>/<string:password>')
@@ -349,6 +376,7 @@ def deleteInventory(product_id):
     except:
         return "Error"
 
+
 # API for adding products 
 @app.route('/addProducts/<string:name>/<string:brandname>/<int:cost>')
 def addProducts(name,brandname,cost):
@@ -399,7 +427,7 @@ def deleteBrand(brandname):
 def listAllProducts():
     try:
         c=db.cursor()
-        c.execute("Select product_name, product_cost,brand_name from product")
+        c.execute("Select product_name, product_cost,brand_name from userProductView")
         result = c.fetchall()
         return flask.jsonify(result)
     except:
@@ -444,7 +472,7 @@ def searchUsingBrandName(name):
 def displayCategories():
     try:
         c=db.cursor()
-        c.execute(f"select category_name,category_info from category ")
+        c.execute(f"select category_name,category_info from categoryUserView ")
         result = c.fetchall()
         return flask.jsonify(result)
     except:
@@ -481,6 +509,65 @@ def deleteCategory(categoryname):
         c.execute(f"delete from category where category_name='{categoryname}'")
         db.commit()
         return "Success"
+    except:
+        return "Error"
+
+
+#API for updating category information
+@app.route('/updateCategory/<string:categoryname>/<string:description>')
+def updateCategory(categoryname,description):
+    try:
+        c=db.cursor()
+        c.execute(f"update category set category_info = '{description}' where category_name='{categoryname}'")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+
+#API for updating product cost
+@app.route('/updateCost/<int:productID>/<int:cost>')
+def updateCost(productID,cost):
+    try:
+        c=db.cursor()
+        c.execute(f"update product set product_cost = {cost} where product_id={productID}")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+
+
+#API for adding in belongs to table
+@app.route('/addBelongsTo/<int:productID>/<int:categoryID>')
+def addBelongsTo(productID,categoryID):
+    try:
+        c=db.cursor()
+        c.execute(f"insert into belongsto(product_id, category_id) values ({productID},{categoryID})")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+#API for deleting in belongs to table
+@app.route('/deleteBelongsTo/<int:productID>/<int:categoryID>')
+def deleteBelongsTo(productID,categoryID):
+    try:
+        c=db.cursor()
+        c.execute(f"delete from belongsto where product_id = {productID} and category_id = {categoryID}")
+        db.commit()
+        return "Success"
+    except:
+        return "Error"
+
+#API for displaying belongsTo
+@app.route('/BelongsTo')
+def BelongsTo():
+    try:
+        c=db.cursor()
+        c.execute(f"select * from belongsto")
+        result = c.fetchall()
+        return flask.jsonify(result)
     except:
         return "Error"
         
