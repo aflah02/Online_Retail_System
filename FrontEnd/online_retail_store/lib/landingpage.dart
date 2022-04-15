@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'feed.dart';
 
 class landingPage extends StatefulWidget {
   const landingPage({Key? key}) : super(key: key);
@@ -11,12 +12,7 @@ class _landingPageState extends State<landingPage> {
   @override
   int index = 0;
   final screens = [
-    Center(
-      child: Text(
-        "Screen 1",
-        style: TextStyle(fontSize: 60),
-      ),
-    ),
+    Feed(),
     Center(
       child: Text(
         "Screen 2",
