@@ -4,7 +4,7 @@ import mysql.connector
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="1234",
+    passwd="password",
     database = 'retaildb')
 
 app = flask.Flask(__name__)

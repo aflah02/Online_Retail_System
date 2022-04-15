@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'function.dart';
 import 'package:flutter/material.dart';
+import 'card.dart';
 
 class Datafetch extends StatefulWidget {
   const Datafetch({Key? key}) : super(key: key);
@@ -44,7 +45,8 @@ class _DatafetchState extends State<Datafetch> {
             Text(
               output,
               style: TextStyle(fontSize: 40, color: Colors.green),
-            )
+            ),
+            ProductCard(),
           ]),
         ),
       ),

@@ -4,6 +4,7 @@ import 'login.dart';
 import 'Signup.dart';
 import 'datafetch.dart';
 import 'adminDashboard.dart';
+import 'card.dart';
 
 void main() {
   runApp(const MyApp());
