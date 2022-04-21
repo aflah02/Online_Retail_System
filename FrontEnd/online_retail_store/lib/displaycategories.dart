@@ -4,7 +4,6 @@ import 'package:amazon_clone/categorypage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'categorycard.dart';
 
 class Category {
   late String categoryName;
