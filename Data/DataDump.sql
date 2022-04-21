@@ -642,6 +642,7 @@ insert into inventory (product_id, quantity) values (45, 142);
 drop view if exists userProductView;
 drop view if exists categoryUserView;
 drop view if exists protectedUserView;
+drop view if exists usableCouponView;
 -- View products using user privileges
 Create VIEW userProductView AS
 SELECT product_name, product_cost, brand_name
@@ -654,4 +655,10 @@ select category_name, category_info from category;
 -- View users using admin privileges
 Create VIEW protectedUserView AS
 SELECT id, address, name, EmailID, PhoneNumber
-From user
+From user;
+
+-- View Usable Coupons
+CREATE VIEW usableCouponView AS
+select Coupon_id, Discount, ExpiryDate, Unique_id
+from coupon_data
+where coupon_data.ExpiryDate > CURRENT_DATE AND coupon_data.isUsed = 0;

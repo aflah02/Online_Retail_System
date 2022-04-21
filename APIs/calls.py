@@ -4,7 +4,7 @@ import json
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="password",
+    passwd="1234",
     database = 'retaildb')
 
 app = flask.Flask(__name__)
@@ -20,15 +20,14 @@ def getProductImage(brand_name, product_name):
             return flask.jsonify(data[key])
         else:
             return flask.jsonify('No image found')
-    except Exception as e:
-        print(e)
-        return e
+    except:
+        return "Error"
 
 """API endpoint to get URL for category Images"""
 @app.route('/getProductImage/<string:categoryName>', methods=['GET'])
 def getCategoryImage(categoryName):
     try:
-        f = open('categoryLinks.json')
+        f = open('APIs/categoryLinks.json')
         data = json.load(f)
         if categoryName in data:
             return flask.jsonify(data[categoryName])
@@ -74,18 +73,14 @@ def getCouponData():
     except:
         return "Error"
 
-"""API endpoint to list usable coupons for a particular User"""
-@app.route('/listCoupons/<int:userID>')
-def listCoupons(userID):
+"""API endpoint to list usable coupons"""
+@app.route('/listCoupons')
+def listCoupons():
     try:
         cursor=db.cursor()
         cursor.execute(f"""
-        CREATE VIEW usableCoupon AS
         select *
-        from coupon_data
-        where coupon_data.ExpiryDate > CURRENT_DATE AND coupon_data.Unique_id = 5 AND coupon_data.isUsed = 0;
-        select *
-        from usableCoupon
+        from usableCouponView
         """)
         data=cursor.fetchall()
         return flask.jsonify(data)
