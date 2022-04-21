@@ -20,14 +20,15 @@ def getProductImage(brand_name, product_name):
             return flask.jsonify(data[key])
         else:
             return flask.jsonify('No image found')
-    except:
-        return "Error"
+    except Exception as e:
+        print(e)
+        return e
 
 """API endpoint to get URL for category Images"""
 @app.route('/getCategoryImage/<string:categoryName>', methods=['GET'])
 def getCategoryImage(categoryName):
     try:
-        f = open('APIs/categoryLinks.json')
+        f = open('categoryLinks.json')
         data = json.load(f)
         if categoryName in data:
             return flask.jsonify(data[categoryName])
