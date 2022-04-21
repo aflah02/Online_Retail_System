@@ -34,7 +34,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Widget generateCards() {
     return Container(
-      height: 275,
+      height: 685,
       child: FutureBuilder(
         future: getProducts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -86,14 +86,6 @@ class _CategoryPageState extends State<CategoryPage> {
                           onTap: () {
                             print("Tapped");
                             print('${snapshot.data.length}');
-
-                            // Navigator.push(context, PageRouteBuilder(
-                            //     pageBuilder:
-                            //         (BuildContext context, _, __) {
-                            //   return CategoryPage(
-                            //       category: snapshot
-                            //           .data[index].categoryName);
-                            // }));
                           },
                         ),
                         SizedBox(
@@ -113,6 +105,27 @@ class _CategoryPageState extends State<CategoryPage> {
             //     ),
             //   ),
             // );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget Trial() {
+    return Container(
+      height: 275,
+      child: FutureBuilder(
+        future: getProducts(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Text('Here');
+              },
+            );
+          } else {
+            return Text('Here in Null');
           }
         },
       ),
