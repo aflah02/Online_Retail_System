@@ -40,6 +40,8 @@ class _ProductListState extends State<ProductList> {
           Category(categoryName: prod[0], tagLine: prod[1], url: link);
       productList.add(temp);
     }
+    print(productList);
+    print("in get");
     return productList;
   }
 
@@ -50,10 +52,18 @@ class _ProductListState extends State<ProductList> {
       body: FutureBuilder(
         future: getProducts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot == null) {
+          if (!snapshot.hasData) {
             return Container(
               child: Center(
-                child: Text("Loading ..."),
+                child: Column(children: [
+                  Text("Loading ..."),
+                  ElevatedButton(
+                      onPressed: () {
+                        print('here');
+                        print(snapshot.data);
+                      },
+                      child: Text("Loading ..."))
+                ]),
               ),
             );
           } else {

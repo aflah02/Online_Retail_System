@@ -20,23 +20,25 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            IconButton(
-                onPressed: () {
-                  print("Back");
-                  // Navigator.pop(context);
-                },
-                icon: Icon(Icons.keyboard_arrow_left)),
-            ElevatedButton(
-                onPressed: () {
-                  print('pressed');
-                  Navigator.pop(context);
-                },
-                child: Text('here'))
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    print("Back");
+                    // Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.keyboard_arrow_left)),
+              ElevatedButton(
+                  onPressed: () {
+                    print('pressed');
+                    Navigator.pop(context);
+                  },
+                  child: Text('here'))
+            ],
+          ),
         ),
       ),
     );
