@@ -13,7 +13,7 @@ app = flask.Flask(__name__)
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
     try:
-        f = open('APIs/productLinks.json')
+        f = open('productLinks.json')
         data = json.load(f)
         key = brand_name + ' ' + product_name
         if key in data:
@@ -34,8 +34,9 @@ def getCategoryImage(categoryName):
             return flask.jsonify(data[categoryName])
         else:
             return flask.jsonify('No image found')
-    except:
-        return "Error"
+    except Exception as e:
+        
+        return e
 
 """API endpoint to authenticate if user credentials are correct"""
 @app.route('/authenticate/<string:email>/<string:password>')
