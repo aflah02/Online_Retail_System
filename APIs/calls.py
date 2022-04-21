@@ -308,9 +308,9 @@ def listOrdersByCategory(category):
 def listShippersbySpeed(speed):
     try:
         cursor = db.cursor()
-        cursor.execute(f"""SELECT S.shipper_name, S.delivery_speed
+        cursor.execute(f"""SELECT S.shipper_name, S.Delivery_speed
                            FROM shipper S
-                           WHERE S.delivery_speed >= {speed};""")
+                           WHERE S.Delivery_speed >= {speed};""")
         result = cursor.fetchall()
         return flask.jsonify(result)
     except:
