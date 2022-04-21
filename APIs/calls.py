@@ -4,7 +4,7 @@ import json
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="password",
+    passwd="1234",
     database = 'retaildb')
 
 app = flask.Flask(__name__)
@@ -24,7 +24,7 @@ def getProductImage(brand_name, product_name):
         return "Error"
 
 """API endpoint to get URL for category Images"""
-@app.route('/getProductImage/<string:categoryName>', methods=['GET'])
+@app.route('/getCategoryImage/<string:categoryName>', methods=['GET'])
 def getCategoryImage(categoryName):
     try:
         f = open('APIs/categoryLinks.json')
