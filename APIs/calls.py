@@ -441,6 +441,20 @@ def listAllBrands():
     except:
         return "Error"
 
+"""API endpoint to get URL for brand Images"""
+@app.route('/getBrandImage/<string:brandName>', methods=['GET'])
+def getBrandImage(brandName):
+    try:
+        f = open('APIs/brandlinks.json')
+        data = json.load(f)
+        if brandName in data:
+            return flask.jsonify(data[brandName])
+        else:
+            return flask.jsonify('No image found')
+    except Exception as e:
+        
+        return e
+
 #API for searching using product name
 @app.route('/searchUsingProductName/<string:name>')
 def searchUsingProductName(name):
