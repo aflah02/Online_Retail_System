@@ -6,6 +6,7 @@ import 'datafetch.dart';
 import 'displaycategories.dart';
 import 'adminDashboard.dart';
 import 'landingpage.dart';
+import 'allProducts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/home',
       routes: {
-        '/home': (context) => login(),
+        '/home': (context) => AllProductPage(),
         '/signUp': (context) => const Signup(),
         '/adminDashboard': (context) => const dashboard(),
         '/Store': (context) => const LandingPage(),
