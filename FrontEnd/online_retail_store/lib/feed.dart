@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'displaycategories.dart';
+
 class Feed extends StatefulWidget {
   const Feed({Key? key}) : super(key: key);
 
@@ -41,7 +43,8 @@ class _FeedState extends State<Feed> {
                       backgroundColor: Colors.teal,
                     ),
                   ],
-                )
+                ),
+                ProductList(),
               ],
             ),
           )),

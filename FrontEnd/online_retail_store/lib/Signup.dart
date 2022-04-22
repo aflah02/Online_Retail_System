@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -23,6 +24,37 @@ class _SignupState extends State<Signup> {
   late FocusNode passwordField = FocusNode();
   late FocusNode confirmPasswordField = FocusNode();
   late FocusNode addressField = FocusNode();
+
+  Future<bool> signup() async {
+    String url = 'http://127.0.0.1:5000/addUser/' +
+        name +
+        '/' +
+        address +
+        '/' +
+        emailId +
+        '/' +
+        password +
+        '/' +
+        mobileNumber;
+    var data = await http.post(Uri.parse('http://127.0.0.1:5000/addUser/' +
+        name +
+        '/' +
+        address +
+        '/' +
+        emailId +
+        '/' +
+        password +
+        '/' +
+        mobileNumber));
+    if (data.body == 'Success') {
+      return Future<bool>.value(true);
+    } else {
+      print('printing data body');
+      print(data.body);
+      print(url);
+      return Future<bool>.value(false);
+    }
+  }
 
   Widget buildName() {
     @override
@@ -289,7 +321,7 @@ class _SignupState extends State<Signup> {
                   SizedBox(
                     width: 150,
                     child: FloatingActionButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState == null ||
                             !formKey.currentState!.validate()) {
                           print("Null ");
@@ -300,7 +332,31 @@ class _SignupState extends State<Signup> {
                         print("Success");
 
                         formKey.currentState!.save();
-                        Navigator.pushNamed(context, '/adminDashboard');
+                        bool result = await signup();
+                        if (result) {
+                          print('Came here');
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text('Database'),
+                                  content: Text('User Added successfully'),
+                                  actions: [
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, '/adminDashboard');
+                                        },
+                                        child: Text('Close'))
+                                  ],
+                                );
+                              });
+                        } else {
+                          print('Came to elsex');
+                          print('$result');
+                        }
+
+                        //
                       },
                       child: Text(
                         "Sign Up!!",

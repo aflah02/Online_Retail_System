@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'feed.dart';
 
-class landingPage extends StatefulWidget {
-  const landingPage({Key? key}) : super(key: key);
+class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
-  _landingPageState createState() => _landingPageState();
+  _LandingPageState createState() => _LandingPageState();
 }
 
-class _landingPageState extends State<landingPage> {
+class _LandingPageState extends State<LandingPage> {
   @override
   int index = 0;
   final screens = [

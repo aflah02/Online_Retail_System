@@ -24,7 +24,6 @@ class _YoutubeCloneState extends State<YoutubeClone> {
     tabs = [
       HomePage(username: un),
       const AccountPage(),
-      const CartPage(),
       const DashboardPage(),
     ];
   }

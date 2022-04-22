@@ -29,7 +29,7 @@ def getUserDetails(emailID):
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
     try:
-        f = open('APIs/productLinks.json')
+        f = open('productLinks.json')
         data = json.load(f)
         key = brand_name + ' ' + product_name
         if key in data:
@@ -49,8 +49,9 @@ def getCategoryImage(categoryName):
             return flask.jsonify(data[categoryName])
         else:
             return flask.jsonify('No image found')
-    except:
-        return "Error"
+    except Exception as e:
+        
+        return e
 
 """API endpoint to authenticate if user credentials are correct"""
 @app.route('/authenticate/<string:email>/<string:password>')
@@ -323,9 +324,9 @@ def listOrdersByCategory(category):
 def listShippersbySpeed(speed):
     try:
         cursor = db.cursor()
-        cursor.execute(f"""SELECT S.shipper_name, S.delivery_speed
+        cursor.execute(f"""SELECT S.shipper_name, S.Delivery_speed
                            FROM shipper S
-                           WHERE S.delivery_speed >= {speed};""")
+                           WHERE S.Delivery_speed >= {speed};""")
         result = cursor.fetchall()
         return flask.jsonify(result)
     except:
@@ -455,6 +456,20 @@ def listAllBrands():
         return flask.jsonify(result)
     except:
         return "Error"
+
+"""API endpoint to get URL for brand Images"""
+@app.route('/getBrandImage/<string:brandName>', methods=['GET'])
+def getBrandImage(brandName):
+    try:
+        f = open('APIs/brandlinks.json')
+        data = json.load(f)
+        if brandName in data:
+            return flask.jsonify(data[brandName])
+        else:
+            return flask.jsonify('No image found')
+    except Exception as e:
+        
+        return e
 
 #API for searching using product name
 @app.route('/searchUsingProductName/<string:name>')
