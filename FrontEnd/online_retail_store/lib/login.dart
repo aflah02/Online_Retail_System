@@ -158,9 +158,40 @@ class _loginState extends State<login> {
                           // Navigator.pushNamed(context, '/Store');
                           await getProducts(username, password);
                           if (authenticate == true)
-                            print("success");
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Database'),
+                                    content: Text('Successfully Logged in'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            // Navigator.pushNamed(
+                                            //     context, '/adminDashboard');
+                                          },
+                                          child: Text('Continue to App'))
+                                    ],
+                                  );
+                                });
                           else
-                            print('Hello');
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Database'),
+                                    content: Text('Invalid Login credentials'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop('dialog');
+                                          },
+                                          child: Text('Close'))
+                                    ],
+                                  );
+                                });
                         },
                         backgroundColor: Colors.teal,
                         shape: RoundedRectangleBorder(
