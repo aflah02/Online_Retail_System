@@ -9,6 +9,22 @@ db = mysql.connector.connect(
 
 app = flask.Flask(__name__)
 
+"""Get User Details from EmailID API Endpoint"""
+@app.route('/getUserDetailsFromEmail/<string:emailID>', methods=['GET'])
+def getUserDetails(emailID):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""Select *
+            From user
+            where EmailID = {emailID}""")
+        result = cursor.fetchall()
+        if result:
+            return flask.jsonify(result)
+        else:
+            return "No User Found"
+    except Exception as e:
+        return str(e)
+
 """API endpoint to get URL for product Images"""
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
