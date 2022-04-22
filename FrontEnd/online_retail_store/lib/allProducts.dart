@@ -16,22 +16,15 @@ class Product {
 }
 
 class AllProductPage extends StatefulWidget {
-  final String category;
-  const AllProductPage({Key? key, required this.category}) : super(key: key);
+  const AllProductPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _AllProductPageState createState() => _AllProductPageState();
 }
 
 class _AllProductPageState extends State<AllProductPage> {
-  late String categoryName;
-  @override
-  void initState() {
-    super.initState();
-    categoryName = widget.category;
-    print(categoryName);
-  }
-
   Widget generateCards() {
     return Container(
       height: 685,
@@ -57,36 +50,67 @@ class _AllProductPageState extends State<AllProductPage> {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                    height: 280,
+                    height: 290,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      color: Colors.grey[300],
+                      color: Colors.white,
                     ),
                     margin: EdgeInsets.all(15),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           height: 20,
                         ),
-                        Image.network(
-                          snapshot.data[index].url,
-                          height: 150,
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(100, 0, 0, 20),
+                          child: Image.network(
+                            snapshot.data[index].url,
+                            height: 120,
+                          ),
                         ),
-                        ListTile(
-                          contentPadding: EdgeInsets.all(12),
-                          title: Text(
+                        Padding(
+                          padding: EdgeInsets.all(15),
+                          child: Text(
                             '${snapshot.data[index].name}',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
-                          subtitle: Text('${snapshot.data[index].brand}'),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () {
-                            print("Tapped");
-                            print('${snapshot.data.length}');
-                          },
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: Text('${snapshot.data[index].brand}'),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${snapshot.data[index].price}' + '₹',
+                                style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              ElevatedButton.icon(
+                                onPressed: () {},
+                                icon: Icon(Icons.shopping_cart),
+                                label: Text('Add to cart'),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Color.fromRGBO(162, 124, 91, 0.7)),
+                                ),
+                              )
+                              // IconButton(
+                              //     onPressed: () {},
+                              //     icon: Icon(Icons.add_shopping_cart))
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -169,7 +193,7 @@ class _AllProductPageState extends State<AllProductPage> {
                       },
                       icon: Icon(Icons.keyboard_arrow_left)),
                   Text(
-                    '${categoryName}',
+                    'All Products',
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 26,
