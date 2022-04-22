@@ -582,5 +582,16 @@ def BelongsTo():
     except:
         return "Error"
         
+# API that gives product id given product name and brand name
+@app.route('/getProductID/<string:productName>/<string:brandName>')
+def getProductID(productName,brandName):
+    try:
+        c=db.cursor()
+        c.execute(f"select product_id from product where product_name='{productName}' and brand_name='{brandName}'")
+        result = c.fetchall()
+        return flask.jsonify(result)
+    except:
+        return "Error"
+        
 if __name__ == '__main__':
     app.run(debug=True)
