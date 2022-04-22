@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'amazon_clone.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+//iYRXekK
+//klibby0@webeden.co.uk
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -11,10 +16,32 @@ class login extends StatefulWidget {
 class _loginState extends State<login> {
   late String username;
   late String password;
+  late bool authenticate = true;
   late FocusNode usernameField = FocusNode();
   late FocusNode passwordField = FocusNode();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  void setAuthenticate(bool auth) {
+    setState(() {
+      authenticate = auth;
+    });
+  }
+
+  Future<bool> getProducts(String user, String pwd) async {
+    var data = await http.get(
+        Uri.parse('http://127.0.0.1:5000/authenticate/' + user + '/' + pwd));
+
+    if (data.body == 'Success') {
+      setAuthenticate(true);
+      print('wooohoooooo');
+      return Future<bool>.value(true);
+    } else
+      print(data.body);
+    setAuthenticate(false);
+    return Future<bool>.value(false);
+  }
+
   Widget buildUsername() {
     @override
     void dispose() {
@@ -119,7 +146,7 @@ class _loginState extends State<login> {
                       width: 150,
                       child: FloatingActionButton(
                         heroTag: "button1",
-                        onPressed: () {
+                        onPressed: () async {
                           var state = formKey.currentState;
                           if (state == null || !state.validate()) {
                             if (state == null) print("bad");
@@ -128,8 +155,12 @@ class _loginState extends State<login> {
                           }
 
                           formKey.currentState!.save();
-                          Navigator.pushNamed(context, '/Store');
-                          print('Hello');
+                          // Navigator.pushNamed(context, '/Store');
+                          await getProducts(username, password);
+                          if (authenticate == true)
+                            print("success");
+                          else
+                            print('Hello');
                         },
                         backgroundColor: Colors.teal,
                         shape: RoundedRectangleBorder(
@@ -151,11 +182,12 @@ class _loginState extends State<login> {
                       child: FloatingActionButton(
                         heroTag: "button2",
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      YoutubeClone(username: username)));
+                          print("Submitted");
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             YoutubeClone(username: username)));
                         },
                         child: Text(
                           "Sign Up",
