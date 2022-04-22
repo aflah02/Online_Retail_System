@@ -1,3 +1,4 @@
+import re
 import flask
 import mysql.connector
 import json
@@ -8,6 +9,54 @@ db = mysql.connector.connect(
     database = 'retaildb')
 
 app = flask.Flask(__name__)
+
+"""API Endpoint that Returns Items Ranked by Amount they've been sold for"""
+@app.route('/RankedByProfitMade', methods=['GET'])
+def RankedByProfitMade():
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select Product_ID, HighestSeller from (
+            SELECT  Product_ID, Quantity, SUM(Cost) Cost, rank () over (order by Cost desc) as HighestSeller
+            FROM    items_purchased 
+            GROUP BY Product_ID) as H
+            """)
+        result = cursor.fetchall()
+        return flask.jsonify(result)
+    except:
+        return "Error"
+
+"""API Endpoint that Returns Items Ranked by Quantity they've sold"""
+@app.route('/RankedByQuantitySold', methods=['GET'])
+def RankedByQuantitySold():
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select Product_ID, HighestSeller from (
+            SELECT  Product_ID, SUM(Quantity) Quantity, rank () over (order by Quantity desc) as HighestSeller
+            FROM    items_purchased 
+            GROUP BY Product_ID) as H
+            """)
+        result = cursor.fetchall()
+        return flask.jsonify(result)
+    except:
+        return "Error"
+
+"""Get User Details from EmailID API Endpoint"""
+@app.route('/getUserDetailsFromEmail/<string:emailID>', methods=['GET'])
+def getUserDetails(emailID):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""Select *
+            From user
+            where EmailID = {emailID}""")
+        result = cursor.fetchall()
+        if result:
+            return flask.jsonify(result)
+        else:
+            return "No User Found"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to get URL for product Images"""
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])

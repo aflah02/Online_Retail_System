@@ -172,7 +172,9 @@ class _loginState extends State<login> {
                                                 PageRouteBuilder(pageBuilder:
                                                     (BuildContext context, _,
                                                         __) {
-                                              return Cart();
+                                              return Cart(
+                                                username: username,
+                                              );
                                             }));
                                           },
                                           child: Text('Continue to App'))
