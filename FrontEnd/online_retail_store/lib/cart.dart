@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 
 class Cart extends StatefulWidget {
-  const Cart({Key? key}) : super(key: key);
+  final String username;
+  const Cart({Key? key, required this.username}) : super(key: key);
 
   @override
   _CartState createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
+  late String _username;
+  @override
+  void initState() {
+    super.initState();
+    _username = widget.username;
+    print(_username);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +29,8 @@ class _CartState extends State<Cart> {
               Navigator.pop(context);
             },
             icon: Icon(Icons.keyboard_arrow_left),
-          )
+          ),
+          Text('Welcome $_username'),
         ],
       )),
     );
