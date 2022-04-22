@@ -3,6 +3,7 @@ import 'amazon_clone.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'cart.dart';
 //iYRXekK
 //klibby0@webeden.co.uk
 
@@ -167,8 +168,12 @@ class _loginState extends State<login> {
                                     actions: [
                                       ElevatedButton(
                                           onPressed: () {
-                                            // Navigator.pushNamed(
-                                            //     context, '/adminDashboard');
+                                            Navigator.push(context,
+                                                PageRouteBuilder(pageBuilder:
+                                                    (BuildContext context, _,
+                                                        __) {
+                                              return Cart();
+                                            }));
                                           },
                                           child: Text('Continue to App'))
                                     ],

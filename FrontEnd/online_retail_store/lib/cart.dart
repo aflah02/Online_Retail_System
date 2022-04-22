@@ -10,8 +10,19 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('This is the cart'),
+    return Scaffold(
+      body: SafeArea(
+          child: Column(
+        children: [
+          Text('This is the cart'),
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.keyboard_arrow_left),
+          )
+        ],
+      )),
     );
   }
 }
