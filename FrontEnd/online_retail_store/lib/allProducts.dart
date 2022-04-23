@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'displaycategories.dart';
 
 class Product {
   late String brand;
@@ -42,7 +43,7 @@ class _AllProductPageState extends State<AllProductPage> {
 
   Widget generateCards() {
     return Container(
-      height: 585,
+      height: 325,
       child: FutureBuilder(
         future: getProducts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -62,6 +63,7 @@ class _AllProductPageState extends State<AllProductPage> {
             );
           } else {
             return (ListView.builder(
+              scrollDirection: Axis.horizontal,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
@@ -78,14 +80,15 @@ class _AllProductPageState extends State<AllProductPage> {
                           height: 20,
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(100, 0, 0, 20),
+                          padding: EdgeInsets.fromLTRB(50, 0, 0, 20),
                           child: Image.network(
                             snapshot.data[index].url,
                             height: 120,
+                            width: 140,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(15),
+                          padding: EdgeInsets.all(7),
                           child: Text(
                             '${snapshot.data[index].name}',
                             style: TextStyle(
@@ -111,16 +114,7 @@ class _AllProductPageState extends State<AllProductPage> {
                                   fontSize: 16,
                                 ),
                               ),
-                              ElevatedButton.icon(
-                                onPressed: () {},
-                                icon: Icon(Icons.shopping_cart),
-                                label: Text('Add to cart'),
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Color.fromRGBO(162, 124, 91, 0.7)),
-                                ),
-                              )
+
                               // IconButton(
                               //     onPressed: () {},
                               //     icon: Icon(Icons.add_shopping_cart))
@@ -129,6 +123,18 @@ class _AllProductPageState extends State<AllProductPage> {
                         ),
                         SizedBox(
                           height: 10,
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(75, 0, 0, 0),
+                          child: ElevatedButton.icon(
+                            onPressed: () {},
+                            icon: Icon(Icons.shopping_cart),
+                            label: Text('Add to cart'),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromRGBO(162, 124, 91, 0.7)),
+                            ),
+                          ),
                         )
                       ],
                     ));
@@ -196,39 +202,46 @@ class _AllProductPageState extends State<AllProductPage> {
     return Scaffold(
       body: Padding(
           padding: EdgeInsets.all(0),
-          child: SingleChildScrollView(
-              child: Container(
-            height: 500,
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      Row(
+          child: Container(
+            child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    Container(
+                      height: 400,
+                      child: Column(
                         children: [
-                          IconButton(
-                              onPressed: () {
-                                print("Back");
-                                Navigator.pop(context);
-                              },
-                              icon: Icon(Icons.keyboard_arrow_left)),
-                          Text(
-                            'All Products',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 26,
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    IconButton(
+                                        onPressed: () {
+                                          print("Back");
+                                          Navigator.pop(context);
+                                        },
+                                        icon: Icon(Icons.keyboard_arrow_left)),
+                                    Text(
+                                      'All Products',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 26,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                generateCards(),
+                              ],
                             ),
-                          ),
+                          )
                         ],
                       ),
-                      generateCards(),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ))),
+                    ),
+                  ],
+                )),
+          )),
     );
   }
 }

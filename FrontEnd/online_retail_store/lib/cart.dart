@@ -216,12 +216,17 @@ class _CartState extends State<Cart> {
     var jsonData = json.decode(data.body);
     userid = jsonData[0][0];
     name = jsonData[0][2];
-    address = jsonData[0][1];
+    setState(() {
+      address = jsonData[0][1];
+    });
     email = jsonData[0][3];
     mobileNumber = jsonData[0][5];
 
     var cartData = await http.get(
         Uri.parse('http://127.0.0.1:5000/cartDetails/' + userid.toString()));
+    print('here');
+    print(cartData);
+    print('gone');
     var cartDecode = json.decode(cartData.body);
     List<CartItem> cartItemList = [];
     for (var prod in cartDecode) {
@@ -231,7 +236,9 @@ class _CartState extends State<Cart> {
           cost: prod[2],
           quantity: prod[3],
           totalCost: prod[4]);
-      grandTotal += num.parse(prod[4]);
+      setState(() {
+        grandTotal += num.parse(prod[4]);
+      });
       var links = await http.get(Uri.parse(
           'http://127.0.0.1:5000/getProductImage/' + prod[1] + '/' + prod[0]));
 
