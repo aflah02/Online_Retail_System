@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'paymentDetails.dart';
 
 class CartItem {
   late String product;
@@ -260,18 +261,44 @@ class _CartState extends State<Cart> {
           generateTotal(),
           Container(
               height: 100,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.teal[200],
+              width: MediaQuery.of(context).size.width - 60,
+              decoration: BoxDecoration(
+                color: Colors.teal[500],
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: Center(
-                child: Text(
-                  'Proceed to Payment',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20,
-                  ),
-                ),
-              ))
+                  child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                    child: TextButton.icon(
+                      onPressed: () {
+                        Navigator.push(context, PageRouteBuilder(
+                            pageBuilder: (BuildContext context, _, __) {
+                          return PaymentForm();
+                        }));
+                      },
+                      icon: Icon(
+                        Icons.money,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        'Proceed to Payment',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 20,
+                        ),
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Color.fromARGB(255, 0, 150, 136)),
+                      ),
+                    ),
+                  )
+                ],
+              )))
         ],
       )),
     );

@@ -25,9 +25,24 @@ class AllProductPage extends StatefulWidget {
 }
 
 class _AllProductPageState extends State<AllProductPage> {
+  late String Username;
+  late int Userid;
+  Future<int> addToCart(String brand, String product, int quantity) async {
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/getProductID/' + product + '/' + brand));
+    var jsonData = json.decode(data.body);
+    await http.get(Uri.parse('http://127.0.0.1:5000/addProductToCart/' +
+        Userid.toString() +
+        '/' +
+        jsonData +
+        '/' +
+        quantity.toString()));
+    return jsonData;
+  }
+
   Widget generateCards() {
     return Container(
-      height: 685,
+      height: 585,
       child: FutureBuilder(
         future: getProducts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -55,7 +70,7 @@ class _AllProductPageState extends State<AllProductPage> {
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       color: Colors.white,
                     ),
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -179,33 +194,41 @@ class _AllProductPageState extends State<AllProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(15),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        print("Back");
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(Icons.keyboard_arrow_left)),
-                  Text(
-                    'All Products',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 26,
-                    ),
+      body: Padding(
+          padding: EdgeInsets.all(0),
+          child: SingleChildScrollView(
+              child: Container(
+            height: 500,
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                print("Back");
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(Icons.keyboard_arrow_left)),
+                          Text(
+                            'All Products',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 26,
+                            ),
+                          ),
+                        ],
+                      ),
+                      generateCards(),
+                    ],
                   ),
-                ],
-              ),
-              generateCards(),
-            ],
-          ),
-        ),
-      ),
+                )
+              ],
+            ),
+          ))),
     );
   }
 }
