@@ -2,6 +2,7 @@ import re
 import flask
 import mysql.connector
 import json
+
 db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -9,6 +10,36 @@ db = mysql.connector.connect(
     database = 'retaildb')
 
 app = flask.Flask(__name__)
+
+"""API Endpoint to get all Order Details for a User"""
+@app.route('/getOrderDetailsForUser/<int:user_id>', methods=['GET'])
+def getOrderIDsForUser(user_id):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select *
+            From order_table
+            Where Unique_id = {user_id}
+        """)
+        order_ids = cursor.fetchall()
+        return flask.jsonify(order_ids)
+    except Exception as e:
+        return str(e)
+
+"""API Endpoint to get all Item Details for an Order"""
+@app.route('/getItemDetailsForOrder/<int:order_id>', methods=['GET'])
+def getItemDetailsForOrder(order_id):
+    try:
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select *
+            From items_purchased
+            Where Order_id = {order_id}
+        """)
+        order_ids = cursor.fetchall()
+        return flask.jsonify(order_ids)
+    except Exception as e:
+        return str(e)
 
 """API Endpoint that Returns Items Ranked by Amount they've been sold for"""
 @app.route('/RankedByProfitMade', methods=['GET'])
