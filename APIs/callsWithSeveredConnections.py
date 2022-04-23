@@ -105,9 +105,10 @@ def getUserDetails(emailID):
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
     try:
-        f = open('productLinks.json')
+        f = open('APIs/productLinks.json')
         data = json.load(f)
         key = brand_name + ' ' + product_name
+        print(key)
         if key in data:
             return flask.jsonify(data[key])
         else:
@@ -126,8 +127,7 @@ def getCategoryImage(categoryName):
         else:
             return flask.jsonify('No image found')
     except Exception as e:
-        
-        return e
+        return str(e)
 
 """API endpoint to authenticate if user credentials are correct"""
 @app.route('/authenticate/<string:email>/<string:password>')

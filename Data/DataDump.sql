@@ -367,7 +367,7 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (89, 'Tennis Ball (Pack of 6)',380,'Cosco');
 insert into product (product_id, product_name,product_cost ,brand_name) values (90, 'Basketball',2000,'Cosco');
 insert into product (product_id, product_name,product_cost ,brand_name) values (91, 'Inline Skates',2000,'Cosco');
-insert into product (product_id, product_name,product_cost ,brand_name) values (92, 'Atta/Godihittu - Whole Wheat, 10 kg Pouch',419,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (92, 'Godihittu Whole Wheat 10 kg',419,'ITC');
 insert into product (product_id, product_name,product_cost ,brand_name) values (93, 'Aashirvaad Atta with Multi Grains',300,'ITC');
 insert into product (product_id, product_name,product_cost ,brand_name) values (94, 'Fortified Chakki Atta',400,'ITC');
 insert into product (product_id, product_name,product_cost ,brand_name) values (95, 'Aashirvaad Sugar Release Control Atta',350,'ITC');
