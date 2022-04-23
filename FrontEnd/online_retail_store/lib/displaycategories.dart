@@ -28,7 +28,8 @@ class _ProductListState extends State<ProductList> {
   Future<List<Category>> getProducts() async {
     var data =
         await http.get(Uri.parse('http://127.0.0.1:5000/displayCategories'));
-
+    print('$data');
+    print('${data.body}');
     var jsonData = json.decode(data.body);
     List<Category> productList = [];
     for (var prod in jsonData) {
@@ -46,9 +47,9 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Category List")),
-      body: FutureBuilder(
+    return Container(
+      height: 285,
+      child: FutureBuilder(
         future: getProducts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
@@ -67,15 +68,16 @@ class _ProductListState extends State<ProductList> {
             );
           } else {
             return (ListView.builder(
+              scrollDirection: Axis.horizontal,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
-                    height: 280,
+                    height: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
-                      color: Colors.grey[300],
+                      color: Colors.grey[50],
                     ),
-                    margin: EdgeInsets.all(15),
+                    margin: EdgeInsets.all(10),
                     child: Column(
                       children: [
                         SizedBox(
@@ -83,31 +85,34 @@ class _ProductListState extends State<ProductList> {
                         ),
                         Image.network(
                           snapshot.data[index].url,
-                          height: 150,
+                          height: 120,
+                          width: 140,
                         ),
-                        ListTile(
-                          contentPadding: EdgeInsets.all(12),
-                          title: Text(
-                            '${snapshot.data[index].categoryName}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                        Container(
+                          height: 60,
+                          width: 200,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.all(12),
+                            title: Text(
+                              '${snapshot.data[index].categoryName}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
+                            subtitle: Text('${snapshot.data[index].tagLine}'),
+                            trailing: const Icon(Icons.keyboard_arrow_right),
+                            onTap: () {
+                              print("Tapped");
+                              Navigator.push(context, PageRouteBuilder(
+                                  pageBuilder: (BuildContext context, _, __) {
+                                return CategoryPage(
+                                    category:
+                                        snapshot.data[index].categoryName);
+                              }));
+                            },
                           ),
-                          subtitle: Text('${snapshot.data[index].tagLine}'),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () {
-                            print("Tapped");
-                            Navigator.push(context, PageRouteBuilder(
-                                pageBuilder: (BuildContext context, _, __) {
-                              return CategoryPage(
-                                  category: snapshot.data[index].categoryName);
-                            }));
-                          },
                         ),
-                        SizedBox(
-                          height: 10,
-                        )
                       ],
                     ));
               },

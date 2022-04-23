@@ -34,7 +34,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   Widget generateCards() {
     return Container(
-      height: 685,
+      height: 385,
       child: FutureBuilder(
         future: getProducts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -54,10 +54,12 @@ class _CategoryPageState extends State<CategoryPage> {
             );
           } else {
             return (ListView.builder(
+              scrollDirection: Axis.horizontal,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                     height: 280,
+                    width: 300,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       color: Colors.grey[300],
