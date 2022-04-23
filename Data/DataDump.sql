@@ -269,7 +269,7 @@ insert into brand (brand_name) values ('ITC');
 create table product (
 	product_id INT NOT NULL AUTO_INCREMENT,
 	primary key(product_id),
-	product_name VARCHAR(50) NOT NULL,
+	product_name VARCHAR(150) NOT NULL,
     product_cost Decimal(10,2) NOT NULL,
 	brand_name VARCHAR(50) NOT NULL, 
     Foreign key(brand_name) references brand(brand_name) On delete Cascade,
