@@ -377,6 +377,22 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (98, 'Chana Dal',200,'ITC');
 insert into product (product_id, product_name,product_cost ,brand_name) values (99, 'Bingo Cream and Onion',10,'ITC');
 insert into product (product_id, product_name,product_cost ,brand_name) values (100, 'Bingo Masala',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (101, 'Bingo Chilli Sprinkled',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (102, 'Bingo Salted',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (103, 'Bingo Salt Sprinkled',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (104, 'Mad Angles Tomato Madness',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (105, 'Mad Angles Masala Madness',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (106, 'Mad Angles Chaat Masti',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (107, 'Mad Angles Very Peri Peri',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (108, 'Mad Angles Achaari Masti',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (109, 'Mad Angles Pizza Aaaah',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (110, 'Mad Angles Mmmmm Masala',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (111, 'Mad Angles Cheese Nachos',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (112, 'Mad Angles Tomato Mischief',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (113, 'Mad Angles Chilli Dhamaka',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (114, 'Tangles Masala Cheese',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (115, 'Salted Tangle',10,'ITC');
+
 
 
 
