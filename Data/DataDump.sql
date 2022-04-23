@@ -358,40 +358,40 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (80, 'Toaster',2000,'Philips');
 insert into product (product_id, product_name,product_cost ,brand_name) values (81, 'Grinder',2500,'Philips');
 insert into product (product_id, product_name,product_cost ,brand_name) values (82, 'Hand Blender',1200,'Philips');
-insert into product (product_id, product_name,product_cost ,brand_name) values (82, 'Hair Straightener',2800,'Philips');
-insert into product (product_id, product_name,product_cost ,brand_name) values (83, 'Hair Dryer',3000,'Philips');
-insert into product (product_id, product_name,product_cost ,brand_name) values (84, 'Hair Curler',1375,'Philips');
-insert into product (product_id, product_name,product_cost ,brand_name) values (85, 'Soundproof Petrol Generator',175000,'Bajaj');
-insert into product (product_id, product_name,product_cost ,brand_name) values (86, 'Low Noise Diesel Generator',99000,'Bajaj');
-insert into product (product_id, product_name,product_cost ,brand_name) values (87, 'Football',790,'Cosco');
-insert into product (product_id, product_name,product_cost ,brand_name) values (88, 'Tennis Ball (Pack of 6)',380,'Cosco');
-insert into product (product_id, product_name,product_cost ,brand_name) values (89, 'Basketball',2000,'Cosco');
-insert into product (product_id, product_name,product_cost ,brand_name) values (90, 'Inline Skates',2000,'Cosco');
-insert into product (product_id, product_name,product_cost ,brand_name) values (91, 'Atta/Godihittu - Whole Wheat, 10 kg Pouch',419,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (92, 'Aashirvaad Atta with Multi Grains',300,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (93, 'Fortified Chakki Atta',400,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (94, 'Aashirvaad Sugar Release Control Atta',350,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (95, 'Whole Wheat Flour Atta',250,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (96, 'Aashirvaad Select Premium Sharbati Atta, 5kg',299,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (97, 'Aashirvaad Select Superior Sharbati Whole Wheat Atta - 5 kg',399,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (98, 'Chana Dal',200,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (99, 'Bingo Cream and Onion',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (100, 'Bingo Masala',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (101, 'Bingo Chilli Sprinkled',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (102, 'Bingo Salted',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (103, 'Bingo Salt Sprinkled',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (104, 'Mad Angles Tomato Madness',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (105, 'Mad Angles Masala Madness',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (106, 'Mad Angles Chaat Masti',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (107, 'Mad Angles Very Peri Peri',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (108, 'Mad Angles Achaari Masti',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (109, 'Mad Angles Pizza Aaaah',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (110, 'Mad Angles Mmmmm Masala',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (111, 'Mad Angles Cheese Nachos',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (112, 'Mad Angles Tomato Mischief',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (113, 'Mad Angles Chilli Dhamaka',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (114, 'Tangles Masala Cheese',10,'ITC');
-insert into product (product_id, product_name,product_cost ,brand_name) values (115, 'Salted Tangle',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (83, 'Hair Straightener',2800,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (84, 'Hair Dryer',3000,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (85, 'Hair Curler',1375,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (86, 'Soundproof Petrol Generator',175000,'Bajaj');
+insert into product (product_id, product_name,product_cost ,brand_name) values (87, 'Low Noise Diesel Generator',99000,'Bajaj');
+insert into product (product_id, product_name,product_cost ,brand_name) values (88, 'Football',790,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (89, 'Tennis Ball (Pack of 6)',380,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (90, 'Basketball',2000,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (91, 'Inline Skates',2000,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (92, 'Atta/Godihittu - Whole Wheat, 10 kg Pouch',419,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (93, 'Aashirvaad Atta with Multi Grains',300,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (94, 'Fortified Chakki Atta',400,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (95, 'Aashirvaad Sugar Release Control Atta',350,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (96, 'Whole Wheat Flour Atta',250,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (97, 'Aashirvaad Select Premium Sharbati Atta, 5kg',299,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (98, 'Aashirvaad Select Superior Sharbati Whole Wheat Atta - 5 kg',399,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (99, 'Chana Dal',200,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (100, 'Bingo Cream and Onion',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (101, 'Bingo Masala',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (102, 'Bingo Chilli Sprinkled',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (103, 'Bingo Salted',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (104, 'Bingo Salt Sprinkled',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (105, 'Mad Angles Tomato Madness',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (106, 'Mad Angles Masala Madness',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (107, 'Mad Angles Chaat Masti',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (108, 'Mad Angles Very Peri Peri',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (109, 'Mad Angles Achaari Masti',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (110, 'Mad Angles Pizza Aaaah',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (111, 'Mad Angles Mmmmm Masala',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (112, 'Mad Angles Cheese Nachos',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (113, 'Mad Angles Tomato Mischief',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (114, 'Mad Angles Chilli Dhamaka',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (115, 'Tangles Masala Cheese',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (116, 'Salted Tangle',10,'ITC');
 
 
 
@@ -511,7 +511,11 @@ insert into belongsto (product_id,category_id) values (77,7);
 insert into belongsto (product_id,category_id) values (78,7);
 insert into belongsto (product_id,category_id) values (79,7);
 insert into belongsto (product_id,category_id) values (80,7);
-
+insert into belongsto (product_id,category_id) values (81,7);
+insert into belongsto (product_id,category_id) values (82,7);
+insert into belongsto (product_id,category_id) values (83,7);
+insert into belongsto (product_id,category_id) values (84,7);
+insert into belongsto (product_id,category_id) values (85,7);
 
 
 create table billing_details (
