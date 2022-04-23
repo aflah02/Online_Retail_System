@@ -3,6 +3,7 @@ import 'amazon_clone.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:async';
+import 'landingpage.dart';
 import 'cart.dart';
 //iYRXekK
 //klibby0@webeden.co.uk
@@ -172,8 +173,8 @@ class _loginState extends State<login> {
                                                 PageRouteBuilder(pageBuilder:
                                                     (BuildContext context, _,
                                                         __) {
-                                              return Cart(
-                                                username: username,
+                                              return LandingPage(
+                                                uName: username,
                                               );
                                             }));
                                           },
