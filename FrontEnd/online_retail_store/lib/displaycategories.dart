@@ -28,7 +28,8 @@ class _ProductListState extends State<ProductList> {
   Future<List<Category>> getProducts() async {
     var data =
         await http.get(Uri.parse('http://127.0.0.1:5000/displayCategories'));
-    print('$data');
+
+    print('in display categories');
     print('${data.body}');
     var jsonData = json.decode(data.body);
     List<Category> productList = [];
@@ -60,6 +61,7 @@ class _ProductListState extends State<ProductList> {
                   ElevatedButton(
                       onPressed: () {
                         print('here');
+                        getProducts();
                         print(snapshot.data);
                       },
                       child: Text("Loading ..."))
