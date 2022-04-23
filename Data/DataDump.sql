@@ -832,6 +832,10 @@ insert into brand (brand_name) values ('Bajaj');
 insert into brand (brand_name) values ('Philips');
 insert into brand (brand_name) values ('Cosco');
 insert into brand (brand_name) values ('ITC');
+insert into brand (brand_name) values ('Reckitt');
+insert into brand (brand_name) values ('Rasper');
+insert into brand (brand_name) values ('Beiersdorf');
+insert into brand (brand_name) values ('Staedtler Noris Gmbh');
 create table product (
 	product_id INT NOT NULL AUTO_INCREMENT,
 	primary key(product_id),
