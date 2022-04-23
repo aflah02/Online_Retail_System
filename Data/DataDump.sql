@@ -781,6 +781,9 @@ insert into category (category_id, category_name, category_info) values (10, 'Re
 insert into category (category_id, category_name, category_info) values (11, 'Electronics', 'Electronic items');
 insert into category (category_id, category_name, category_info) values (12, 'Sports Equipment', 'This category encompasses all you would want to satisfy the athlete within you');
 insert into category (category_id, category_name, category_info) values (13, 'Heavy Duty Equipment', 'This category contains industrial and home use heavy duty equipments');
+insert into category (category_id, category_name, category_info) values (14, 'Cleaning', 'Cleaning Supplies to keep yourself and your surroundings safe');
+insert into category (category_id, category_name, category_info) values (15, 'Office Supplies and Stationary', 'Office Supplies');
+insert into category (category_id, category_name, category_info) values (16, 'Medical Supplies', 'Medical Supplies for you');
 create table brand (
 	brand_name VARCHAR(50) NOT NULL,
     primary key(brand_name)
@@ -955,11 +958,40 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (114, 'Mad Angles Chilli Dhamaka',10,'ITC');
 insert into product (product_id, product_name,product_cost ,brand_name) values (115, 'Tangles Masala Cheese',10,'ITC');
 insert into product (product_id, product_name,product_cost ,brand_name) values (116, 'Salted Tangle',10,'ITC');
-
-
-
-
-
+insert into product (product_id, product_name,product_cost ,brand_name) values (117, 'Savlon Handwash',80,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (118, 'Savlon Soap',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (119, 'Savlon Mask',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (120, 'Lizol Liquid',100,'Reckitt');
+insert into product (product_id, product_name,product_cost ,brand_name) values (121, 'Harpic',100,'Reckitt');
+insert into product (product_id, product_name,product_cost ,brand_name) values (122, 'Mortein Powergard',140,'Reckitt');
+insert into product (product_id, product_name,product_cost ,brand_name) values (123, 'Mortein Powergard Coil',40,'Reckitt');
+insert into product (product_id, product_name,product_cost ,brand_name) values (124, 'Mortein Machine',90,'Reckitt');
+insert into product (product_id, product_name,product_cost ,brand_name) values (125, 'Pen Stand',200,'Rasper');
+insert into product (product_id, product_name,product_cost ,brand_name) values (126, 'Acrylic Writing Desk',1500,'Rasper');
+insert into product (product_id, product_name,product_cost ,brand_name) values (127, 'Acrylic Paper Weight',150,'Rasper');
+insert into product (product_id, product_name,product_cost ,brand_name) values (128, 'Leather Writing Desk',3000,'Rasper');
+insert into product (product_id, product_name,product_cost ,brand_name) values (129, 'Hansaplast Regular Bandage',200,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (130, 'Hansaplast Crepe Bandage',200,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (131, 'Hansaplast Self Adhesive Bandage',400,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (132, 'Hansaplast Wound Spray',200,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (133, 'Hansaplast Corn Plaster',300,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (134, 'Hansaplast Lion Plaster',300,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (135, 'Hansaplast Fixation Tape',200,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (136, 'Hansaplast Lion Heat Plaster',200,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (137, 'Hansaplast Spiral Heat',200,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (138, 'Hansaplast Junior Wound Care',50,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (139, 'Hansaplast Fingertip Plaster',100,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (140, 'Hansaplast Soft Plaster Roll',100,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (141, 'Hansaplast Chhota Bheem Edition',100,'Beiersdorf');
+insert into product (product_id, product_name,product_cost ,brand_name) values (142, 'Mars Lumograph 100G6 Soft Grades 8B HB Pencil',675,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (143, 'Noris Club 320 NWP12 Fibre Tip Pen',675,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (144, 'Textsurfer Classic',675,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (145, 'Jumbo Pencil',675,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (146, 'Compass',675,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (147, 'Color Pencils',675,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (148, 'Sharpner',100,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (149, 'Eraser',90,'Staedtler Noris Gmbh');
+insert into product (product_id, product_name,product_cost ,brand_name) values (150, 'Mechanical Pencil',100,'Staedtler Noris Gmbh');
 
 create table belongsto(
 	product_id INT NOT NULL,
@@ -1110,6 +1142,40 @@ insert into belongsto (product_id,category_id) values (113,1);
 insert into belongsto (product_id,category_id) values (114,1);
 insert into belongsto (product_id,category_id) values (115,1);
 insert into belongsto (product_id,category_id) values (116,1);
+insert into belongsto (product_id,category_id) values (117,14);
+insert into belongsto (product_id,category_id) values (118,14);
+insert into belongsto (product_id,category_id) values (119,16);
+insert into belongsto (product_id,category_id) values (120,14);
+insert into belongsto (product_id,category_id) values (121,14);
+insert into belongsto (product_id,category_id) values (122,6);
+insert into belongsto (product_id,category_id) values (123,6);
+insert into belongsto (product_id,category_id) values (124,6);
+insert into belongsto (product_id,category_id) values (125,15);
+insert into belongsto (product_id,category_id) values (126,15);
+insert into belongsto (product_id,category_id) values (127,15);
+insert into belongsto (product_id,category_id) values (128,15);
+insert into belongsto (product_id,category_id) values (129,16);
+insert into belongsto (product_id,category_id) values (130,16);
+insert into belongsto (product_id,category_id) values (131,16);
+insert into belongsto (product_id,category_id) values (132,16);
+insert into belongsto (product_id,category_id) values (133,16);
+insert into belongsto (product_id,category_id) values (134,16);
+insert into belongsto (product_id,category_id) values (135,16);
+insert into belongsto (product_id,category_id) values (136,16);
+insert into belongsto (product_id,category_id) values (137,16);
+insert into belongsto (product_id,category_id) values (138,16);
+insert into belongsto (product_id,category_id) values (139,16);
+insert into belongsto (product_id,category_id) values (140,16);
+insert into belongsto (product_id,category_id) values (141,16);
+insert into belongsto (product_id,category_id) values (142,15);
+insert into belongsto (product_id,category_id) values (143,15);
+insert into belongsto (product_id,category_id) values (144,15);
+insert into belongsto (product_id,category_id) values (145,15);
+insert into belongsto (product_id,category_id) values (146,15);
+insert into belongsto (product_id,category_id) values (147,15);
+insert into belongsto (product_id,category_id) values (148,15);
+insert into belongsto (product_id,category_id) values (149,15);
+insert into belongsto (product_id,category_id) values (150,15);
 
 
 create table billing_details (
@@ -1440,7 +1506,40 @@ insert into inventory (product_id, quantity) values (113, 9);
 insert into inventory (product_id, quantity) values (114, 22);
 insert into inventory (product_id, quantity) values (115, 8);
 insert into inventory (product_id, quantity) values (116, 9);
-
+insert into inventory (product_id, quantity) values (117, 12);
+insert into inventory (product_id, quantity) values (118, 81);
+insert into inventory (product_id, quantity) values (119, 92);
+insert into inventory (product_id, quantity) values (120, 385);
+insert into inventory (product_id, quantity) values (121, 332);
+insert into inventory (product_id, quantity) values (122, 218);
+insert into inventory (product_id, quantity) values (123, 7);
+insert into inventory (product_id, quantity) values (124, 78);
+insert into inventory (product_id, quantity) values (125, 289);
+insert into inventory (product_id, quantity) values (126, 7);
+insert into inventory (product_id, quantity) values (127, 8);
+insert into inventory (product_id, quantity) values (128, 9);
+insert into inventory (product_id, quantity) values (129, 22);
+insert into inventory (product_id, quantity) values (130, 8);
+insert into inventory (product_id, quantity) values (131, 9);
+insert into inventory (product_id, quantity) values (132, 12);
+insert into inventory (product_id, quantity) values (133, 81);
+insert into inventory (product_id, quantity) values (134, 92);
+insert into inventory (product_id, quantity) values (135, 385);
+insert into inventory (product_id, quantity) values (136, 332);
+insert into inventory (product_id, quantity) values (137, 218);
+insert into inventory (product_id, quantity) values (138, 7);
+insert into inventory (product_id, quantity) values (139, 78);
+insert into inventory (product_id, quantity) values (140, 289);
+insert into inventory (product_id, quantity) values (141, 7);
+insert into inventory (product_id, quantity) values (142, 8);
+insert into inventory (product_id, quantity) values (143, 9);
+insert into inventory (product_id, quantity) values (144, 22);
+insert into inventory (product_id, quantity) values (145, 8);
+insert into inventory (product_id, quantity) values (146, 9);
+insert into inventory (product_id, quantity) values (147, 12);
+insert into inventory (product_id, quantity) values (148, 81);
+insert into inventory (product_id, quantity) values (149, 92);
+insert into inventory (product_id, quantity) values (150, 385);
 
 
 drop view if exists userProductView;
