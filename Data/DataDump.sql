@@ -247,7 +247,23 @@ insert into brand (brand_name) values ('Godrej Interio');
 insert into brand (brand_name) values ('Apple');
 insert into brand (brand_name) values ('JBL');
 insert into brand (brand_name) values ('Haldirams');
-
+insert into brand (brand_name) values ('Levis');
+insert into brand (brand_name) values ('Lays');
+insert into brand (brand_name) values ('Jockey');
+insert into brand (brand_name) values ('Rupa');
+insert into brand (brand_name) values ('Parachute');
+insert into brand (brand_name) values ('Lakme');
+insert into brand (brand_name) values ('Mylab');
+insert into brand (brand_name) values ('Thumbs Up');
+insert into brand (brand_name) values ('Lifebuoy');
+insert into brand (brand_name) values ('Kinley');
+insert into brand (brand_name) values ('Kurkure');
+insert into brand (brand_name) values ('Yonex');
+insert into brand (brand_name) values ('Wilson');
+insert into brand (brand_name) values ('Head');
+insert into brand (brand_name) values ('Pigeon');
+insert into brand (brand_name) values ('Bajaj');
+insert into brand (brand_name) values ('Philips');
 create table product (
 	product_id INT NOT NULL AUTO_INCREMENT,
 	primary key(product_id),
@@ -292,7 +308,7 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (32, 'Pepsi',100 ,'PepsiCo');
 insert into product (product_id, product_name,product_cost ,brand_name) values (33, 'TV',120000 ,'Samsung');
 insert into product (product_id, product_name,product_cost ,brand_name) values (34, 'Fridge', 10000,'Samsung');
-insert into product (product_id, product_name,product_cost ,brand_name) values (35, 'S22',500,'Samsung');
+insert into product (product_id, product_name,product_cost ,brand_name) values (35, 'Galaxy S22',80000,'Samsung');
 insert into product (product_id, product_name,product_cost ,brand_name) values (36, 'Air Conditioner', 50000,'Samsung');
 insert into product (product_id, product_name,product_cost ,brand_name) values (37, 'TV',60000 ,'LG');
 insert into product (product_id, product_name,product_cost ,brand_name) values (38, 'Fridge',50000 ,'LG');
@@ -303,6 +319,55 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (43, 'Earbuds',1000 ,'JBL');
 insert into product (product_id, product_name,product_cost ,brand_name) values (44, 'Bhujia',100 ,'Haldirams');
 insert into product (product_id, product_name,product_cost ,brand_name) values (45, 'Dal Makhni',200 ,'Haldirams');
+insert into product (product_id, product_name,product_cost ,brand_name) values (46, 'Dal Tadka',300 ,'Haldirams');
+insert into product (product_id, product_name,product_cost ,brand_name) values (47, 'Dal Biji',400 ,'Haldirams');
+insert into product (product_id, product_name,product_cost ,brand_name) values (48, 'Galaxy S10',50000,'Samsung');
+insert into product (product_id, product_name,product_cost ,brand_name) values (49, 'Galaxy S20',60000,'Samsung');
+insert into product (product_id, product_name,product_cost ,brand_name) values (50, 'Galaxy S21',70000,'Samsung');
+insert into product (product_id, product_name,product_cost ,brand_name) values (51, 'Macbook Pro 2020',100000,'Apple');
+insert into product (product_id, product_name,product_cost ,brand_name) values (52, 'Macbook Air 2020',80000,'Apple');
+insert into product (product_id, product_name,product_cost ,brand_name) values (53, 'Earphones',1000,'JBL');
+insert into product (product_id, product_name,product_cost ,brand_name) values (54, 'Jeans',1000,'Levis');
+insert into product (product_id, product_name,product_cost ,brand_name) values (55, 'Innerwear',500,'Levis');
+insert into product (product_id, product_name,product_cost ,brand_name) values (56, 'Boxers',300,'Jockey');
+insert into product (product_id, product_name,product_cost ,brand_name) values (57, 'Vest',200,'Rupa');
+insert into product (product_id, product_name,product_cost ,brand_name) values (58, 'Trowser',500,'Rupa');
+insert into product (product_id, product_name,product_cost ,brand_name) values (59, 'Mask',100,'Nike');
+insert into product (product_id, product_name,product_cost ,brand_name) values (60, 'Deodorant',200,'Nike');
+insert into product (product_id, product_name,product_cost ,brand_name) values (61, 'Hair Oil',300,'Parachute');
+insert into product (product_id, product_name,product_cost ,brand_name) values (62, 'Eyeliner',400,'Lakme');
+insert into product (product_id, product_name,product_cost ,brand_name) values (63, 'Coviself',500,'Mylab');
+insert into product (product_id, product_name,product_cost ,brand_name) values (64, 'Tulsi Drops',600,'Dabur');
+insert into product (product_id, product_name,product_cost ,brand_name) values (65, 'Soap',50,'Lifebuoy');
+insert into product (product_id, product_name,product_cost ,brand_name) values (66, 'Thumbs Up',100,'Thumbs Up');
+insert into product (product_id, product_name,product_cost ,brand_name) values (67, 'Limca',50,'Coca-Cola');
+insert into product (product_id, product_name,product_cost ,brand_name) values (68, 'Ice Tea',40,'Nestle');
+insert into product (product_id, product_name,product_cost ,brand_name) values (69, 'Soda',40,'Kinley');
+insert into product (product_id, product_name,product_cost ,brand_name) values (70, 'Chips',20,'Lays');
+insert into product (product_id, product_name,product_cost ,brand_name) values (71, 'Chips',20,'Kurkure');
+insert into product (product_id, product_name,product_cost ,brand_name) values (72, 'Headband',100,'Nike');
+insert into product (product_id, product_name,product_cost ,brand_name) values (73, 'Badminton Racket',600,'Yonex');
+insert into product (product_id, product_name,product_cost ,brand_name) values (74, 'Tennis Racket',800,'Wilson');
+insert into product (product_id, product_name,product_cost ,brand_name) values (75, 'Tennis Ball',100,'Wilson');
+insert into product (product_id, product_name,product_cost ,brand_name) values (76, 'Squash Racket',500,'Head');
+insert into product (product_id, product_name,product_cost ,brand_name) values (77, 'Kettle',1000,'Pigeon');
+insert into product (product_id, product_name,product_cost ,brand_name) values (78, 'Sandwich Maker',500,'Pigeon');
+insert into product (product_id, product_name,product_cost ,brand_name) values (79, 'Mixer',1500,'Bajaj');
+insert into product (product_id, product_name,product_cost ,brand_name) values (80, 'Toaster',2000,'Philips');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 create table belongsto(
 	product_id INT NOT NULL,
@@ -382,6 +447,44 @@ insert into belongsto (product_id,category_id) values (44,1);
 insert into belongsto (product_id,category_id) values (44,10);
 insert into belongsto (product_id,category_id) values (45,1);
 insert into belongsto (product_id,category_id) values (45,10);
+insert into belongsto (product_id,category_id) values (46,10);
+insert into belongsto (product_id,category_id) values (47,10);
+insert into belongsto (product_id,category_id) values (48,11);
+insert into belongsto (product_id,category_id) values (49,11);
+insert into belongsto (product_id,category_id) values (50,11);
+insert into belongsto (product_id,category_id) values (51,11);
+insert into belongsto (product_id,category_id) values (52,11);
+insert into belongsto (product_id,category_id) values (53,11);
+insert into belongsto (product_id,category_id) values (54,4);
+insert into belongsto (product_id,category_id) values (55,4);
+insert into belongsto (product_id,category_id) values (56,4);
+insert into belongsto (product_id,category_id) values (57,4);
+insert into belongsto (product_id,category_id) values (58,4);
+insert into belongsto (product_id,category_id) values (59,6);
+insert into belongsto (product_id,category_id) values (60,6);
+insert into belongsto (product_id,category_id) values (61,6);
+insert into belongsto (product_id,category_id) values (62,6);
+insert into belongsto (product_id,category_id) values (63,2);
+insert into belongsto (product_id,category_id) values (64,2);
+insert into belongsto (product_id,category_id) values (65,6);
+insert into belongsto (product_id,category_id) values (66,9);
+insert into belongsto (product_id,category_id) values (67,9);
+insert into belongsto (product_id,category_id) values (68,9);
+insert into belongsto (product_id,category_id) values (69,9);
+insert into belongsto (product_id,category_id) values (70,10);
+insert into belongsto (product_id,category_id) values (71,10);
+insert into belongsto (product_id,category_id) values (72,12);
+insert into belongsto (product_id,category_id) values (73,12);
+insert into belongsto (product_id,category_id) values (74,12);
+insert into belongsto (product_id,category_id) values (75,12);
+insert into belongsto (product_id,category_id) values (76,12);
+insert into belongsto (product_id,category_id) values (77,7);
+insert into belongsto (product_id,category_id) values (78,7);
+insert into belongsto (product_id,category_id) values (79,7);
+insert into belongsto (product_id,category_id) values (80,7);
+
+
+
 create table billing_details (
 	billing_id INT NOT NULL auto_increment,
 	payment_mode VARCHAR(30) NOT NULL,
@@ -639,6 +742,44 @@ insert into inventory (product_id, quantity) values (42, 253);
 insert into inventory (product_id, quantity) values (43, 444);
 insert into inventory (product_id, quantity) values (44, 456);
 insert into inventory (product_id, quantity) values (45, 142);
+insert into inventory (product_id, quantity) values (46, 463);
+insert into inventory (product_id, quantity) values (47, 234);
+insert into inventory (product_id, quantity) values (48, 312);
+insert into inventory (product_id, quantity) values (49, 102);
+insert into inventory (product_id, quantity) values (50, 94);
+insert into inventory (product_id, quantity) values (51, 34);
+insert into inventory (product_id, quantity) values (52, 93);
+insert into inventory (product_id, quantity) values (53, 442);
+insert into inventory (product_id, quantity) values (54, 29);
+insert into inventory (product_id, quantity) values (55, 361);
+insert into inventory (product_id, quantity) values (56, 463);
+insert into inventory (product_id, quantity) values (57, 291);
+insert into inventory (product_id, quantity) values (58, 42);
+insert into inventory (product_id, quantity) values (59, 512);
+insert into inventory (product_id, quantity) values (60, 921);
+insert into inventory (product_id, quantity) values (61, 8);
+insert into inventory (product_id, quantity) values (62, 9);
+insert into inventory (product_id, quantity) values (63, 134);
+insert into inventory (product_id, quantity) values (64, 621);
+insert into inventory (product_id, quantity) values (65, 135);
+insert into inventory (product_id, quantity) values (66, 661);
+insert into inventory (product_id, quantity) values (67, 78);
+insert into inventory (product_id, quantity) values (68, 226);
+insert into inventory (product_id, quantity) values (69, 696);
+insert into inventory (product_id, quantity) values (70, 721);
+insert into inventory (product_id, quantity) values (71, 783);
+insert into inventory (product_id, quantity) values (72, 12);
+insert into inventory (product_id, quantity) values (73, 81);
+insert into inventory (product_id, quantity) values (74, 92);
+insert into inventory (product_id, quantity) values (75, 385);
+insert into inventory (product_id, quantity) values (76, 332);
+insert into inventory (product_id, quantity) values (77, 218);
+insert into inventory (product_id, quantity) values (78, 7);
+insert into inventory (product_id, quantity) values (79, 78);
+insert into inventory (product_id, quantity) values (80, 289);
+
+
+
 drop view if exists userProductView;
 drop view if exists categoryUserView;
 drop view if exists protectedUserView;
