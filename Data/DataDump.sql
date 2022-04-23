@@ -1594,7 +1594,7 @@ create Role if not exists user_role;
 grant select on usableCouponView to user_role;
 grant select on userProductView to user_role;
 grant select on categoryUserView to user_role;
-grant select on inventory to user_role;
+grant select,update on inventory to user_role;
 grant select, update,insert,delete on items_purchased to user_role;
 grant select, update,insert,delete on order_table to user_role;
 grant select on shipper to user_role;
@@ -1606,6 +1606,7 @@ grant select on category to user_role;
 grant select,update,insert,delete on items_contained to user_role;
 grant select on cart_data to user_role;
 grant select,update on coupon_data to user_role;
+grant select on user to user_role;
 grant select on protectedUserView to user_role;
 
 -- role for our admins
@@ -1629,4 +1630,3 @@ grant all on userProductView to admin_role;
 grant all on categoryUserView to admin_role;
 grant all on protectedUserView to admin_role;
 grant all on usableCouponView to admin_role;
-

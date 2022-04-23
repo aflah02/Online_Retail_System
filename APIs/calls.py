@@ -1,4 +1,3 @@
-import re
 import flask
 import mysql.connector
 import json
@@ -6,9 +5,14 @@ import json
 db = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="1234",
+    passwd="password",
     database = 'retaildb')
-
+'''
+myCursor = db.cursor(buffered=True)
+myCursor.execute("set GLOBAL max_allowed_packet=67108864")
+'''
+cursor = db.cursor(buffered=True)
+cursor.execute("set GLOBAL max_allowed_packet=67108864")
 app = flask.Flask(__name__)
 
 """API Endpoint to get all Order Details for a User"""
@@ -45,7 +49,7 @@ def getItemDetailsForOrder(order_id):
 @app.route('/RankedByProfitMade', methods=['GET'])
 def RankedByProfitMade():
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""
             Select Product_ID, HighestSeller from (
             SELECT  Product_ID, Quantity, SUM(Cost) Cost, rank () over (order by Cost desc) as HighestSeller
@@ -61,7 +65,7 @@ def RankedByProfitMade():
 @app.route('/RankedByQuantitySold', methods=['GET'])
 def RankedByQuantitySold():
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""
             Select Product_ID, HighestSeller from (
             SELECT  Product_ID, SUM(Quantity) Quantity, rank () over (order by Quantity desc) as HighestSeller
@@ -73,11 +77,13 @@ def RankedByQuantitySold():
     except:
         return "Error"
 
+
+
 """Get User Details from EmailID API Endpoint"""
 @app.route('/getUserDetailsFromEmail/<string:emailID>', methods=['GET'])
 def getUserDetails(emailID):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""Select *
             From user
             where EmailID = {emailID}""")
@@ -107,7 +113,7 @@ def getProductImage(brand_name, product_name):
 @app.route('/getProductImage/<string:categoryName>', methods=['GET'])
 def getCategoryImage(categoryName):
     try:
-        f = open('APIs/categoryLinks.json')
+        f = open('categoryLinks.json')
         data = json.load(f)
         if categoryName in data:
             return flask.jsonify(data[categoryName])
@@ -121,21 +127,21 @@ def getCategoryImage(categoryName):
 @app.route('/authenticate/<string:email>/<string:password>')
 def authenticate(email,password):
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute(f"select * from user where EmailID='{email}' and Password='{password}'")
         data=cursor.fetchall()
         if len(data)>0:
             return "Success"
         else:
             return "Error"
-    except:
-        return "Error"
+    except Exception as e:
+        return e
 
 """API endpoint to get allShipperData"""
 @app.route('/getAllShipperData')
 def getAllShipperData():
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute("select * from shipper")
         data=cursor.fetchall()
         return flask.jsonify(data)
@@ -146,7 +152,7 @@ def getAllShipperData():
 @app.route('/getCouponData')
 def getCouponData():
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute("select * from coupon_data")
         data=cursor.fetchall()
         return flask.jsonify(data)
@@ -157,7 +163,7 @@ def getCouponData():
 @app.route('/listCoupons')
 def listCoupons():
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute(f"""
         select *
         from usableCouponView
@@ -171,7 +177,7 @@ def listCoupons():
 @app.route('/deleteExpiredCoupons')
 def deleteExpiredCoupons():
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute("delete from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE;")
         db.commit()
         return "Success"
@@ -182,7 +188,7 @@ def deleteExpiredCoupons():
 @app.route('/deleteUser/<int:userID>')
 def deleteUser(userID):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"""
             delete from billing_details where billing_details.billing_id 
             IN (Select billing_id From order_table where order_table.Unique_id = {userID}) 
@@ -213,7 +219,7 @@ def deleteUser(userID):
 @app.route('/addProductsWhenAlreadyExistsInCart/<int:productID>/<int:quantity>/<int:cartID>')
 def addProductsToCart(productID, quantity, cartID):
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute(f"""
         update items_contained 
         set quantity = case 
@@ -230,7 +236,7 @@ def addProductsToCart(productID, quantity, cartID):
 @app.route('/listAllOrders/<int:uniqueID>')
 def listAllOrders(uniqueID):
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute(f"select * from items_purchased where Order_id in (select Order_id from order_table where Unique_id = {uniqueID});")
         result=cursor.fetchall()
         return flask.jsonify(result)
@@ -241,19 +247,20 @@ def listAllOrders(uniqueID):
 @app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['POST'])
 def addUser(Name,Address,EmailID,Password,PhoneNumber):
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values(%s,%s,%s,%s,%s)" ,(Address,Name,EmailID,Password,PhoneNumber))
         db.commit()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return e
 
 """API endpoint called cartDetails which takes int input and returns the cart details of the user"""
 @app.route('/cartDetails/<int:user_id>', methods=['GET'])
 def cartDetails(user_id):
     try:
-        cursor = db.cursor()
-        cursor.execute(f"select P.product_name as \"Name\",P.brand_name As brand ,P.product_cost as \"Product Cost\",I.Quantity,P.product_cost*I.Quantity As Cost from product P,items_contained I where P.product_id=I.Product_ID and I.Unique_id = 1 and P.product_id IN (select product_id from inventory where quantity>0);")
+        cursor = db.cursor(buffered=True)
+        cursor.execute("set GLOBAL max_allowed_packet=67108864")
+        cursor.execute(f"select P.product_name as \"Name\",P.brand_name As brand ,P.product_cost as \"Product Cost\",I.Quantity,P.product_cost*I.Quantity As Cost from product P,items_contained I where P.product_id=I.Product_ID and I.Unique_id = {user_id} and P.product_id IN (select product_id from inventory where quantity>0);")
         result = cursor.fetchall()
         return flask.jsonify(result)
     except:
@@ -263,7 +270,7 @@ def cartDetails(user_id):
 @app.route('/cartTotal/', methods=['GET'])
 def cartTotal():
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""select Temp.Username, SUM(Temp.Total) as "Total cost"
             from (select I.Unique_id,I.Product_ID,U.NAME as Username, SUM(I.Quantity*P.product_cost) as Total
             from User U, items_contained I,product P
@@ -278,7 +285,7 @@ def cartTotal():
 @app.route('/cancelOrder/<int:order_id>', methods=['GET'])
 def cancelOrder(order_id):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"update inventory set quantity = quantity + (select quantity from items_purchased where order_id = {order_id} and inventory.product_id = items_purchased.product_id) where product_id in (select product_id from items_purchased where order_id = {order_id}); delete from items_purchased where order_id = {order_id}; delete from order_table where order_id = {order_id};")
         db.commit()
         return "Success"
@@ -289,7 +296,7 @@ def cancelOrder(order_id):
 # @app.route('/BuyNow/<int:user_id>', methods=['GET'])
 # def BuyNow(user_id):
 #     try:
-#         cursor = db.cursor()
+#         cursor = db.cursor(buffered=True)
 #         cursor.execute(f"update inventory set quantity = quantity - (select quantity from items_contained where inventory.product_id = items_contained.product_id and items_contained.Unique_id = {user_id}) where product_id in (select product_id from items_contained where Unique_id = {user_id});")
 #         db.commit()
 #         return "Success"
@@ -300,7 +307,7 @@ def cancelOrder(order_id):
 @app.route('/emptyCart/<int:user_id>', methods=['GET'])
 def emptyCart(user_id):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"delete from items_contained where items_contained.Unique_id = {user_id};")
         db.commit()
         return "Success"
@@ -311,7 +318,7 @@ def emptyCart(user_id):
 @app.route('/removeGivenProductfromGivenCart/<int:user_id>/<int:product_id>', methods=['GET'])
 def removeGivenProductfromGivenCart(user_id,product_id):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"delete from items_contained where items_contained.Unique_id = {user_id} and items_contained.product_id = {product_id};")
         db.commit()
         return "Success"
@@ -322,7 +329,7 @@ def removeGivenProductfromGivenCart(user_id,product_id):
 @app.route('/addProductToCart/<int:user_id>/<int:product_id>/<int:quantity>', methods=['GET'])
 def addProductToCart(user_id,product_id,quantity):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"insert into items_contained values({user_id},{product_id},{quantity});")
         db.commit()
         return "Success"
@@ -333,7 +340,7 @@ def addProductToCart(user_id,product_id,quantity):
 @app.route('/OrderCost/<int:order_id>', methods=['GET'])
 def OrderCost(order_id):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""select order_id as "Order Number", sum(items_purchased.quantity * (select product_cost from product where product.product_id = items_purchased.product_id )) from items_purchased where items_purchased.order_id = {order_id};""")
         result = cursor.fetchall()
         return flask.jsonify(result)
@@ -344,7 +351,7 @@ def OrderCost(order_id):
 @app.route('/updateInventory/<string:product_name>/<string:brand_name>/<int:quantity>', methods=['GET'])
 def updateInventory(product_name, brand_name, quantity):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""UPDATE Inventory I 
         SET I.quantity = I.quantity + {quantity}
         WHERE I.product_id = (SELECT product_id from product where product_name = '{product_name}' and brand_name = '{brand_name}');""")
@@ -357,7 +364,7 @@ def updateInventory(product_name, brand_name, quantity):
 @app.route('/listOrders/<string:shipper_name>', methods=['GET'])
 def listOrders(shipper_name):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""SELECT O.order_id, U.name AS "Customer Name", O.delivery_address, S.shipper_name, S.delivery_speed
                            FROM order_table O, shipper S, user U
                            WHERE O.shipper_id = S.shipper_id AND U.id = O.unique_id AND S.shipper_name='{shipper_name}';""")
@@ -370,7 +377,7 @@ def listOrders(shipper_name):
 @app.route('/listOrdersByCategory/<string:category>', methods=['GET'])
 def listOrdersByCategory(category):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""SELECT * from order_table where order_id in (
                            SELECT DISTINCT I.order_id from items_purchased I where I.product_id in (
                            SELECT product_id from belongsTo where category_id = (
@@ -387,7 +394,7 @@ def listOrdersByCategory(category):
 @app.route('/listShippersbySpeed/<int:speed>', methods=['GET'])
 def listShippersbySpeed(speed):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""SELECT S.shipper_name, S.Delivery_speed
                            FROM shipper S
                            WHERE S.Delivery_speed >= {speed};""")
@@ -400,7 +407,7 @@ def listShippersbySpeed(speed):
 @app.route('/addBillingDetails/<int:billing_id>/<string:payment_mode>/<string:billing_address>', methods=['GET'])   
 def addBillingDetails(billing_id, payment_mode, billing_address):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""INSERT INTO billing_details (billing_id, payment_mode, billing_address)
                             VALUES ({billing_id}, '{payment_mode}', '{billing_address}');""")
         db.commit()
@@ -412,7 +419,7 @@ def addBillingDetails(billing_id, payment_mode, billing_address):
 @app.route('/deleteBillingDetails/<int:billing_id>', methods=['GET'])
 def deleteBillingDetails(billing_id):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""DELETE FROM billing_details WHERE billing_id = {billing_id};""")
         db.commit()
         return "Success"
@@ -423,7 +430,7 @@ def deleteBillingDetails(billing_id):
 @app.route('/updateBillingAddress/<int:billing_id>/<string:billing_address>', methods=['GET'])
 def updateBillingAddress(billing_id, billing_address):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""UPDATE billing_details SET billing_address = '{billing_address}' WHERE billing_id = {billing_id};""")
         db.commit()
         return "Success"
@@ -434,7 +441,7 @@ def updateBillingAddress(billing_id, billing_address):
 @app.route('/addInventory/<int:product_id>/<int:quantity>', methods=['GET'])
 def addInventory(product_id, quantity):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""INSERT INTO inventory (product_id, quantity)
                             VALUES ({product_id}, {quantity});""")
         db.commit()
@@ -446,7 +453,7 @@ def addInventory(product_id, quantity):
 @app.route('/deleteInventory/<int:product_id>', methods=['GET'])
 def deleteInventory(product_id):
     try:
-        cursor = db.cursor()
+        cursor = db.cursor(buffered=True)
         cursor.execute(f"""DELETE FROM inventory WHERE product_id = {product_id};""")
         db.commit()
         return "Success"
@@ -458,7 +465,7 @@ def deleteInventory(product_id):
 @app.route('/addProducts/<string:name>/<string:brandname>/<int:cost>')
 def addProducts(name,brandname,cost):
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute("insert into product (product_name,product_cost ,brand_name) values(%s,%s,%s)" ,(name,cost, brandname))
         db.commit()
         return "Success"
@@ -469,7 +476,7 @@ def addProducts(name,brandname,cost):
 @app.route('/deleteProduct/<string:name>/<string:brandname>')
 def deleteProduct(name,brandname):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"delete from product where product_name='{name}' and product.brand_name='{brandname}'")
         db.commit()
         return "Success"
@@ -480,7 +487,7 @@ def deleteProduct(name,brandname):
 @app.route('/addBrand/<string:name>')
 def addBrand(name):
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute(f"insert into brand (brand_name) values('{name}')")
         db.commit()
         return "Success"
@@ -492,7 +499,7 @@ def addBrand(name):
 @app.route('/deleteBrand/<string:brandname>')
 def deleteBrand(brandname):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"delete from brand where brand_name='{brandname}'")
         db.commit()
         return "Success"
@@ -503,18 +510,18 @@ def deleteBrand(brandname):
 @app.route('/listAllProducts')
 def listAllProducts():
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute("Select product_name, product_cost,brand_name from userProductView")
         result = c.fetchall()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return e
 
 #list all brands
 @app.route('/listAllBrands')
 def listAllBrands():
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute("Select * from brand")
         result = c.fetchall()
         return flask.jsonify(result)
@@ -525,7 +532,7 @@ def listAllBrands():
 @app.route('/getBrandImage/<string:brandName>', methods=['GET'])
 def getBrandImage(brandName):
     try:
-        f = open('APIs/brandlinks.json')
+        f = open('brandlinks.json')
         data = json.load(f)
         if brandName in data:
             return flask.jsonify(data[brandName])
@@ -539,7 +546,7 @@ def getBrandImage(brandName):
 @app.route('/searchUsingProductName/<string:name>')
 def searchUsingProductName(name):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"Select product_name, product_cost,brand_name from product where product_name='{name}' and exists (select product_id from inventory where inventory.product_id = product.product_id and inventory.quantity>0)")
         result = c.fetchall()
         return flask.jsonify(result)
@@ -551,7 +558,7 @@ def searchUsingProductName(name):
 @app.route('/searchUsingBrandName/<string:name>')
 def searchUsingBrandName(name):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"Select product_name, product_cost,brand_name from product where brand_name='{name}' and exists (select product_id from inventory where inventory.product_id = product.product_id and inventory.quantity>0)")
         result = c.fetchall()
         return flask.jsonify(result)
@@ -562,7 +569,7 @@ def searchUsingBrandName(name):
 @app.route('/displayCategories')
 def displayCategories():
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"select category_name,category_info from categoryUserView ")
         result = c.fetchall()
         return flask.jsonify(result)
@@ -574,7 +581,7 @@ def displayCategories():
 @app.route('/searchUsingCategoryName/<string:name>')
 def searchUsingCategoryName(name):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"select product_name,product_cost,brand_name from product natural join belongsto where category_id IN (select category_id from category where category_name='{name}') and exists (select product_id from inventory where inventory.product_id = product.product_id and inventory.quantity>0)")
         result = c.fetchall()
         return flask.jsonify(result)
@@ -585,7 +592,7 @@ def searchUsingCategoryName(name):
 @app.route('/addCategory/<string:name>/<string:info>')
 def addCategory(name,info):
     try:
-        cursor=db.cursor()
+        cursor=db.cursor(buffered=True)
         cursor.execute(f"insert into category(category_name, category_info) values('{name}','{info}')")
         db.commit()
         return "Success"
@@ -596,7 +603,7 @@ def addCategory(name,info):
 @app.route('/deleteCategory/<string:categoryname>')
 def deleteCategory(categoryname):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"delete from category where category_name='{categoryname}'")
         db.commit()
         return "Success"
@@ -608,7 +615,7 @@ def deleteCategory(categoryname):
 @app.route('/updateCategory/<string:categoryname>/<string:description>')
 def updateCategory(categoryname,description):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"update category set category_info = '{description}' where category_name='{categoryname}'")
         db.commit()
         return "Success"
@@ -620,7 +627,7 @@ def updateCategory(categoryname,description):
 @app.route('/updateCost/<int:productID>/<int:cost>')
 def updateCost(productID,cost):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"update product set product_cost = {cost} where product_id={productID}")
         db.commit()
         return "Success"
@@ -633,7 +640,7 @@ def updateCost(productID,cost):
 @app.route('/addBelongsTo/<int:productID>/<int:categoryID>')
 def addBelongsTo(productID,categoryID):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"insert into belongsto(product_id, category_id) values ({productID},{categoryID})")
         db.commit()
         return "Success"
@@ -644,7 +651,7 @@ def addBelongsTo(productID,categoryID):
 @app.route('/deleteBelongsTo/<int:productID>/<int:categoryID>')
 def deleteBelongsTo(productID,categoryID):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"delete from belongsto where product_id = {productID} and category_id = {categoryID}")
         db.commit()
         return "Success"
@@ -655,7 +662,7 @@ def deleteBelongsTo(productID,categoryID):
 @app.route('/BelongsTo')
 def BelongsTo():
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"select * from belongsto")
         result = c.fetchall()
         return flask.jsonify(result)
@@ -666,7 +673,7 @@ def BelongsTo():
 @app.route('/getProductID/<string:productName>/<string:brandName>')
 def getProductID(productName,brandName):
     try:
-        c=db.cursor()
+        c=db.cursor(buffered=True)
         c.execute(f"select product_id from product where product_name='{productName}' and brand_name='{brandName}'")
         result = c.fetchall()
         return flask.jsonify(result)

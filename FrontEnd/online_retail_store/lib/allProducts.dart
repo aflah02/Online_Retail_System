@@ -55,6 +55,7 @@ class _AllProductPageState extends State<AllProductPage> {
                   ElevatedButton(
                       onPressed: () {
                         print('here');
+                        getProducts();
                         print(snapshot.data);
                       },
                       child: Text("Loading ..."))
@@ -72,7 +73,7 @@ class _AllProductPageState extends State<AllProductPage> {
                       borderRadius: BorderRadius.all(Radius.circular(15)),
                       color: Colors.white,
                     ),
-                    margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
+                    margin: EdgeInsets.fromLTRB(15, 0, 15, 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -182,6 +183,8 @@ class _AllProductPageState extends State<AllProductPage> {
         await http.get(Uri.parse('http://127.0.0.1:5000/listAllProducts'));
 
     var jsonData = json.decode(data.body);
+    print('in allProducts');
+    print('${data.body}');
     List<Product> productList = [];
     for (var prod in jsonData) {
       var links = await http.get(Uri.parse(

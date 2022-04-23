@@ -1,17 +1,72 @@
 import re
+from sre_constants import SUCCESS
 import flask
 import mysql.connector
 import json
 
+usernamelogin="root"
+passwlogin="22510FamSuccess"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="1234",
+        passwd="password",
         database = 'retaildb')
     return db
 
 app = flask.Flask(__name__)
+
+"""The main purpose of this API is to change the connection to a user if he logs in as one"""
+@app.route('/authenticateUser/<string:username>/<string:passw>')
+def authenticateUser(username,passw):
+    try:
+        global usernamelogin
+        global passwlogin
+        usernamelogin="root"
+        passwlogin="22510FamSuccess"
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
+        data=cursor.fetchall()
+        if len(data)>0:
+            usernamelogin="customer"
+            passwlogin=passw
+            cursor.execute(f"DROP USER IF EXISTS customer@localhost")
+            cursor.execute(f"FLUSH PRIVILEGES")
+            cursor.execute(f"CREATE USER customer@localhost IDENTIFIED BY '{passw}'", )
+            cursor.execute(f"GRANT user_role TO customer@localhost")
+            db.close()
+            return "Success"
+        db.close()
+        return "Error"
+    except Exception as e:
+        return str(e)
+
+"""The main purpose of this API is to change the connection to a admin if he logs in as one"""
+@app.route('/authenticateAdmin/<string:username>/<string:passw>')
+def authenticateAdmin(username,passw):
+    try:
+        global usernamelogin
+        global passwlogin
+        usernamelogin="root"
+        passwlogin="22510FamSuccess"
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
+        data=cursor.fetchall()
+        if len(data)>0:
+            usernamelogin="administer" #used as a short form for administrator
+            passwlogin=passw
+            cursor.execute(f"DROP USER IF EXISTS administer@localhost")
+            cursor.execute(f"FLUSH PRIVILEGES")
+            cursor.execute(f"CREATE USER administer@localhost IDENTIFIED BY '{passw}'", )
+            cursor.execute(f"GRANT admin_role TO administer@localhost")
+            db.close()
+            return "Success"
+        db.close()
+        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API Endpoint to get all Order Details for a User"""
 @app.route('/getOrderDetailsForUser/<int:user_id>', methods=['GET'])
@@ -105,7 +160,7 @@ def getUserDetails(emailID):
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
     try:
-        f = open('APIs/productLinks.json')
+        f = open('productLinks.json')
         data = json.load(f)
         key = brand_name + ' ' + product_name
         print(key)
@@ -120,13 +175,14 @@ def getProductImage(brand_name, product_name):
 @app.route('/getProductImage/<string:categoryName>', methods=['GET'])
 def getCategoryImage(categoryName):
     try:
-        f = open('APIs/categoryLinks.json')
+        f = open('categoryLinks.json')
         data = json.load(f)
         if categoryName in data:
             return flask.jsonify(data[categoryName])
         else:
             return flask.jsonify('No image found')
     except Exception as e:
+        print(e)
         return str(e)
 
 """API endpoint to authenticate if user credentials are correct"""
