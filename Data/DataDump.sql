@@ -264,6 +264,8 @@ insert into brand (brand_name) values ('Head');
 insert into brand (brand_name) values ('Pigeon');
 insert into brand (brand_name) values ('Bajaj');
 insert into brand (brand_name) values ('Philips');
+insert into brand (brand_name) values ('Cosco');
+insert into brand (brand_name) values ('ITC');
 create table product (
 	product_id INT NOT NULL AUTO_INCREMENT,
 	primary key(product_id),
@@ -354,16 +356,27 @@ insert into product (product_id, product_name,product_cost ,brand_name) values (
 insert into product (product_id, product_name,product_cost ,brand_name) values (78, 'Sandwich Maker',500,'Pigeon');
 insert into product (product_id, product_name,product_cost ,brand_name) values (79, 'Mixer',1500,'Bajaj');
 insert into product (product_id, product_name,product_cost ,brand_name) values (80, 'Toaster',2000,'Philips');
-
-
-
-
-
-
-
-
-
-
+insert into product (product_id, product_name,product_cost ,brand_name) values (81, 'Grinder',2500,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (82, 'Hand Blender',1200,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (82, 'Hair Straightener',2800,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (83, 'Hair Dryer',3000,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (84, 'Hair Curler',1375,'Philips');
+insert into product (product_id, product_name,product_cost ,brand_name) values (85, 'Soundproof Petrol Generator',175000,'Bajaj');
+insert into product (product_id, product_name,product_cost ,brand_name) values (86, 'Low Noise Diesel Generator',99000,'Bajaj');
+insert into product (product_id, product_name,product_cost ,brand_name) values (87, 'Football',790,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (88, 'Tennis Ball (Pack of 6)',380,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (89, 'Basketball',2000,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (90, 'Inline Skates',2000,'Cosco');
+insert into product (product_id, product_name,product_cost ,brand_name) values (91, 'Atta/Godihittu - Whole Wheat, 10 kg Pouch',419,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (92, 'Aashirvaad Atta with Multi Grains',300,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (93, 'Fortified Chakki Atta',400,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (94, 'Aashirvaad Sugar Release Control Atta',350,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (95, 'Whole Wheat Flour Atta',250,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (96, 'Aashirvaad Select Premium Sharbati Atta, 5kg',299,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (97, 'Aashirvaad Select Superior Sharbati Whole Wheat Atta - 5 kg',399,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (98, 'Chana Dal',200,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (99, 'Bingo Cream and Onion',10,'ITC');
+insert into product (product_id, product_name,product_cost ,brand_name) values (100, 'Bingo Masala',10,'ITC');
 
 
 
