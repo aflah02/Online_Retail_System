@@ -62,8 +62,8 @@ def RankedByProfitMade():
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API Endpoint that Returns Items Ranked by Quantity they've sold"""
 @app.route('/RankedByQuantitySold', methods=['GET'])
@@ -80,8 +80,8 @@ def RankedByQuantitySold():
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """Get User Details from EmailID API Endpoint"""
 @app.route('/getUserDetailsFromEmail/<string:emailID>', methods=['GET'])
@@ -112,8 +112,8 @@ def getProductImage(brand_name, product_name):
             return flask.jsonify(data[key])
         else:
             return flask.jsonify('No image found')
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to get URL for category Images"""
 @app.route('/getProductImage/<string:categoryName>', methods=['GET'])
@@ -142,8 +142,8 @@ def authenticate(email,password):
             return "Success"
         else:
             return "Error"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to get allShipperData"""
 @app.route('/getAllShipperData')
@@ -155,8 +155,8 @@ def getAllShipperData():
         data=cursor.fetchall()
         db.close()
         return flask.jsonify(data)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to get couponData"""
 @app.route('/getCouponData')
@@ -168,8 +168,8 @@ def getCouponData():
         data=cursor.fetchall()
         db.close()
         return flask.jsonify(data)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to list usable coupons"""
 @app.route('/listCoupons')
@@ -184,8 +184,8 @@ def listCoupons():
         data=cursor.fetchall()
         db.close()
         return flask.jsonify(data)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to Delete all Expired Coupons"""
 @app.route('/deleteExpiredCoupons')
@@ -197,8 +197,8 @@ def deleteExpiredCoupons():
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to delete user given userID if no pending orders"""
 @app.route('/deleteUser/<int:userID>')
@@ -230,8 +230,8 @@ def deleteUser(userID):
             return "Success"
         else:
             return "Error"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to add products when the product is already in cart it increases it's quantity by a given quantity"""
 @app.route('/addProductsWhenAlreadyExistsInCart/<int:productID>/<int:quantity>/<int:cartID>')
@@ -249,8 +249,8 @@ def addProductsToCart(productID, quantity, cartID):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called listAllOrders to list all Orders by a User"""
 @app.route('/listAllOrders/<int:uniqueID>')
@@ -262,8 +262,8 @@ def listAllOrders(uniqueID):
         result=cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called addUser to add new User which takes 5 Strings as Input"""
 @app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['POST'])
@@ -275,8 +275,8 @@ def addUser(Name,Address,EmailID,Password,PhoneNumber):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called cartDetails which takes int input and returns the cart details of the user"""
 @app.route('/cartDetails/<int:user_id>', methods=['GET'])
@@ -288,8 +288,8 @@ def cartDetails(user_id):
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called cartTotal which takes int input and returns the cart total of all the users"""
 @app.route('/cartTotal/', methods=['GET'])
@@ -305,8 +305,8 @@ def cartTotal():
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called cancelOrder which takes int input and deletes Order for that orderID"""
 @app.route('/cancelOrder/<int:order_id>', methods=['GET'])
@@ -318,8 +318,8 @@ def cancelOrder(order_id):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # """API endpoint called BuyNow which places order for a given user"""
 # @app.route('/BuyNow/<int:user_id>', methods=['GET'])
@@ -329,8 +329,8 @@ def cancelOrder(order_id):
 #         cursor.execute(f"update inventory set quantity = quantity - (select quantity from items_contained where inventory.product_id = items_contained.product_id and items_contained.Unique_id = {user_id}) where product_id in (select product_id from items_contained where Unique_id = {user_id});")
 #         db.commit()
 #         return "Success"
-#     except:
-#         return "Error"
+#     except Exception as e:
+#         return str(e)
 
 """API endpoint called emptyCart which empties cart for a particular userID"""
 @app.route('/emptyCart/<int:user_id>', methods=['GET'])
@@ -342,8 +342,8 @@ def emptyCart(user_id):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called removeGivenProductfromGivenCart which removes particular product from cart for a particular user"""
 @app.route('/removeGivenProductfromGivenCart/<int:user_id>/<int:product_id>', methods=['GET'])
@@ -355,8 +355,8 @@ def removeGivenProductfromGivenCart(user_id,product_id):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called addProductToCart which adds a product to cart for a particular user in given quantity"""
 @app.route('/addProductToCart/<int:user_id>/<int:product_id>/<int:quantity>', methods=['GET'])
@@ -368,8 +368,8 @@ def addProductToCart(user_id,product_id,quantity):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint called OrderCost which calculates cost of an Order"""
 @app.route('/OrderCost/<int:order_id>', methods=['GET'])
@@ -381,8 +381,8 @@ def OrderCost(order_id):
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # Update the inventory (quantity) of a product by its name & brand
 @app.route('/updateInventory/<string:product_name>/<string:brand_name>/<int:quantity>', methods=['GET'])
@@ -396,8 +396,8 @@ def updateInventory(product_name, brand_name, quantity):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # List customer orders by shipper name
 @app.route('/listOrders/<string:shipper_name>', methods=['GET'])
@@ -411,8 +411,8 @@ def listOrders(shipper_name):
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # list all orders where there exists atleast one product belonging to a particular category (say Electronics)
 @app.route('/listOrdersByCategory/<string:category>', methods=['GET'])
@@ -430,8 +430,8 @@ def listOrdersByCategory(category):
         result = cursor.fetchall() 
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # List all shippers with speed >= x
 @app.route('/listShippersbySpeed/<int:speed>', methods=['GET'])
@@ -445,8 +445,8 @@ def listShippersbySpeed(speed):
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # insert into billing_details
 @app.route('/addBillingDetails/<int:billing_id>/<string:payment_mode>/<string:billing_address>', methods=['GET'])   
@@ -459,8 +459,8 @@ def addBillingDetails(billing_id, payment_mode, billing_address):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # delete from billing_details
 @app.route('/deleteBillingDetails/<int:billing_id>', methods=['GET'])
@@ -472,8 +472,8 @@ def deleteBillingDetails(billing_id):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # update billing_address in billing_details table
 @app.route('/updateBillingAddress/<int:billing_id>/<string:billing_address>', methods=['GET'])
@@ -485,8 +485,8 @@ def updateBillingAddress(billing_id, billing_address):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # insert into inventory
 @app.route('/addInventory/<int:product_id>/<int:quantity>', methods=['GET'])
@@ -499,8 +499,8 @@ def addInventory(product_id, quantity):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 # delete from inventory
 @app.route('/deleteInventory/<int:product_id>', methods=['GET'])
@@ -512,8 +512,8 @@ def deleteInventory(product_id):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 
 # API for adding products 
@@ -526,8 +526,8 @@ def addProducts(name,brandname,cost):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #API for deleting products
 @app.route('/deleteProduct/<string:name>/<string:brandname>')
@@ -539,8 +539,8 @@ def deleteProduct(name,brandname):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
  
  #API for adding brand
 @app.route('/addBrand/<string:name>')
@@ -552,8 +552,8 @@ def addBrand(name):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 
 #API for deleting brand
@@ -566,8 +566,8 @@ def deleteBrand(brandname):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #list all products 
 @app.route('/listAllProducts')
@@ -579,8 +579,8 @@ def listAllProducts():
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #list all brands
 @app.route('/listAllBrands')
@@ -592,8 +592,8 @@ def listAllBrands():
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 """API endpoint to get URL for brand Images"""
 @app.route('/getBrandImage/<string:brandName>', methods=['GET'])
@@ -619,8 +619,8 @@ def searchUsingProductName(name):
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 
 #API for searching using brand name
@@ -633,8 +633,8 @@ def searchUsingBrandName(name):
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #list out category information
 @app.route('/displayCategories')
@@ -646,8 +646,8 @@ def displayCategories():
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 
 # search products using category name
@@ -660,8 +660,8 @@ def searchUsingCategoryName(name):
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #add category information
 @app.route('/addCategory/<string:name>/<string:info>')
@@ -673,8 +673,8 @@ def addCategory(name,info):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #API for deleting category
 @app.route('/deleteCategory/<string:categoryname>')
@@ -686,8 +686,8 @@ def deleteCategory(categoryname):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 
 #API for updating category information
@@ -700,8 +700,8 @@ def updateCategory(categoryname,description):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 
 #API for updating product cost
@@ -714,8 +714,8 @@ def updateCost(productID,cost):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 
 
@@ -729,8 +729,8 @@ def addBelongsTo(productID,categoryID):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #API for deleting in belongs to table
 @app.route('/deleteBelongsTo/<int:productID>/<int:categoryID>')
@@ -742,8 +742,8 @@ def deleteBelongsTo(productID,categoryID):
         db.commit()
         db.close()
         return "Success"
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
 
 #API for displaying belongsTo
 @app.route('/BelongsTo')
@@ -755,8 +755,8 @@ def BelongsTo():
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
         
 # API that gives product id given product name and brand name
 @app.route('/getProductID/<string:productName>/<string:brandName>')
@@ -768,8 +768,8 @@ def getProductID(productName,brandName):
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
-    except:
-        return "Error"
+    except Exception as e:
+        return str(e)
         
 if __name__ == '__main__':
     app.run(debug=True)
