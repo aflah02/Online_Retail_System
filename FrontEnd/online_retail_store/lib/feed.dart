@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'allProducts.dart';
 import 'cart.dart';
 import 'displaycategories.dart';
+import 'brand.dart';
 
 class Feed extends StatefulWidget {
   final String t;
@@ -12,6 +13,7 @@ class Feed extends StatefulWidget {
 }
 
 class _FeedState extends State<Feed> {
+  GlobalKey<ScaffoldState> myKey = GlobalKey();
   late String username;
   @override
   void initState() {
@@ -24,7 +26,7 @@ class _FeedState extends State<Feed> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        height: 900,
+        height: 1200,
         child: Padding(
           padding: EdgeInsets.fromLTRB(12, 40, 12, 0),
           child: Column(
@@ -34,7 +36,7 @@ class _FeedState extends State<Feed> {
                 children: [
                   IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
                   SizedBox(
-                    width: 255,
+                    width: 235,
                     height: 40,
                     child: TextField(
                       decoration: InputDecoration(
@@ -43,15 +45,23 @@ class _FeedState extends State<Feed> {
                           border: OutlineInputBorder()),
                     ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(context, PageRouteBuilder(
+                            pageBuilder: (BuildContext context, _, __) {
+                          return Cart(
+                            username: username,
+                          );
+                        }));
+                      },
+                      icon: Icon(Icons.shopping_cart)),
                   CircleAvatar(
                     child: const Text(
                       "FH",
                       style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Colors.teal,
+                    maxRadius: 15,
                   ),
                 ],
               ),
@@ -70,7 +80,16 @@ class _FeedState extends State<Feed> {
               //     },
               //     icon: Icon(Icons.shopping_cart),
               //     label: Text('Go to cart')),
+              Text(
+                'Products by categories',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
               ProductList(),
+              Text(
+                'Products by Brands',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              ),
+              BrandList(),
             ],
           ),
         ),

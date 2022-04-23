@@ -7,7 +7,7 @@ def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="1234",
+        passwd="password",
         database = 'retaildb')
     return db
 
@@ -105,7 +105,7 @@ def getUserDetails(emailID):
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
     try:
-        f = open('APIs/productLinks.json')
+        f = open('productLinks.json')
         data = json.load(f)
         key = brand_name + ' ' + product_name
         print(key)
@@ -120,13 +120,14 @@ def getProductImage(brand_name, product_name):
 @app.route('/getProductImage/<string:categoryName>', methods=['GET'])
 def getCategoryImage(categoryName):
     try:
-        f = open('APIs/categoryLinks.json')
+        f = open('categoryLinks.json')
         data = json.load(f)
         if categoryName in data:
             return flask.jsonify(data[categoryName])
         else:
             return flask.jsonify('No image found')
     except Exception as e:
+        print(e)
         return str(e)
 
 """API endpoint to authenticate if user credentials are correct"""
