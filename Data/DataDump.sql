@@ -217,7 +217,7 @@ insert into category (category_id, category_name, category_info) values (9, 'Bev
 insert into category (category_id, category_name, category_info) values (10, 'Ready To Eat', 'When you just wanna enjoy a home cooked meal without going through the effort');
 insert into category (category_id, category_name, category_info) values (11, 'Electronics', 'Electronic items');
 insert into category (category_id, category_name, category_info) values (12, 'Sports Equipment', 'This category encompasses all you would want to satisfy the athlete within you');
-
+insert into category (category_id, category_name, category_info) values (13, 'Heavy Duty Equipment', 'This category contains industrial and home use heavy duty equipments')
 create table brand (
 	brand_name VARCHAR(50) NOT NULL,
     primary key(brand_name)
@@ -516,6 +516,37 @@ insert into belongsto (product_id,category_id) values (82,7);
 insert into belongsto (product_id,category_id) values (83,7);
 insert into belongsto (product_id,category_id) values (84,7);
 insert into belongsto (product_id,category_id) values (85,7);
+insert into belongsto (product_id,category_id) values (86,13);
+insert into belongsto (product_id,category_id) values (87,13);
+insert into belongsto (product_id,category_id) values (88,12);
+insert into belongsto (product_id,category_id) values (89,12);
+insert into belongsto (product_id,category_id) values (90,12);
+insert into belongsto (product_id,category_id) values (91,12);
+insert into belongsto (product_id,category_id) values (92,1);
+insert into belongsto (product_id,category_id) values (93,1);
+insert into belongsto (product_id,category_id) values (94,1);
+insert into belongsto (product_id,category_id) values (95,1);
+insert into belongsto (product_id,category_id) values (96,1);
+insert into belongsto (product_id,category_id) values (97,1);
+insert into belongsto (product_id,category_id) values (98,1);
+insert into belongsto (product_id,category_id) values (99,1);
+insert into belongsto (product_id,category_id) values (100,1);
+insert into belongsto (product_id,category_id) values (101,1);
+insert into belongsto (product_id,category_id) values (102,1);
+insert into belongsto (product_id,category_id) values (103,1);
+insert into belongsto (product_id,category_id) values (104,1);
+insert into belongsto (product_id,category_id) values (105,1);
+insert into belongsto (product_id,category_id) values (106,1);
+insert into belongsto (product_id,category_id) values (107,1);
+insert into belongsto (product_id,category_id) values (108,1);
+insert into belongsto (product_id,category_id) values (109,1);
+insert into belongsto (product_id,category_id) values (110,1);
+insert into belongsto (product_id,category_id) values (111,1);
+insert into belongsto (product_id,category_id) values (112,1);
+insert into belongsto (product_id,category_id) values (113,1);
+insert into belongsto (product_id,category_id) values (114,1);
+insert into belongsto (product_id,category_id) values (115,1);
+insert into belongsto (product_id,category_id) values (116,1);
 
 
 create table billing_details (
