@@ -1,6 +1,16 @@
 import 'dart:ui';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+
+class Shipper {
+  late int shipperId;
+  late String name;
+  late int speed;
+
+  Shipper({required this.shipperId, required this.name, required this.speed});
+}
 
 class PaymentForm extends StatefulWidget {
   const PaymentForm({Key? key}) : super(key: key);
@@ -13,6 +23,19 @@ class _PaymentFormState extends State<PaymentForm> {
   int paymentSelect = 1;
   late FocusNode usernameField = FocusNode();
   late String username;
+
+  Future<List<Shipper>> getShippers() async {
+    var data = await http
+        .get(Uri.parse('http://127.0.0.1:5000/getProductID/getAllShipperData'));
+    var jsonData = json.decode(data.body);
+    print(jsonData);
+    List<Shipper> shipperList = [];
+    for (var prod in jsonData) {
+      Shipper temp = Shipper(shipperId: prod[0], name: prod[1], speed: prod[2]);
+      shipperList.add(temp);
+    }
+    return shipperList;
+  }
 
   Widget buildUsername() {
     @override
