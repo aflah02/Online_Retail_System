@@ -3,6 +3,7 @@ import 'allProducts.dart';
 import 'cart.dart';
 import 'displaycategories.dart';
 import 'brand.dart';
+import 'Ranking.dart';
 
 class Feed extends StatefulWidget {
   final String t;
@@ -90,6 +91,30 @@ class _FeedState extends State<Feed> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               BrandList(),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromARGB(255, 0, 150, 136),
+                      ),
+                    ),
+                    child: Text(
+                      "Can't choose ? Here's our hot picks 🔥",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, PageRouteBuilder(
+                          pageBuilder: (BuildContext context, _, __) {
+                        return RankingPage();
+                      }));
+                    },
+                  ),
+                ],
+              )
             ],
           ),
         ),
