@@ -146,7 +146,7 @@ class _CartState extends State<Cart> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Expanded(
-                                  flex: 3,
+                                  flex: 2,
                                   child: Center(
                                     child: Text(
                                       '${snapshot.data[index].brand}' +
@@ -159,17 +159,73 @@ class _CartState extends State<Cart> {
                                     ),
                                   )),
                               Expanded(
-                                flex: 1,
-                                child: Text(
-                                  '${snapshot.data[index].cost}' +
-                                      " x " +
-                                      '${snapshot.data[index].quantity}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                  ),
+                                flex: 2,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        '${snapshot.data[index].cost}' +
+                                            " x " +
+                                            '${snapshot.data[index].quantity}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          '+',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        ),
+                                      ),
+                                    ),
+                                    // IconButton(
+                                    //   icon: Icon(Icons.remove),
+                                    //   onPressed: () {},
+                                    //   iconSize: 12,
+                                    // ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          '-',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
+                              ),
+                              SizedBox(
+                                height: 6,
                               ),
                               Expanded(
                                 flex: 1,
@@ -395,6 +451,14 @@ class _CartState extends State<Cart> {
                     onPressed: () {},
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextButton.icon(
+                icon: Icon(Icons.memory),
+                onPressed: () {},
+                label: Text('Don\'t remember ? Click here'),
               ),
               SizedBox(
                 height: 20,

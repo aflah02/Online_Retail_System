@@ -275,7 +275,10 @@ class _RankingPageState extends State<RankingPage> {
                 SizedBox(
                   height: 10,
                 ),
-                BuildRanking(),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                  child: BuildRanking(),
+                )
               ],
             ),
           ),
