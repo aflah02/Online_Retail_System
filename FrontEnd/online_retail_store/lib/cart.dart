@@ -36,6 +36,8 @@ class _CartState extends State<Cart> {
   late String mobileNumber;
   String grandTotal = 'Loading';
   String address = 'Loading';
+  FocusNode couponFocus = FocusNode();
+  late String coupon;
 
   @override
   void initState() {
@@ -62,6 +64,50 @@ class _CartState extends State<Cart> {
     var jsonData = json.decode(data.body);
     address = jsonData[0][1];
     return address;
+  }
+
+  Widget buildCoupon() {
+    @override
+    void dispose() {
+      couponFocus.dispose();
+      super.dispose();
+    }
+
+    void requestFocus() {
+      setState(() {
+        FocusScope.of(context).requestFocus(couponFocus);
+      });
+    }
+
+    return Container(
+      width: MediaQuery.of(context).size.width - 90,
+      child: TextFormField(
+        focusNode: couponFocus,
+        onTap: () {
+          requestFocus();
+        },
+        decoration: InputDecoration(
+          focusColor: Colors.teal,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.teal),
+          ),
+          labelText: "Enter Coupon Code",
+          labelStyle: TextStyle(
+            color: couponFocus.hasFocus ? Colors.teal : Colors.black,
+          ),
+        ),
+        maxLength: 30,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return "Password cannot be empty";
+          }
+          return null;
+        },
+        onSaved: (value) {
+          if (value != null) coupon = value;
+        },
+      ),
+    );
   }
 
   Widget generateCards() {
@@ -306,60 +352,96 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+          child: SingleChildScrollView(
+        child: Container(
+          height: 1200,
           child: Column(
-        children: [
-          Text('This is the cart'),
-          IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.keyboard_arrow_left),
-          ),
-          Text('Welcome $_username'),
-          generateCards(),
-          AddressBar(),
-          generateTotal(),
-          Container(
-              height: 100,
-              width: MediaQuery.of(context).size.width - 60,
-              decoration: BoxDecoration(
-                color: Colors.teal[500],
-                borderRadius: BorderRadius.circular(20),
+            children: [
+              Text('This is the cart'),
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.keyboard_arrow_left),
               ),
-              child: Center(
-                  child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Text('Welcome $_username'),
+              generateCards(),
+              AddressBar(),
+              generateTotal(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                    child: TextButton.icon(
-                      onPressed: () {
-                        Navigator.push(context, PageRouteBuilder(
-                            pageBuilder: (BuildContext context, _, __) {
-                          return PaymentForm();
-                        }));
-                      },
-                      icon: Icon(
-                        Icons.money,
-                        color: Colors.white,
-                      ),
-                      label: Text(
-                        'Proceed to Payment',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20,
-                        ),
-                      ),
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Color.fromARGB(255, 0, 150, 136)),
-                      ),
+                  Text(
+                    'Got a coupon ? Apply here',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
                 ],
-              )))
-        ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildCoupon(),
+                  IconButton(
+                    icon: Icon(Icons.check),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width - 60,
+                  decoration: BoxDecoration(
+                    color: Colors.teal[500],
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                      child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                        child: TextButton.icon(
+                          onPressed: () {
+                            Navigator.push(context, PageRouteBuilder(
+                                pageBuilder: (BuildContext context, _, __) {
+                              return PaymentForm();
+                            }));
+                          },
+                          icon: Icon(
+                            Icons.money,
+                            color: Colors.white,
+                          ),
+                          label: Text(
+                            'Proceed to Payment',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 20,
+                            ),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Color.fromARGB(255, 0, 150, 136)),
+                          ),
+                        ),
+                      )
+                    ],
+                  )))
+            ],
+          ),
+        ),
       )),
     );
   }

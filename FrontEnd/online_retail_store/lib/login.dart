@@ -142,10 +142,10 @@ class _loginState extends State<login> {
               SizedBox(
                 height: 10,
               ),
-              Row(
+              Column(
                 children: <Widget>[
                   SizedBox(
-                      width: 150,
+                      width: 180,
                       child: FloatingActionButton(
                         heroTag: "button1",
                         onPressed: () async {
@@ -215,9 +215,10 @@ class _loginState extends State<login> {
                       )),
                   SizedBox(
                     width: 20,
+                    height: 15,
                   ),
                   SizedBox(
-                      width: 150,
+                      width: 180,
                       child: FloatingActionButton(
                         heroTag: "button2",
                         onPressed: () {
@@ -238,7 +239,79 @@ class _loginState extends State<login> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         backgroundColor: Colors.white,
-                      ))
+                      )),
+                  SizedBox(
+                    height: 45,
+                  ),
+                  SizedBox(
+                      width: 180,
+                      child: FloatingActionButton(
+                        heroTag: "button1",
+                        onPressed: () async {
+                          var state = formKey.currentState;
+                          if (state == null || !state.validate()) {
+                            if (state == null) print("bad");
+
+                            return;
+                          }
+
+                          formKey.currentState!.save();
+                          // Navigator.pushNamed(context, '/Store');
+                          await getProducts(username, password);
+                          if (authenticate == true)
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Database'),
+                                    content: Text('Successfully Logged in'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.push(context,
+                                                PageRouteBuilder(pageBuilder:
+                                                    (BuildContext context, _,
+                                                        __) {
+                                              return LandingPage(
+                                                uName: username,
+                                              );
+                                            }));
+                                          },
+                                          child: Text('Continue to App'))
+                                    ],
+                                  );
+                                });
+                          else
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: Text('Database'),
+                                    content: Text('Invalid Login credentials'),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop('dialog');
+                                          },
+                                          child: Text('Close'))
+                                    ],
+                                  );
+                                });
+                        },
+                        backgroundColor: Colors.brown[400],
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Text(
+                          "Login as Admin",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      )),
                 ],
               )
             ]),
