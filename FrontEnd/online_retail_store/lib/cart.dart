@@ -30,7 +30,7 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   late String _username;
-  late int userid;
+  int userid = 0;
   late String name;
   late String email;
   late String mobileNumber;
