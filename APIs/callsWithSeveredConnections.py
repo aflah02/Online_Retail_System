@@ -155,6 +155,16 @@ def RankedByProfitMade():
             """)
         result = cursor.fetchall()
         db.close()
+        setProducts = set([])
+        for i in result:
+            setProducts.add(i[0])
+        setAllProducts = set([i for i in range(151)])
+        setRemainingProducts = setAllProducts - setProducts
+        currInd = result[-1][-1]
+        for i in setRemainingProducts:
+            result.append((i,currInd))
+            currInd+=1
+        db.close()
         return flask.jsonify(result)
     except Exception as e:
         return str(e)
@@ -172,6 +182,16 @@ def RankedByQuantitySold():
             GROUP BY Product_ID) as H
             """)
         result = cursor.fetchall()
+        db.close()
+        setProducts = set([])
+        for i in result:
+            setProducts.add(i[0])
+        setAllProducts = set([i for i in range(151)])
+        setRemainingProducts = setAllProducts - setProducts
+        currInd = result[-1][-1]
+        for i in setRemainingProducts:
+            result.append((i,currInd))
+            currInd+=1
         db.close()
         return flask.jsonify(result)
     except Exception as e:
