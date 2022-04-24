@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RankingPage extends StatefulWidget {
   const RankingPage({Key? key}) : super(key: key);
@@ -7,7 +9,24 @@ class RankingPage extends StatefulWidget {
   _RankingPageState createState() => _RankingPageState();
 }
 
+class Product {
+  late String name;
+  late String brand;
+  late String price;
+  late String url;
+
+  Product({required this.name, required this.brand, required this.price});
+}
+
 class _RankingPageState extends State<RankingPage> {
+  Future<List<Product>> getProducts() async {
+    var data =
+        await http.get(Uri.parse('http://127.0.0.1:5000/RankedByQuantitySold'));
+    var jsonData = json.decode(data.body);
+    List<Product> prodList = [];
+    return prodList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
