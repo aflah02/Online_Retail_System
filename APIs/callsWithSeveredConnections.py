@@ -5,12 +5,12 @@ import mysql.connector
 import json
 
 usernamelogin="root"
-passwlogin="22510FamSuccess"
+passwlogin="1234"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
-        user="root",
-        passwd="password",
+        user=usernamelogin,
+        passwd=passwlogin,
         database = 'retaildb')
     return db
 
@@ -23,7 +23,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="22510FamSuccess"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -34,7 +34,24 @@ def authenticateUser(username,passw):
             cursor.execute(f"DROP USER IF EXISTS customer@localhost")
             cursor.execute(f"FLUSH PRIVILEGES")
             cursor.execute(f"CREATE USER customer@localhost IDENTIFIED BY '{passw}'", )
-            cursor.execute(f"GRANT user_role TO customer@localhost")
+            #cursor.execute(f"GRANT user_role TO customer@localhost")
+            cursor.execute(f"grant select on retaildb.usableCouponView to customer@localhost")
+            cursor.execute(f"grant select on retaildb.userProductView to customer@localhost")
+            cursor.execute(f"grant select on retaildb.categoryUserView to customer@localhost")
+            cursor.execute(f"grant select,update on retaildb.inventory to customer@localhost")
+            cursor.execute(f"grant select, update,insert,delete on retaildb.items_purchased to customer@localhost")
+            cursor.execute(f"grant select, update,insert,delete on retaildb.order_table to customer@localhost")
+            cursor.execute(f"grant select on retaildb.shipper to customer@localhost")
+            cursor.execute(f"grant select, insert,update,delete on retaildb.billing_details to customer@localhost")
+            cursor.execute(f"grant select on retaildb.belongsto to customer@localhost")
+            cursor.execute(f"grant select on retaildb.product to customer@localhost")
+            cursor.execute(f"grant select on retaildb.brand to customer@localhost")
+            cursor.execute(f"grant select on retaildb.category to customer@localhost")
+            cursor.execute(f"grant select,update,insert,delete on retaildb.items_contained to customer@localhost")
+            cursor.execute(f"grant select on retaildb.cart_data to customer@localhost")
+            cursor.execute(f"grant select,update on retaildb.coupon_data to customer@localhost")
+            cursor.execute(f"grant select on retaildb.user to customer@localhost")
+            cursor.execute(f"grant select on retaildb.protectedUserView to customer@localhost")
             db.close()
             return "Success"
         db.close()
@@ -49,7 +66,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="22510FamSuccess"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -60,7 +77,29 @@ def authenticateAdmin(username,passw):
             cursor.execute(f"DROP USER IF EXISTS administer@localhost")
             cursor.execute(f"FLUSH PRIVILEGES")
             cursor.execute(f"CREATE USER administer@localhost IDENTIFIED BY '{passw}'", )
-            cursor.execute(f"GRANT admin_role TO administer@localhost")
+            #cursor.execute(f"GRANT admin_role TO administer@localhost")
+
+            cursor.execute(f"grant all on retaildb.user to administer@localhost")
+            cursor.execute(f"grant all on retaildb.coupon_data to administer@localhost")
+            #not given admin any data related to cart and order
+            cursor.execute(f"grant all on retaildb.category to administer@localhost")
+            cursor.execute(f"grant all on retaildb.brand to administer@localhost")
+            cursor.execute(f"grant all on retaildb.product to administer@localhost")
+            cursor.execute(f"grant all on retaildb.belongsto to administer@localhost")
+            cursor.execute(f"grant all on retaildb.billing_details to administer@localhost")
+            #for the time being an admin does not have to write alter on other admins
+            cursor.execute(f"grant select on retaildb.admin_table to administer@localhost")
+            cursor.execute(f"grant all on retaildb.shipper to administer@localhost")
+            cursor.execute(f"grant select,update,insert,delete,create,drop on retaildb.order_table to administer@localhost")
+            cursor.execute(f"grant select,update,insert,delete,create,drop on retaildb.items_purchased to administer@localhost")
+            cursor.execute(f"grant all on retaildb.inventory to administer@localhost")
+            cursor.execute(f"grant all on retaildb.userProductView to administer@localhost")
+            cursor.execute(f"grant all on retaildb.categoryUserView to administer@localhost")
+            cursor.execute(f"grant all on retaildb.protectedUserView to administer@localhost")
+            cursor.execute(f"grant all on retaildb.usableCouponView to administer@localhost")
+
+
+
             db.close()
             return "Success"
         db.close()
