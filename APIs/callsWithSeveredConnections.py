@@ -1,8 +1,7 @@
-import re
-from sre_constants import SUCCESS
 import flask
 import mysql.connector
 import json
+import datetime
 
 usernamelogin="root"
 passwlogin="1234"
@@ -138,6 +137,42 @@ def getItemDetailsForOrder(order_id):
         order_ids = cursor.fetchall()
         db.close()
         return flask.jsonify(order_ids)
+    except Exception as e:
+        return str(e)
+
+"""API Endpoint which gives cartTotal after coupon"""
+@app.route('/getCartTotalPostCoupon/<int:user_id>/<string:coupon_id>', methods=['GET'])
+def getCartTotalPostCoupon(user_id, coupon_id):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select *
+            From coupon_data
+            where Coupon_id = {coupon_id}
+        """)
+        coupon_details = cursor.fetchall()
+        if (len(coupon_details) == 0):
+            return "Coupon does not exist"
+        if (coupon_details[0][-1] == 1):
+            return "Coupon is Used"
+        dateExpiry = coupon_details[0][2]
+        print(dateExpiry)
+        dateToday = datetime.date(2022, 3, 1)
+        if (dateExpiry < dateToday):
+            return "Expired Coupon"
+        cursor.execute(f"""
+            select * from (select Temp.Unique_id, Temp.Username, SUM(Temp.Total) as "Total cost"
+            from (select I.Unique_id,I.Product_ID,U.NAME as Username, SUM(I.Quantity*P.product_cost) as Total
+            from User U, items_contained I,product P
+            where P.product_id=I.Product_ID and I.Unique_id=U.id and P.product_id IN (select product_id from inventory where quantity>0) Group BY I.Unique_id,I.Product_ID) as Temp
+            group by Temp.Unique_id) as BigTemp where BigTemp.Unique_id = 1
+            """)
+        result = cursor.fetchall()
+        totalCost = float(result[0][-1])
+        discount = float(int(coupon_details[0][1])/100)
+        discountedCost = totalCost - totalCost * discount
+        return flask.jsonify(discountedCost)
     except Exception as e:
         return str(e)
 
