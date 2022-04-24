@@ -153,12 +153,12 @@ def getCartTotalPostCoupon(user_id, coupon_id):
         """)
         coupon_details = cursor.fetchall()
         if (len(coupon_details) == 0):
-            return "Coupon does not exist"
+            return "Coupon Not Found"
         if (coupon_details[0][-1] == 1):
             return "Coupon is Used"
         dateExpiry = coupon_details[0][2]
         print(dateExpiry)
-        dateToday = datetime.date(2022, 3, 1)
+        dateToday = datetime.date.today()
         if (dateExpiry < dateToday):
             return "Expired Coupon"
         cursor.execute(f"""
@@ -365,6 +365,95 @@ def deleteExpiredCoupons():
         db.commit()
         db.close()
         return "Success"
+    except Exception as e:
+        return str(e)
+
+
+"""API endpoint to List all Expired Coupons"""
+@app.route('/listExpiredCoupons')
+def listExpiredCoupons():
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute("Select * from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE;")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to List all Expired Coupons for a particular user"""
+@app.route('/listExpiredCouponsForUser/<int:userID>')
+def listExpiredCouponsForUser(userID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE and Unique_id = {userID};")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to List all Available Coupons"""
+@app.route('/listAvailableCoupons')
+def listAvailableCoupons():
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute("Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE;")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to List all Available Coupons for a particular user"""
+@app.route('/listAvailableCouponsForUser/<int:userID>')
+def listAvailableCouponsForUser(userID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE and Unique_id = {userID};")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to check If Coupon Is Used"""
+@app.route('/checkIfCouponIsUsed/<string:couponID>')
+def checkIfCouponIsUsed(couponID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where Coupon_id = {couponID};")
+        result=cursor.fetchall()
+        db.close()
+        if len(result) == 0:
+            return "Coupon Not Found"
+        if result[0][-1] == 1:
+            return flask.jsonify(True)
+        return flask.jsonify(False)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to check If Coupon Is Used"""
+@app.route('/checkIfCouponIsExpired/<string:couponID>')
+def checkIfCouponIsExpired(couponID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where Coupon_id = {couponID};")
+        coupon_details=cursor.fetchall()
+        db.close()
+        if (len(coupon_details) == 0):
+            return "Coupon Not Found"
+        dateExpiry = coupon_details[0][2]
+        dateToday = datetime.date.today()
+        if (dateExpiry < dateToday):
+            return "Expired Coupon"
+        return "Not Expired"
     except Exception as e:
         return str(e)
 
