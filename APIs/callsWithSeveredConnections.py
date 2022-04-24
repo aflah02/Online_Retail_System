@@ -158,7 +158,7 @@ def RankedByProfitMade():
         setProducts = set([])
         for i in result:
             setProducts.add(i[0])
-        setAllProducts = set([i for i in range(151)])
+        setAllProducts = set([i for i in range(1, 151)])
         setRemainingProducts = setAllProducts - setProducts
         currInd = result[-1][-1]
         for i in setRemainingProducts:
@@ -186,7 +186,7 @@ def RankedByQuantitySold():
         setProducts = set([])
         for i in result:
             setProducts.add(i[0])
-        setAllProducts = set([i for i in range(151)])
+        setAllProducts = set([i for i in range(1, 151)])
         setRemainingProducts = setAllProducts - setProducts
         currInd = result[-1][-1]
         for i in setRemainingProducts:
@@ -232,7 +232,7 @@ def getProductDetails(product_id):
             return "No Product Found"
     except Exception as e:
         return str(e)
-        
+
 """API endpoint to get URL for product Images"""
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
