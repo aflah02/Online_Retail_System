@@ -1,6 +1,6 @@
 // http://127.0.0.1:5000/displayCategories
 
-import 'package:amazon_clone/categorypage.dart';
+import 'package:amazon_clone/brandPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -38,8 +38,7 @@ class _BrandListState extends State<BrandList> {
       Brand temp = Brand(brandName: prod[0], url: link);
       productList.add(temp);
     }
-    print(productList);
-    print("in get");
+
     return productList;
   }
 
@@ -102,12 +101,11 @@ class _BrandListState extends State<BrandList> {
                             trailing: const Icon(Icons.keyboard_arrow_right),
                             onTap: () {
                               print("Tapped");
-                              // Navigator.push(context, PageRouteBuilder(
-                              //     pageBuilder: (BuildContext context, _, __) {
-                              //   return CategoryPage(
-                              //       category:
-                              //           snapshot.data[index].categoryName);
-                              // }));
+                              Navigator.push(context, PageRouteBuilder(
+                                  pageBuilder: (BuildContext context, _, __) {
+                                return BrandPage(
+                                    name: snapshot.data[index].brandName);
+                              }));
                             },
                           ),
                         ),

@@ -34,7 +34,7 @@ class _CartState extends State<Cart> {
   late String name;
   late String email;
   late String mobileNumber;
-  num grandTotal = 0;
+  String grandTotal = 'Loading';
   String address = 'Loading';
 
   @override
@@ -43,6 +43,25 @@ class _CartState extends State<Cart> {
     _username = widget.username;
 
     print(_username);
+  }
+
+  Future<String> total() async {
+    var total = await http.get(Uri.parse('http://127.0.0.1:5000/cartTotal/'));
+    var gtotal = json.decode(total.body);
+
+    grandTotal = gtotal[userid - 1][1];
+    return grandTotal;
+  }
+
+  Future<String> addressGet() async {
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/getUserDetailsFromEmail/' +
+            "'" +
+            _username +
+            "'"));
+    var jsonData = json.decode(data.body);
+    address = jsonData[0][1];
+    return address;
   }
 
   Widget generateCards() {
@@ -137,74 +156,94 @@ class _CartState extends State<Cart> {
 
   Widget AddressBar() {
     return Container(
-        height: 70,
-        child: Padding(
-          padding: EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Delivery to',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  Text(
-                    'Edit',
-                    style: TextStyle(color: Colors.teal, fontSize: 13),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                '$address',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
-        ));
+      child: FutureBuilder(
+          future: total(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return Container(
+                  height: 70,
+                  child: Padding(
+                    padding: EdgeInsets.all(14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Delivery to',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            Text(
+                              'Edit',
+                              style:
+                                  TextStyle(color: Colors.teal, fontSize: 13),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '$address',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ));
+            } else
+              return Container();
+          }),
+    );
   }
 
   Widget generateTotal() {
     return Container(
-        height: 80,
-        child: Padding(
-          padding: EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Grand Total',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  Text(
-                    '₹',
-                    style: TextStyle(color: Colors.teal, fontSize: 13),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                '$grandTotal',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
-                ),
-              ),
-            ],
-          ),
-        ));
+      child: FutureBuilder(
+          future: total(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return Container(
+                  height: 80,
+                  child: Padding(
+                    padding: EdgeInsets.all(14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Grand Total',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            Text(
+                              '₹',
+                              style:
+                                  TextStyle(color: Colors.teal, fontSize: 13),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '${snapshot.data}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ));
+            } else
+              return Container();
+          }),
+    );
   }
 
   Future<List<CartItem>> getUserData() async {
@@ -216,18 +255,19 @@ class _CartState extends State<Cart> {
     var jsonData = json.decode(data.body);
     userid = jsonData[0][0];
     name = jsonData[0][2];
-    setState(() {
-      address = jsonData[0][1];
-    });
+
+    address = jsonData[0][1];
+
     email = jsonData[0][3];
     mobileNumber = jsonData[0][5];
 
     var cartData = await http.get(
         Uri.parse('http://127.0.0.1:5000/cartDetails/' + userid.toString()));
-    print('here');
-    print(cartData);
-    print('gone');
+
     var cartDecode = json.decode(cartData.body);
+    print('here');
+    print(cartDecode);
+    print('gone');
     List<CartItem> cartItemList = [];
     for (var prod in cartDecode) {
       CartItem temp = new CartItem(
@@ -236,9 +276,7 @@ class _CartState extends State<Cart> {
           cost: prod[2],
           quantity: prod[3],
           totalCost: prod[4]);
-      setState(() {
-        grandTotal += num.parse(prod[4]);
-      });
+
       var links = await http.get(Uri.parse(
           'http://127.0.0.1:5000/getProductImage/' + prod[1] + '/' + prod[0]));
 
@@ -246,7 +284,22 @@ class _CartState extends State<Cart> {
       temp.image = link;
       cartItemList.add(temp);
     }
+
+    var total = await http.get(Uri.parse('http://127.0.0.1:5000/cartTotal/'));
+    var gtotal = json.decode(total.body);
+
+    grandTotal = gtotal[userid][1];
+
     return cartItemList;
+  }
+
+  Widget work() {
+    setState(() {
+      grandTotal = grandTotal;
+    });
+    return SizedBox(
+      height: 0,
+    );
   }
 
   @override
