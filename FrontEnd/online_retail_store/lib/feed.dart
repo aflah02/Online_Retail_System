@@ -4,6 +4,7 @@ import 'cart.dart';
 import 'displaycategories.dart';
 import 'brand.dart';
 import 'Ranking.dart';
+import 'search.dart';
 
 class Feed extends StatefulWidget {
   final String t;
@@ -37,15 +38,27 @@ class _FeedState extends State<Feed> {
                 children: [
                   IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
                   SizedBox(
-                    width: 235,
-                    height: 40,
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: 'search',
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder()),
-                    ),
+                      width: 165,
+                      height: 40,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: Text(
+                          'Apni Dukaan',
+                          style: TextStyle(
+                            color: Colors.teal,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      )),
+                  Expanded(
+                    child: Text(''),
                   ),
+                  IconButton(
+                      onPressed: () {
+                        showSearch(context: context, delegate: Search());
+                      },
+                      icon: Icon(Icons.search)),
                   IconButton(
                       onPressed: () {
                         Navigator.push(context, PageRouteBuilder(

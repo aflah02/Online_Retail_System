@@ -1,9 +1,97 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'categorypage.dart';
+import 'brandPage.dart';
+
+class Product {
+  late String brand;
+  late String price;
+  late String name;
+  late String url;
+
+  Product(
+      {required this.name,
+      required this.price,
+      required this.brand,
+      required this.url});
+}
 
 class Search extends SearchDelegate<String> {
-  List<String> recentSearches = [];
+  Future<Product> getItem() async {
+    var data = await http.get(Uri.parse(''));
+    Product temp = Product(brand: '', name: '', price: '', url: '');
+    return temp;
+  }
+
+  List<String> categories = [
+    "Appliances",
+    "Beauty",
+    "Beverages",
+    "Books",
+    "Cleaning",
+    "Clothes",
+    "Daily_Items",
+    "Electronics",
+    "Food",
+    "Furtniture",
+    "Health",
+    "Heavy Duty Equipment",
+    "Medical Supplies",
+    "Office Supplies and Stationary",
+    "Ready To Eat",
+    "Sports Equipment"
+  ];
+  List<String> brands = [
+    "Adidas",
+    "Amul",
+    "Amway",
+    "Apple",
+    "Bajaj",
+    "Beiersdorf",
+    "Britannia",
+    "Coca-Cola",
+    "Cosco",
+    "Dabur",
+    "Dove",
+    "FitBit",
+    "Gap",
+    "Gillette",
+    "Godrej Interio",
+    "Haldirams",
+    "Head",
+    "ITC",
+    "JBL",
+    "Jockey",
+    "Kelloggs",
+    "Kinley",
+    "Kurkure",
+    "Lakme",
+    "Lays",
+    "Levis",
+    "LG",
+    "Lifebuoy",
+    "London Dairy",
+    "Loreal",
+    "Mylab",
+    "Nestle",
+    "Nike",
+    "Nivea",
+    "Parachute",
+    "PepsiCo",
+    "Philips",
+    "Pigeon",
+    "Puma",
+    "Rasper",
+    "Reckitt",
+    "Rupa",
+    "Samsung",
+    "Staedtler Noris Gmbh",
+    "Thumbs Up",
+    "Whirlpool",
+    "Wilson",
+    "Yonex"
+  ];
   List<String> searches = [
     "Aashirvaad Atta with Multi Grains",
     "Aashirvaad Select Premium Sharbati Atta, 5kg",
@@ -154,7 +242,71 @@ class Search extends SearchDelegate<String> {
     "Vest",
     "Washing Machine",
     "Watch",
-    "Whole Wheat Flour Atta"
+    "Whole Wheat Flour Atta",
+    "Adidas",
+    "Amul",
+    "Amway",
+    "Apple",
+    "Bajaj",
+    "Beiersdorf",
+    "Britannia",
+    "Coca-Cola",
+    "Cosco",
+    "Dabur",
+    "Dove",
+    "FitBit",
+    "Gap",
+    "Gillette",
+    "Godrej Interio",
+    "Haldirams",
+    "Head",
+    "ITC",
+    "JBL",
+    "Jockey",
+    "Kelloggs",
+    "Kinley",
+    "Kurkure",
+    "Lakme",
+    "Lays",
+    "Levis",
+    "LG",
+    "Lifebuoy",
+    "London Dairy",
+    "Loreal",
+    "Mylab",
+    "Nestle",
+    "Nike",
+    "Nivea",
+    "Parachute",
+    "PepsiCo",
+    "Philips",
+    "Pigeon",
+    "Puma",
+    "Rasper",
+    "Reckitt",
+    "Rupa",
+    "Samsung",
+    "Staedtler Noris Gmbh",
+    "Thumbs Up",
+    "Whirlpool",
+    "Wilson",
+    "Yonex",
+    "Appliances",
+    "Beauty",
+    "Beverages",
+    "Books",
+    "Cleaning",
+    "Clothes",
+    "Daily_Items",
+    "Electronics",
+    "Food",
+    "Furtniture",
+    "Health",
+    "Heavy Duty Equipment",
+    "Medical Supplies",
+    "Office Supplies and Stationary",
+    "Ready To Eat",
+    "Sports Equipment"
   ];
 
   Future<List<String>> getSuggestions() async {
@@ -193,21 +345,120 @@ class Search extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
+    if (categories.contains(query)) {
+      return CategoryPage(category: query);
+    } else if (brands.contains(query)) {
+      return BrandPage(name: query);
+    } else if (searches.contains(query)) {
+      String url;
+      String brand;
+      String name;
+      String price;
+
+      return Container(
+          height: 290,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            color: Colors.white,
+          ),
+          margin: EdgeInsets.fromLTRB(15, 0, 15, 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(50, 0, 0, 20),
+                // child: Image.network(
+                //   snapshot.data[index].url,
+                //   height: 120,
+                //   width: 140,
+                // ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(7),
+                // child: Text(
+                //   '${snapshot.data[index].name}',
+                //   style: TextStyle(
+                //     fontWeight: FontWeight.bold,
+                //     fontSize: 16,
+                //   ),
+                // ),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                // child: Text('${snapshot.data[index].brand}'),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      // '${snapshot.data[index].price}' + '₹',
+                      '',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+
+                    // IconButton(
+                    //     onPressed: () {},
+                    //     icon: Icon(Icons.add_shopping_cart))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(75, 0, 0, 0),
+                child: ElevatedButton.icon(
+                  onPressed: () {},
+                  icon: Icon(Icons.shopping_cart),
+                  label: Text('Add to cart'),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Color.fromRGBO(162, 124, 91, 0.7)),
+                  ),
+                ),
+              )
+            ],
+          ));
+    } else
+      return Container(
+        child: Center(
+          child: Text(
+            'Sorry, Item not found. Please check your spelling.',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggList = query.isEmpty
-        ? recentSearches
-        : searches.where((element) => element.contains(element)).toList();
+    searches.sort();
+    final suggList = searches.where((element) {
+      final result = element.toLowerCase();
+      final input = query.toLowerCase();
+      return result.contains(input);
+    }).toList();
     return ListView.builder(
       itemCount: suggList.length,
       itemBuilder: (context, index) {
         return ListTile(
           leading: Icon(Icons.search),
-          title: Text('$suggList[index]'),
+          title: Text(suggList[index]),
+          onTap: () {
+            query = suggList[index];
+          },
         );
       },
     );
