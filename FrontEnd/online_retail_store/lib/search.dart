@@ -27,7 +27,7 @@ class Search extends SearchDelegate<String> {
     for (var prod in jsonData) {
       Product temp = Product(name: prod[1], price: prod[2], brand: prod[3]);
       var img = await http.get(Uri.parse(
-          'http://127.0.0.1:5000/getProductImage/' + prod[1] + '/' + prod[3]));
+          'http://127.0.0.1:5000/getProductImage/' + prod[3] + '/' + prod[1]));
 
       var link = json.decode(img.body);
       temp.url = link;
