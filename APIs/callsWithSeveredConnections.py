@@ -1,8 +1,7 @@
-import re
-from sre_constants import SUCCESS
 import flask
 import mysql.connector
 import json
+import datetime
 
 usernamelogin="root"
 passwlogin="1234"
@@ -141,6 +140,42 @@ def getItemDetailsForOrder(order_id):
     except Exception as e:
         return str(e)
 
+"""API Endpoint which gives cartTotal after coupon"""
+@app.route('/getCartTotalPostCoupon/<int:user_id>/<string:coupon_id>', methods=['GET'])
+def getCartTotalPostCoupon(user_id, coupon_id):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select *
+            From coupon_data
+            where Coupon_id = {coupon_id}
+        """)
+        coupon_details = cursor.fetchall()
+        if (len(coupon_details) == 0):
+            return "Coupon Not Found"
+        if (coupon_details[0][-1] == 1):
+            return "Coupon is Used"
+        dateExpiry = coupon_details[0][2]
+        print(dateExpiry)
+        dateToday = datetime.date.today()
+        if (dateExpiry < dateToday):
+            return "Expired Coupon"
+        cursor.execute(f"""
+            select * from (select Temp.Unique_id, Temp.Username, SUM(Temp.Total) as "Total cost"
+            from (select I.Unique_id,I.Product_ID,U.NAME as Username, SUM(I.Quantity*P.product_cost) as Total
+            from User U, items_contained I,product P
+            where P.product_id=I.Product_ID and I.Unique_id=U.id and P.product_id IN (select product_id from inventory where quantity>0) Group BY I.Unique_id,I.Product_ID) as Temp
+            group by Temp.Unique_id) as BigTemp where BigTemp.Unique_id = 1
+            """)
+        result = cursor.fetchall()
+        totalCost = float(result[0][-1])
+        discount = float(int(coupon_details[0][1])/100)
+        discountedCost = totalCost - totalCost * discount
+        return flask.jsonify(discountedCost)
+    except Exception as e:
+        return str(e)
+
 """API Endpoint that Returns Items Ranked by Amount they've been sold for"""
 @app.route('/RankedByProfitMade', methods=['GET'])
 def RankedByProfitMade():
@@ -224,6 +259,24 @@ def getProductDetails(product_id):
         cursor.execute(f"""Select *
             From product
             where Product_ID = {product_id}""")
+        result = cursor.fetchall()
+        db.close()
+        if result:
+            return flask.jsonify(result)
+        else:
+            return "No Product Found"
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to get all Matching Products from Product Name"""
+@app.route('/getAllProductsMatchingName/<string:name>', methods=['GET'])
+def getAllProductsMatchingName(name):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"""Select *
+            From product
+            Where product_name = {name}""")
         result = cursor.fetchall()
         db.close()
         if result:
@@ -330,6 +383,95 @@ def deleteExpiredCoupons():
         db.commit()
         db.close()
         return "Success"
+    except Exception as e:
+        return str(e)
+
+
+"""API endpoint to List all Expired Coupons"""
+@app.route('/listExpiredCoupons')
+def listExpiredCoupons():
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute("Select * from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE;")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to List all Expired Coupons for a particular user"""
+@app.route('/listExpiredCouponsForUser/<int:userID>')
+def listExpiredCouponsForUser(userID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate < CURRENT_DATE and Unique_id = {userID};")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to List all Available Coupons"""
+@app.route('/listAvailableCoupons')
+def listAvailableCoupons():
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute("Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE;")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to List all Available Coupons for a particular user"""
+@app.route('/listAvailableCouponsForUser/<int:userID>')
+def listAvailableCouponsForUser(userID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE and Unique_id = {userID};")
+        result=cursor.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to check If Coupon Is Used"""
+@app.route('/checkIfCouponIsUsed/<string:couponID>')
+def checkIfCouponIsUsed(couponID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where Coupon_id = {couponID};")
+        result=cursor.fetchall()
+        db.close()
+        if len(result) == 0:
+            return "Coupon Not Found"
+        if result[0][-1] == 1:
+            return flask.jsonify(True)
+        return flask.jsonify(False)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to check If Coupon Is Used"""
+@app.route('/checkIfCouponIsExpired/<string:couponID>')
+def checkIfCouponIsExpired(couponID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"Select * from coupon_data where Coupon_id = {couponID};")
+        coupon_details=cursor.fetchall()
+        db.close()
+        if (len(coupon_details) == 0):
+            return "Coupon Not Found"
+        dateExpiry = coupon_details[0][2]
+        dateToday = datetime.date.today()
+        if (dateExpiry < dateToday):
+            return "Expired Coupon"
+        return "Not Expired"
     except Exception as e:
         return str(e)
 
