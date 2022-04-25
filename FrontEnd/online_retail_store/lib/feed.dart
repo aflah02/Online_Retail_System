@@ -5,6 +5,8 @@ import 'displaycategories.dart';
 import 'brand.dart';
 import 'Ranking.dart';
 import 'search.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Feed extends StatefulWidget {
   final String t;
@@ -22,6 +24,13 @@ class _FeedState extends State<Feed> {
     super.initState();
     username = widget.t;
     print(username);
+  }
+
+  Future<int> getUserID() async {
+    var data = await http.get(Uri.parse(
+        "http://127.0.0.1:5000/getUserDetailsFromEmail/'" + username + "'"));
+    var jsonData = json.decode(data.body);
+    return jsonData[0][0];
   }
 
   @override
