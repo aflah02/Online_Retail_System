@@ -268,6 +268,24 @@ def getProductDetails(product_id):
     except Exception as e:
         return str(e)
 
+"""API endpoint to get all Matching Products from Product Name"""
+@app.route('/getAllProductsMatchingName/<string:name>', methods=['GET'])
+def getAllProductsMatchingName(name):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"""Select *
+            From product
+            Where product_name = {name}""")
+        result = cursor.fetchall()
+        db.close()
+        if result:
+            return flask.jsonify(result)
+        else:
+            return "No Product Found"
+    except Exception as e:
+        return str(e)
+
 """API endpoint to get URL for product Images"""
 @app.route('/getProductImage/<string:brand_name>/<string:product_name>', methods=['GET'])
 def getProductImage(brand_name, product_name):
