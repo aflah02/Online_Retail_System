@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 
-class changeProductPrice extends StatefulWidget {
-  const changeProductPrice({Key? key}) : super(key: key);
+class UpdateCoupon extends StatefulWidget {
+  const UpdateCoupon({Key? key}) : super(key: key);
 
   @override
-  _changeProductPriceState createState() => _changeProductPriceState();
+  _UpdateCouponState createState() => _UpdateCouponState();
 }
 
-class _changeProductPriceState extends State<changeProductPrice> {
+class _UpdateCouponState extends State<UpdateCoupon> {
   late String productName;
   late String productPrice;
   late String productBrand;
+  late String productCategory;
+  late String productUrl;
   @override
   final GlobalKey<FormState> addProductKey = GlobalKey<FormState>();
 
   late FocusNode productNameField = FocusNode();
   late FocusNode productPriceField = FocusNode();
   late FocusNode productBrandField = FocusNode();
+  late FocusNode productCategoryField = FocusNode();
+  late FocusNode productUrlField = FocusNode();
 
   late bool authenticate = true;
   void setAuthenticate(bool auth) {
@@ -47,7 +51,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the Product Name",
+        labelText: "Enter the Coupon id",
         labelStyle: TextStyle(
           color: productNameField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -55,7 +59,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Brand Name cannot be empty";
+          return "Coupon id cannot be empty";
         }
         return null;
       },
@@ -65,21 +69,21 @@ class _changeProductPriceState extends State<changeProductPrice> {
     );
   }
 
-  Widget buildProductPrice() {
+  Widget buildProductCategory() {
     @override
     void dispose() {
-      productPriceField.dispose();
+      productCategoryField.dispose();
       super.dispose();
     }
 
     void requestFocus() {
       setState(() {
-        FocusScope.of(context).requestFocus(productPriceField);
+        FocusScope.of(context).requestFocus(productCategoryField);
       });
     }
 
     return TextFormField(
-      focusNode: productNameField,
+      focusNode: productCategoryField,
       onTap: () {
         requestFocus();
       },
@@ -87,26 +91,26 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the New Product price",
+        labelText: "Enter the product Category",
         labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
+          color: productCategoryField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product price cannot be empty";
+          return "Product Category cannot be empty";
         }
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productCategory = value;
       },
     );
   }
 
-  Future<bool> changeProductPrice(
-      String productName, String productBrand, String price) async {
+  Future<bool> addProduct(
+      String productName, String productBrand, String productPrice) async {
     return Future<bool>.value(false);
   }
 
@@ -132,7 +136,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the Product Brand ",
+        labelText: "Enter the new Expiry date in dd/mm/yyyy",
         labelStyle: TextStyle(
           color: productBrandField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -140,12 +144,92 @@ class _changeProductPriceState extends State<changeProductPrice> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product Brand cannot be empty";
+          return "Expiry Date cannot be empty";
         }
         return null;
       },
       onSaved: (value) {
         if (value != null) productBrand = value;
+      },
+    );
+  }
+
+  Widget buildProductUrl() {
+    @override
+    void dispose() {
+      productUrlField.dispose();
+      super.dispose();
+    }
+
+    void requestFocus() {
+      setState(() {
+        FocusScope.of(context).requestFocus(productUrlField);
+      });
+    }
+
+    return TextFormField(
+      focusNode: productUrlField,
+      onTap: () {
+        requestFocus();
+      },
+      decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.teal),
+        ),
+        labelText: "Enter the product Url",
+        labelStyle: TextStyle(
+          color: productUrlField.hasFocus ? Colors.teal : Colors.black,
+        ),
+      ),
+      maxLength: 40,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Product Url cannot be empty";
+        }
+        return null;
+      },
+      onSaved: (value) {
+        if (value != null) productUrl = value;
+      },
+    );
+  }
+
+  Widget buildProductPrice() {
+    @override
+    void dispose() {
+      productPriceField.dispose();
+      super.dispose();
+    }
+
+    void requestFocus() {
+      setState(() {
+        FocusScope.of(context).requestFocus(productPriceField);
+      });
+    }
+
+    return TextFormField(
+      focusNode: productPriceField,
+      onTap: () {
+        requestFocus();
+      },
+      decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.teal),
+        ),
+        labelText: "Enter the new discount",
+        labelStyle: TextStyle(
+          color: productPriceField.hasFocus ? Colors.teal : Colors.black,
+        ),
+      ),
+      maxLength: 40,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Discount cannot be empty";
+        }
+        return null;
+      },
+      onSaved: (value) {
+        if (value != null) productName = value;
       },
     );
   }
@@ -187,7 +271,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
 
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
-                                await changeProductPrice(
+                                await addProduct(
                                     productName, productBrand, productPrice);
                                 if (authenticate == true)
                                   showDialog(
@@ -196,7 +280,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                         return AlertDialog(
                                           title: Text('Database'),
                                           content: Text(
-                                              'Successfully updated Product Price'),
+                                              'Successfully Updated Coupon'),
                                           actions: [
                                             ElevatedButton(
                                                 onPressed: () {
@@ -235,7 +319,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
                               child: Text(
-                                "Update price",
+                                "Update Coupon",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,

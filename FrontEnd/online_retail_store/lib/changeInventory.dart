@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class changeProductPrice extends StatefulWidget {
-  const changeProductPrice({Key? key}) : super(key: key);
+class changeInventory extends StatefulWidget {
+  const changeInventory({Key? key}) : super(key: key);
 
   @override
-  _changeProductPriceState createState() => _changeProductPriceState();
+  _changeInventoryState createState() => _changeInventoryState();
 }
 
-class _changeProductPriceState extends State<changeProductPrice> {
+class _changeInventoryState extends State<changeInventory> {
   late String productName;
   late String productPrice;
   late String productBrand;
@@ -87,7 +87,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the New Product price",
+        labelText: "Enter the New Product Quantity",
         labelStyle: TextStyle(
           color: productNameField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -95,7 +95,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product price cannot be empty";
+          return "Product Quantity cannot be empty";
         }
         return null;
       },
@@ -105,7 +105,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
     );
   }
 
-  Future<bool> changeProductPrice(
+  Future<bool> changeInventory(
       String productName, String productBrand, String price) async {
     return Future<bool>.value(false);
   }
@@ -187,7 +187,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
 
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
-                                await changeProductPrice(
+                                await changeInventory(
                                     productName, productBrand, productPrice);
                                 if (authenticate == true)
                                   showDialog(
@@ -196,7 +196,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                         return AlertDialog(
                                           title: Text('Database'),
                                           content: Text(
-                                              'Successfully updated Product Price'),
+                                              'Successfully Updated Inventory'),
                                           actions: [
                                             ElevatedButton(
                                                 onPressed: () {
@@ -235,7 +235,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
                               child: Text(
-                                "Update price",
+                                "Update Inventory",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,

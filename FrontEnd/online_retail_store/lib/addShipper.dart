@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 
-class changeProductPrice extends StatefulWidget {
-  const changeProductPrice({Key? key}) : super(key: key);
+class AddShipper extends StatefulWidget {
+  const AddShipper({Key? key}) : super(key: key);
 
   @override
-  _changeProductPriceState createState() => _changeProductPriceState();
+  _AddShipperState createState() => _AddShipperState();
 }
 
-class _changeProductPriceState extends State<changeProductPrice> {
-  late String productName;
-  late String productPrice;
-  late String productBrand;
+class _AddShipperState extends State<AddShipper> {
+  late String brandName;
+
+  late String brandUrl;
   @override
   final GlobalKey<FormState> addProductKey = GlobalKey<FormState>();
 
-  late FocusNode productNameField = FocusNode();
-  late FocusNode productPriceField = FocusNode();
-  late FocusNode productBrandField = FocusNode();
+  late FocusNode brandNameField = FocusNode();
+
+  late FocusNode brandUrlField = FocusNode();
 
   late bool authenticate = true;
   void setAuthenticate(bool auth) {
@@ -28,18 +28,18 @@ class _changeProductPriceState extends State<changeProductPrice> {
   Widget buildProductName() {
     @override
     void dispose() {
-      productNameField.dispose();
+      brandNameField.dispose();
       super.dispose();
     }
 
     void requestFocus() {
       setState(() {
-        FocusScope.of(context).requestFocus(productNameField);
+        FocusScope.of(context).requestFocus(brandNameField);
       });
     }
 
     return TextFormField(
-      focusNode: productNameField,
+      focusNode: brandNameField,
       onTap: () {
         requestFocus();
       },
@@ -47,84 +47,43 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the Product Name",
+        labelText: "Enter Shipper Name",
         labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
+          color: brandNameField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Brand Name cannot be empty";
+          return "Shipper Name cannot be empty";
         }
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) brandName = value;
       },
     );
   }
 
-  Widget buildProductPrice() {
-    @override
-    void dispose() {
-      productPriceField.dispose();
-      super.dispose();
-    }
-
-    void requestFocus() {
-      setState(() {
-        FocusScope.of(context).requestFocus(productPriceField);
-      });
-    }
-
-    return TextFormField(
-      focusNode: productNameField,
-      onTap: () {
-        requestFocus();
-      },
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.teal),
-        ),
-        labelText: "Enter the New Product price",
-        labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
-        ),
-      ),
-      maxLength: 40,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Product price cannot be empty";
-        }
-        return null;
-      },
-      onSaved: (value) {
-        if (value != null) productName = value;
-      },
-    );
-  }
-
-  Future<bool> changeProductPrice(
-      String productName, String productBrand, String price) async {
+  Future<bool> addBrand(String brandName, String brandUrl) async {
     return Future<bool>.value(false);
   }
 
-  Widget buildProductBrand() {
+  Widget buildProductUrl() {
     @override
     void dispose() {
-      productBrandField.dispose();
+      brandUrlField.dispose();
       super.dispose();
     }
 
     void requestFocus() {
       setState(() {
-        FocusScope.of(context).requestFocus(productBrandField);
+        FocusScope.of(context).requestFocus(brandUrlField);
       });
     }
 
     return TextFormField(
-      focusNode: productBrandField,
+      focusNode: brandUrlField,
       onTap: () {
         requestFocus();
       },
@@ -132,20 +91,20 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the Product Brand ",
+        labelText: "Enter Shipper Speed",
         labelStyle: TextStyle(
-          color: productBrandField.hasFocus ? Colors.teal : Colors.black,
+          color: brandUrlField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product Brand cannot be empty";
+          return "Shipper speed cannot be empty";
         }
         return null;
       },
       onSaved: (value) {
-        if (value != null) productBrand = value;
+        if (value != null) brandUrl = value;
       },
     );
   }
@@ -166,8 +125,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                 child: Column(
                   children: [
                     buildProductName(),
-                    buildProductBrand(),
-                    buildProductPrice(),
+                    buildProductUrl(),
                     SizedBox(
                       height: 10,
                     ),
@@ -187,8 +145,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
 
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
-                                await changeProductPrice(
-                                    productName, productBrand, productPrice);
+                                await addBrand(brandName, brandUrl);
                                 if (authenticate == true)
                                   showDialog(
                                       context: context,
@@ -196,7 +153,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                         return AlertDialog(
                                           title: Text('Database'),
                                           content: Text(
-                                              'Successfully updated Product Price'),
+                                              'Shipper Added Successfully'),
                                           actions: [
                                             ElevatedButton(
                                                 onPressed: () {
@@ -235,7 +192,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
                               child: Text(
-                                "Update price",
+                                "Add Shipper",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,

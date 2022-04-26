@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class changeProductPrice extends StatefulWidget {
-  const changeProductPrice({Key? key}) : super(key: key);
+class AddCategory extends StatefulWidget {
+  const AddCategory({Key? key}) : super(key: key);
 
   @override
-  _changeProductPriceState createState() => _changeProductPriceState();
+  _AddCategoryState createState() => _AddCategoryState();
 }
 
-class _changeProductPriceState extends State<changeProductPrice> {
+class _AddCategoryState extends State<AddCategory> {
   late String productName;
   late String productPrice;
   late String productBrand;
@@ -47,7 +47,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the Product Name",
+        labelText: "Enter the Category Name",
         labelStyle: TextStyle(
           color: productNameField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -55,7 +55,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Brand Name cannot be empty";
+          return "Category Name cannot be empty";
         }
         return null;
       },
@@ -87,7 +87,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the New Product price",
+        labelText: "Enter the Category tagLine",
         labelStyle: TextStyle(
           color: productNameField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -95,7 +95,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product price cannot be empty";
+          return "Tag Line cannot be empty";
         }
         return null;
       },
@@ -105,7 +105,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
     );
   }
 
-  Future<bool> changeProductPrice(
+  Future<bool> AddCategory(
       String productName, String productBrand, String price) async {
     return Future<bool>.value(false);
   }
@@ -132,7 +132,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the Product Brand ",
+        labelText: "Enter the Category Url ",
         labelStyle: TextStyle(
           color: productBrandField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -140,7 +140,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product Brand cannot be empty";
+          return "Category Url cannot be empty";
         }
         return null;
       },
@@ -187,7 +187,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
 
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
-                                await changeProductPrice(
+                                await AddCategory(
                                     productName, productBrand, productPrice);
                                 if (authenticate == true)
                                   showDialog(
@@ -196,7 +196,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                         return AlertDialog(
                                           title: Text('Database'),
                                           content: Text(
-                                              'Successfully updated Product Price'),
+                                              'Successfully Added Category'),
                                           actions: [
                                             ElevatedButton(
                                                 onPressed: () {
@@ -235,7 +235,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10))),
                               child: Text(
-                                "Update price",
+                                "Add Category",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
