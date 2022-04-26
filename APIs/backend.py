@@ -4,7 +4,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="1234"
+passwlogin="password"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -133,6 +133,22 @@ def getItemDetailsForOrder(order_id):
             Select *
             From items_purchased
             Where Order_id = {order_id}
+        """)
+        order_ids = cursor.fetchall()
+        db.close()
+        return flask.jsonify(order_ids)
+    except Exception as e:
+        return str(e)
+"""API Endpoint to get list of all Products"""
+@app.route('/getProductNameList', methods=['GET'])
+def getProductNameList():
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select product_name
+            From product
+           
         """)
         order_ids = cursor.fetchall()
         db.close()
@@ -559,7 +575,7 @@ def cartDetails(user_id):
     try:
         db = connectToDB()
         cursor = db.cursor()
-        cursor.execute(f"select P.product_name as \"Name\",P.brand_name As brand ,P.product_cost as \"Product Cost\",I.Quantity,P.product_cost*I.Quantity As Cost from product P,items_contained I where P.product_id=I.Product_ID and I.Unique_id = 1 and P.product_id IN (select product_id from inventory where quantity>0);")
+        cursor.execute(f"select P.product_name as \"Name\",P.brand_name As brand ,P.product_cost as \"Product Cost\",I.Quantity,P.product_cost*I.Quantity As Cost from product P,items_contained I where P.product_id=I.Product_ID and I.Unique_id = {user_id} and P.product_id IN (select product_id from inventory where quantity>0);")
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
@@ -716,7 +732,7 @@ def listShippersbySpeed(speed):
         cursor = db.cursor()
         cursor.execute(f"""SELECT S.shipper_name, S.Delivery_speed
                            FROM shipper S
-                           WHERE S.Delivery_speed >= {speed};""")
+                           WHERE S.Delivery_speed <= {speed};""")
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
@@ -874,7 +890,7 @@ def listAllBrands():
 @app.route('/getBrandImage/<string:brandName>', methods=['GET'])
 def getBrandImage(brandName):
     try:
-        f = open('APIs/brandlinks.json')
+        f = open('brandlinks.json')
         data = json.load(f)
         if brandName in data:
             return flask.jsonify(data[brandName])
@@ -924,6 +940,18 @@ def displayCategories():
     except Exception as e:
         return str(e)
 
+#list out category name only
+@app.route('/displayCategoriesName')
+def displayCategoriesName():
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"select category_name from categoryUserView ")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
 
 # search products using category name
 @app.route('/searchUsingCategoryName/<string:name>')
