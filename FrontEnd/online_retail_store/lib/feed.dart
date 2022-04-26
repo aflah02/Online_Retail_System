@@ -19,10 +19,13 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   GlobalKey<ScaffoldState> myKey = GlobalKey();
   late String username;
+  late int uid;
+
   @override
   void initState() {
     super.initState();
     username = widget.t;
+    getUserID();
     print(username);
   }
 
@@ -30,6 +33,9 @@ class _FeedState extends State<Feed> {
     var data = await http.get(Uri.parse(
         "http://127.0.0.1:5000/getUserDetailsFromEmail/'" + username + "'"));
     var jsonData = json.decode(data.body);
+    setState(() {
+      uid = jsonData[0][0];
+    });
     return jsonData[0][0];
   }
 
@@ -102,7 +108,9 @@ class _FeedState extends State<Feed> {
               ),
               Container(
                 height: 400,
-                child: AllProductPage(),
+                child: AllProductPage(
+                  uid: uid,
+                ),
               ),
               // ElevatedButton.icon(
               //     onPressed: () {
