@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'cart.dart';
+import 'Screen2.dart';
 import 'feed.dart';
 
 class LandingPage extends StatefulWidget {
@@ -20,8 +21,8 @@ class _LandingPageState extends State<LandingPage> {
     print(_username);
     screens = [
       Feed(t: _username),
-      Center(
-        child: Text('Screen2'),
+      Screen2(
+        name: _username,
       )
     ];
   }
@@ -54,7 +55,7 @@ class _LandingPageState extends State<LandingPage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.chair),
+                icon: Icon(Icons.person),
                 label: 'Chair',
               ),
             ],

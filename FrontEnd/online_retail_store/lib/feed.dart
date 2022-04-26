@@ -33,6 +33,18 @@ class _FeedState extends State<Feed> {
     return jsonData[0][0];
   }
 
+  String getInititals() {
+    String ret = '';
+    ret += username[0];
+    username.runes.forEach((int rune) {
+      var character = new String.fromCharCode(rune);
+      print(character);
+      if (character == ' ' && (rune + 1 <= username.length - 1))
+        ret += username[rune + 1];
+    });
+    return ret.toUpperCase();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -79,8 +91,8 @@ class _FeedState extends State<Feed> {
                       },
                       icon: Icon(Icons.shopping_cart)),
                   CircleAvatar(
-                    child: const Text(
-                      "FH",
+                    child: Text(
+                      getInititals(),
                       style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Colors.teal,
