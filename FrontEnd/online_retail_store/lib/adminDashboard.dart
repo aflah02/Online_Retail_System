@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
 import 'sidebar.dart';
+import 'AddProducts.dart';
+import 'addBrand.dart';
+import 'changeProductPrice.dart';
+import 'changeInventory.dart';
+import 'addCategory.dart';
+import 'UpdateCategory.dart';
+import 'addToInventory.dart';
+import 'addShipper.dart';
+import 'UpdateShipper.dart';
+import 'AddCoupons.dart';
+import 'UpdateCoupons.dart';
 
 class dashboard extends StatefulWidget {
   const dashboard({Key? key}) : super(key: key);
@@ -17,307 +28,255 @@ class _dashboardState extends State<dashboard> {
       drawer: Sidebar(),
       backgroundColor: Colors.teal,
       body: SafeArea(
+          child: Container(
+        height: 800,
+        child: SingleChildScrollView(
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                    size: 50.0,
-                  ),
-                  onPressed: () {
-                    scaffoldKey.currentState?.openDrawer();
-                  },
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.white,
+                        size: 50.0,
+                      ),
+                      onPressed: () {
+                        scaffoldKey.currentState?.openDrawer();
+                      },
+                    ),
+                    ClipOval(
+                      child: Image.asset(
+                        'assets/images/user.png',
+                        width: 50,
+                      ),
+                    )
+                  ],
                 ),
-                Image.asset(
-                  'assets/images/user.png',
-                  width: 50,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Center(
-              child: Wrap(
-                spacing: 20.0,
-                runSpacing: 20.0,
-                children: [
-                  SizedBox(
-                    width: 160,
-                    height: 160,
-                    child: Card(
-                      color: Color.fromARGB(255, 21, 21, 21),
-                      elevation: 2.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/user.png',
-                                width: 56.0,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Option 1",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "2 items",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 160,
-                    height: 160,
-                    child: Card(
-                      color: Color.fromARGB(255, 21, 21, 21),
-                      elevation: 2.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/cart.png',
-                                width: 64.0,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Option 2",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "2 items",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 160,
-                    height: 160,
-                    child: Card(
-                      color: Color.fromARGB(255, 21, 21, 21),
-                      elevation: 2.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/alexa.png',
-                                width: 54.0,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Option 3",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "4 items",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 160,
-                    height: 160,
-                    child: Card(
-                      color: Color.fromARGB(255, 21, 21, 21),
-                      elevation: 2.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/user.png',
-                                width: 56.0,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Option 4",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "12 items",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 160,
-                    height: 160,
-                    child: Card(
-                      color: Color.fromARGB(255, 21, 21, 21),
-                      elevation: 2.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/cart.png',
-                                width: 64.0,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Option 5",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "3 items",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 160,
-                    height: 160,
-                    child: Card(
-                      color: Color.fromARGB(255, 21, 21, 21),
-                      elevation: 2.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(18),
-                          child: Column(
-                            children: <Widget>[
-                              Image.asset(
-                                'assets/images/alexa.png',
-                                width: 54.0,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Option 6",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "4 items",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
               ),
-            ),
-          )
-        ],
+              SizedBox(
+                height: 30,
+              ),
+              ListTile(
+                title: Text(
+                  'Add Products',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return AddProduct();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Add Brands',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return AddBrand();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Change Product Price',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return changeProductPrice();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Update in Inventory',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return changeInventory();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Add in inventory',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return AddToInventory();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Add category',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return AddCategory();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Update Category Decription',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return UpdateCategory();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Add Shippers',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return AddShipper();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Update Shippers',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return UpdateShipper();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Add Coupons',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return AddCoupon();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Update Coupons',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return UpdateCoupon();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Log Out',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
       )),
     );
   }

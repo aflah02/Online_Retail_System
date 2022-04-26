@@ -1,3 +1,4 @@
+import 'package:amazon_clone/adminDashboard.dart';
 import 'package:flutter/material.dart';
 import 'amazon_clone.dart';
 import 'dart:convert';
@@ -272,9 +273,7 @@ class _loginState extends State<login> {
                                                 PageRouteBuilder(pageBuilder:
                                                     (BuildContext context, _,
                                                         __) {
-                                              return LandingPage(
-                                                uName: username,
-                                              );
+                                              return dashboard();
                                             }));
                                           },
                                           child: Text('Continue to App'))

@@ -1,8 +1,44 @@
+import 'package:amazon_clone/viewCoupons.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'paymentDetails.dart';
+import 'viewCoupons.dart';
+
+class Coupon {
+  late String couponCode;
+  late double discount;
+  late String expiry;
+  late int uniqueId;
+  late int isUsed;
+
+  Coupon(
+      {required this.couponCode,
+      required this.discount,
+      required this.expiry,
+      required this.uniqueId,
+      required this.isUsed});
+}
+
+Future<List<Coupon>> getCoupons(int userid) async {
+  var data = await http.get(Uri.parse(
+      'http://127.0.0.1:5000/listAvailableCouponsForUser/' +
+          userid.toString()));
+  var jsonData = json.decode(data.body);
+  List<Coupon> ret = [];
+  for (var coup in jsonData) {
+    Coupon temp = Coupon(
+        couponCode: coup[0],
+        discount: coup[1],
+        expiry: coup[2],
+        uniqueId: coup[3],
+        isUsed: coup[4]);
+
+    ret.add(temp);
+  }
+  return ret;
+}
 
 class CartItem {
   late String product;
@@ -30,7 +66,7 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   late String _username;
-  int userid = 0;
+  int userid = 1;
   late String name;
   late String email;
   late String mobileNumber;
@@ -146,7 +182,7 @@ class _CartState extends State<Cart> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Expanded(
-                                  flex: 3,
+                                  flex: 2,
                                   child: Center(
                                     child: Text(
                                       '${snapshot.data[index].brand}' +
@@ -159,17 +195,73 @@ class _CartState extends State<Cart> {
                                     ),
                                   )),
                               Expanded(
-                                flex: 1,
-                                child: Text(
-                                  '${snapshot.data[index].cost}' +
-                                      " x " +
-                                      '${snapshot.data[index].quantity}',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                  ),
+                                flex: 2,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        '${snapshot.data[index].cost}' +
+                                            " x " +
+                                            '${snapshot.data[index].quantity}',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          '+',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        ),
+                                      ),
+                                    ),
+                                    // IconButton(
+                                    //   icon: Icon(Icons.remove),
+                                    //   onPressed: () {},
+                                    //   iconSize: 12,
+                                    // ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: TextButton(
+                                        onPressed: () {},
+                                        child: Text(
+                                          '-',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Color.fromARGB(255, 0, 0, 0)),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
+                              ),
+                              SizedBox(
+                                height: 6,
                               ),
                               Expanded(
                                 flex: 1,
@@ -395,6 +487,21 @@ class _CartState extends State<Cart> {
                     onPressed: () {},
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextButton.icon(
+                icon: Icon(Icons.memory),
+                onPressed: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return ViewCoupons(
+                      id: userid,
+                    );
+                  }));
+                },
+                label: Text('Don\'t remember ? Click here'),
               ),
               SizedBox(
                 height: 20,
