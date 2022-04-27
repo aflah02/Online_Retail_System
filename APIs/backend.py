@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="password"
+passwlogin="22510FamSuccess"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -23,7 +23,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="22510FamSuccess"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -66,7 +66,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="22510FamSuccess"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -684,7 +684,7 @@ def addBeforeOrderTableDetails(address,userid,shipperid):
 
 """API endpoint to add items in items_purchased before BuyNow which places order for a given user and updating inventory"""
 @app.route('/addItemsPurchased/<int:userid>', methods=['GET'])
-def addBeforeOrderTableDetails(userid):
+def addItemsPurchased(userid):
     try:
         db = connectToDB()
         cursor = db.cursor()
