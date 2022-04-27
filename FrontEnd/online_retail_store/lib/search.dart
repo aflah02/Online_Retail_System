@@ -476,7 +476,10 @@ class Search extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     if (categories.contains(query)) {
-      return CategoryPage(category: query);
+      return CategoryPage(
+        category: query,
+        uid: 1,
+      );
     } else if (brands.contains(query)) {
       return BrandPage(name: query);
     } else if (searches.contains(query)) {

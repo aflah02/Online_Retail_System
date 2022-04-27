@@ -34,17 +34,39 @@ class _AllProductPageState extends State<AllProductPage> {
   int quantity = 1;
   late String Username;
   late int Userid;
+  Future<bool> checkInCart(String brand, String product, int quantity) async {
+    var data = await http.get(
+        Uri.parse('http://127.0.0.1:5000/cartDetails/' + Userid.toString()));
+    var jsonData = json.decode(data.body);
+    for (var prod in jsonData) {
+      if (prod[0] == product && prod[1] == brand)
+        return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
+  }
+
   Future<int> addToCart(String brand, String product, int quantity) async {
     var data = await http.get(Uri.parse(
         'http://127.0.0.1:5000/getProductID/' + product + '/' + brand));
     var jsonData = json.decode(data.body);
     print(jsonData[0][0]);
-    await http.get(Uri.parse('http://127.0.0.1:5000/addProductToCart/' +
-        Userid.toString() +
-        '/' +
-        jsonData[0][0].toString() +
-        '/' +
-        quantity.toString()));
+    bool check = await checkInCart(brand, product, quantity);
+    if (check == false) {
+      await http.get(Uri.parse('http://127.0.0.1:5000/addProductToCart/' +
+          Userid.toString() +
+          '/' +
+          jsonData[0][0].toString() +
+          '/' +
+          quantity.toString()));
+    } else {
+      await http.get(Uri.parse(
+          'http://127.0.0.1:5000/addProductsWhenAlreadyExistsInCart/' +
+              jsonData[0][0].toString() +
+              '/' +
+              quantity.toString() +
+              '/' +
+              Userid.toString()));
+    }
     return 1;
   }
 
@@ -223,14 +245,14 @@ class _AllProductPageState extends State<AllProductPage> {
                                                         );
                                                       });
                                                 } else {
-                                                  setState(() {
-                                                    quantity = 0;
-                                                  });
                                                   addToCart(
                                                       snapshot
                                                           .data[index].brand,
                                                       snapshot.data[index].name,
                                                       quantity);
+                                                  setState(() {
+                                                    quantity = 0;
+                                                  });
                                                   Navigator.of(context,
                                                           rootNavigator: true)
                                                       .pop('dialog');

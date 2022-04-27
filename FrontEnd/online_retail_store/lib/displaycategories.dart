@@ -18,13 +18,21 @@ class Category {
 }
 
 class ProductList extends StatefulWidget {
-  const ProductList({Key? key}) : super(key: key);
+  final int uid;
+  const ProductList({Key? key, required this.uid}) : super(key: key);
 
   @override
   _ProductListState createState() => _ProductListState();
 }
 
 class _ProductListState extends State<ProductList> {
+  late int userid;
+  @override
+  void initState() {
+    super.initState();
+    userid = widget.uid;
+  }
+
   Future<List<Category>> getProducts() async {
     var data =
         await http.get(Uri.parse('http://127.0.0.1:5000/displayCategories'));
@@ -109,8 +117,9 @@ class _ProductListState extends State<ProductList> {
                               Navigator.push(context, PageRouteBuilder(
                                   pageBuilder: (BuildContext context, _, __) {
                                 return CategoryPage(
-                                    category:
-                                        snapshot.data[index].categoryName);
+                                  category: snapshot.data[index].categoryName,
+                                  uid: userid,
+                                );
                               }));
                             },
                           ),

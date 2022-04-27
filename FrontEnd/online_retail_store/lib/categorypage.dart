@@ -17,18 +17,38 @@ class Product {
 
 class CategoryPage extends StatefulWidget {
   final String category;
-  const CategoryPage({Key? key, required this.category}) : super(key: key);
+  final int uid;
+  const CategoryPage({Key? key, required this.category, required this.uid})
+      : super(key: key);
 
   @override
   _CategoryPageState createState() => _CategoryPageState();
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  late int Userid = 2;
+  Future<int> addToCart(String brand, String product, int quantity) async {
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/getProductID/' + product + '/' + brand));
+    var jsonData = json.decode(data.body);
+
+    await http.get(Uri.parse('http://127.0.0.1:5000/addProductToCart/' +
+        Userid.toString() +
+        '/' +
+        jsonData[0][0].toString() +
+        '/' +
+        quantity.toString()));
+    return 1;
+  }
+
   late String categoryName;
+  late int quantity = 1;
   @override
   void initState() {
     super.initState();
     categoryName = widget.category;
+    Userid = widget.uid;
+
     print(categoryName);
   }
 
@@ -92,6 +112,158 @@ class _CategoryPageState extends State<CategoryPage> {
                         ),
                         SizedBox(
                           height: 10,
+                        ),
+                        Container(
+                          margin: EdgeInsets.fromLTRB(75, 0, 0, 0),
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return StatefulBuilder(
+                                        builder: (context, setState) {
+                                      return AlertDialog(
+                                        title: Text('Cart'),
+                                        content: Container(
+                                          height: 100,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 20,
+                                              ),
+                                              Text(
+                                                'Quantity : ${quantity}',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    20, 0, 0, 0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    IconButton(
+                                                      icon: Icon(Icons.add),
+                                                      onPressed: () {
+                                                        print('increase');
+                                                        setState(() {
+                                                          quantity += 1;
+                                                        });
+                                                      },
+                                                    ),
+                                                    IconButton(
+                                                      icon: Icon(Icons.remove),
+                                                      onPressed: () {
+                                                        print('decrease');
+                                                        setState(() {
+                                                          quantity -= 1;
+                                                        });
+                                                      },
+                                                    )
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                if (quantity <= 0) {
+                                                  setState(() {
+                                                    quantity = 0;
+                                                  });
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title:
+                                                              Text('Database'),
+                                                          content: Text(
+                                                              'ERROR! Ensure Quantity is a positive number'),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context,
+                                                                          rootNavigator:
+                                                                              true)
+                                                                      .pop(
+                                                                          'dialog');
+                                                                },
+                                                                child: Text(
+                                                                    'Back to App'))
+                                                          ],
+                                                        );
+                                                      });
+                                                } else {
+                                                  addToCart(
+                                                      snapshot
+                                                          .data[index].brand,
+                                                      snapshot.data[index].name,
+                                                      quantity);
+                                                  setState(() {
+                                                    quantity = 0;
+                                                  });
+
+                                                  Navigator.of(context,
+                                                          rootNavigator: true)
+                                                      .pop('dialog');
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return AlertDialog(
+                                                          title:
+                                                              Text('Database'),
+                                                          content: Text(
+                                                              'Successfully Added to Cart'),
+                                                          actions: [
+                                                            ElevatedButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context,
+                                                                          rootNavigator:
+                                                                              true)
+                                                                      .pop(
+                                                                          'dialog');
+                                                                },
+                                                                child: Text(
+                                                                    'Back to App'))
+                                                          ],
+                                                        );
+                                                      });
+                                                }
+                                              },
+                                              child: Text('Add to Cart')),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  quantity = 0;
+                                                });
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop('dialog');
+                                              },
+                                              child: Text('Back'))
+                                        ],
+                                      );
+                                    });
+                                  });
+                            },
+                            icon: Icon(Icons.shopping_cart),
+                            label: Text('Add to cart'),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromRGBO(162, 124, 91, 0.7)),
+                            ),
+                          ),
                         )
                       ],
                     ));

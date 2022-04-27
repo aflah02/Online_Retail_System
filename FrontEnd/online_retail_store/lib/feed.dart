@@ -7,6 +7,7 @@ import 'Ranking.dart';
 import 'search.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'Screen2.dart';
 
 class Feed extends StatefulWidget {
   final String t;
@@ -19,7 +20,8 @@ class Feed extends StatefulWidget {
 class _FeedState extends State<Feed> {
   GlobalKey<ScaffoldState> myKey = GlobalKey();
   late String username;
-  late int uid;
+  late String name = '';
+  late int uid = 1;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _FeedState extends State<Feed> {
     var jsonData = json.decode(data.body);
     setState(() {
       uid = jsonData[0][0];
+      name = jsonData[0][2];
     });
     return jsonData[0][0];
   }
@@ -96,13 +99,16 @@ class _FeedState extends State<Feed> {
                         }));
                       },
                       icon: Icon(Icons.shopping_cart)),
-                  CircleAvatar(
-                    child: Text(
-                      getInititals(),
-                      style: TextStyle(color: Colors.white),
+                  GestureDetector(
+                    onTap: () {},
+                    child: CircleAvatar(
+                      child: Text(
+                        getInititals(),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      backgroundColor: Colors.teal,
+                      maxRadius: 15,
                     ),
-                    backgroundColor: Colors.teal,
-                    maxRadius: 15,
                   ),
                 ],
               ),
@@ -127,7 +133,9 @@ class _FeedState extends State<Feed> {
                 'Products by categories',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              ProductList(),
+              ProductList(
+                uid: uid,
+              ),
               Text(
                 'Products by Brands',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),

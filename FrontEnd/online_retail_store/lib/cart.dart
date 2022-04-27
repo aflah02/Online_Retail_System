@@ -98,10 +98,11 @@ class _CartState extends State<Cart> {
             _username +
             "'"));
     var jsonData = json.decode(data.body);
-    address = jsonData[0][1];
+    address = jsonData[userid - 1][1];
     return address;
   }
 
+  void increaseQuantity() async {}
   Widget buildCoupon() {
     @override
     void dispose() {
@@ -217,7 +218,9 @@ class _CartState extends State<Cart> {
                                       width: 30,
                                       height: 30,
                                       child: TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          increaseQuantity();
+                                        },
                                         child: Text(
                                           '+',
                                           style: TextStyle(

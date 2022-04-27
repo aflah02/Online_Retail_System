@@ -176,7 +176,7 @@ class _AddCouponState extends State<AddCoupon> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the product Url",
+        labelText: "Enter User to which coupon is allotted",
         labelStyle: TextStyle(
           color: productUrlField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -184,7 +184,7 @@ class _AddCouponState extends State<AddCoupon> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product Url cannot be empty";
+          return " cannot be empty";
         }
         return null;
       },
