@@ -226,24 +226,6 @@ class _dashboardState extends State<dashboard> {
               ),
               ListTile(
                 title: Text(
-                  'Update Shippers',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.arrow_right,
-                  color: Colors.white,
-                ),
-                onTap: () {
-                  Navigator.push(context, PageRouteBuilder(
-                      pageBuilder: (BuildContext context, _, __) {
-                    return UpdateShipper();
-                  }));
-                },
-              ),
-              ListTile(
-                title: Text(
                   'Add Coupons',
                   style: TextStyle(
                     color: Colors.white,
@@ -257,24 +239,6 @@ class _dashboardState extends State<dashboard> {
                   Navigator.push(context, PageRouteBuilder(
                       pageBuilder: (BuildContext context, _, __) {
                     return AddCoupon();
-                  }));
-                },
-              ),
-              ListTile(
-                title: Text(
-                  'Update Coupons',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                trailing: Icon(
-                  Icons.arrow_right,
-                  color: Colors.white,
-                ),
-                onTap: () {
-                  Navigator.push(context, PageRouteBuilder(
-                      pageBuilder: (BuildContext context, _, __) {
-                    return UpdateCoupon();
                   }));
                 },
               ),
