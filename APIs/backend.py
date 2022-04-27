@@ -182,7 +182,7 @@ def getCartTotalPostCoupon(user_id, coupon_id):
             from (select I.Unique_id,I.Product_ID,U.NAME as Username, SUM(I.Quantity*P.product_cost) as Total
             from User U, items_contained I,product P
             where P.product_id=I.Product_ID and I.Unique_id=U.id and P.product_id IN (select product_id from inventory where quantity>0) Group BY I.Unique_id,I.Product_ID) as Temp
-            group by Temp.Unique_id) as BigTemp where BigTemp.Unique_id = 1
+            group by Temp.Unique_id) as BigTemp where BigTemp.Unique_id = {user_id}
             """)
         result = cursor.fetchall()
         totalCost = float(result[0][-1])
