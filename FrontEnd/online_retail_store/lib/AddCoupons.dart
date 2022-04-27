@@ -116,6 +116,8 @@ class _AddCouponState extends State<AddCoupon> {
       String couponExpiryMonth, String userId, String discount) async {
     var data = await http.get(Uri.parse('http://127.0.0.1:5000/addNewCoupon' +
         '/' +
+        couponId +
+        '/' +
         discount +
         '/' +
         couponExpiryYear +
@@ -247,7 +249,7 @@ class _AddCouponState extends State<AddCoupon> {
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productPrice = value;
       },
     );
   }
