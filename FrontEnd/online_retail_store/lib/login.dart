@@ -32,8 +32,22 @@ class _loginState extends State<login> {
   }
 
   Future<bool> getProducts(String user, String pwd) async {
-    var data = await http.get(
-        Uri.parse('http://127.0.0.1:5000/authenticate/' + user + '/' + pwd));
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/authenticateUser/' + user + '/' + pwd));
+
+    if (data.body == 'Success') {
+      setAuthenticate(true);
+      print('wooohoooooo');
+      return Future<bool>.value(true);
+    } else
+      print(data.body);
+    setAuthenticate(false);
+    return Future<bool>.value(false);
+  }
+
+  Future<bool> getAdmin(String user, String pwd) async {
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/authenticateAdmin/' + user + '/' + pwd));
 
     if (data.body == 'Success') {
       setAuthenticate(true);
@@ -258,7 +272,7 @@ class _loginState extends State<login> {
 
                           formKey.currentState!.save();
                           // Navigator.pushNamed(context, '/Store');
-                          await getProducts(username, password);
+                          await getAdmin(username, password);
                           if (authenticate == true)
                             showDialog(
                                 context: context,

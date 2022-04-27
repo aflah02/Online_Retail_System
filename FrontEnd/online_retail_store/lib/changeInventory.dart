@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class changeInventory extends StatefulWidget {
   const changeInventory({Key? key}) : super(key: key);
@@ -79,7 +81,7 @@ class _changeInventoryState extends State<changeInventory> {
     }
 
     return TextFormField(
-      focusNode: productNameField,
+      focusNode: productPriceField,
       onTap: () {
         requestFocus();
       },
@@ -89,7 +91,7 @@ class _changeInventoryState extends State<changeInventory> {
         ),
         labelText: "Enter the New Product Quantity",
         labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
+          color: productPriceField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
@@ -100,13 +102,25 @@ class _changeInventoryState extends State<changeInventory> {
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productPrice = value;
       },
     );
   }
 
   Future<bool> changeInventory(
       String productName, String productBrand, String price) async {
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/updateInventory/' +
+            productName +
+            '/' +
+            productBrand +
+            '/' +
+            price));
+    if (data.body == 'Success') {
+      setState(() {
+        authenticate = true;
+      });
+    }
     return Future<bool>.value(false);
   }
 

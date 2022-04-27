@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AddToInventory extends StatefulWidget {
   const AddToInventory({Key? key}) : super(key: key);
@@ -79,7 +81,7 @@ class _AddToInventoryState extends State<AddToInventory> {
     }
 
     return TextFormField(
-      focusNode: productNameField,
+      focusNode: productPriceField,
       onTap: () {
         requestFocus();
       },
@@ -89,7 +91,7 @@ class _AddToInventoryState extends State<AddToInventory> {
         ),
         labelText: "Enter the  Product Quantity",
         labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
+          color: productPriceField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
@@ -100,13 +102,27 @@ class _AddToInventoryState extends State<AddToInventory> {
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productPrice = value;
       },
     );
   }
 
   Future<bool> AddToInventory(
       String productName, String productBrand, String price) async {
+    var data = await http.get(Uri.parse('http://127.0.0.1:5000/getProductID/' +
+        productName +
+        '/' +
+        productBrand));
+    var jsonData = json.decode(data.body);
+    var call = await http.get(Uri.parse('http://127.0.0.1:5000/addInventory/' +
+        jsonData[0][0].toString() +
+        '/' +
+        price));
+    if (call.body == 'Success') {
+      setState(() {
+        authenticate = true;
+      });
+    }
     return Future<bool>.value(false);
   }
 
