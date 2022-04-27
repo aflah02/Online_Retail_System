@@ -10,6 +10,7 @@ import 'addToInventory.dart';
 import 'addShipper.dart';
 import 'UpdateShipper.dart';
 import 'AddCoupons.dart';
+import 'ViewInventory.dart';
 import 'UpdateCoupons.dart';
 
 class dashboard extends StatefulWidget {
@@ -130,6 +131,24 @@ class _dashboardState extends State<dashboard> {
                   Navigator.push(context, PageRouteBuilder(
                       pageBuilder: (BuildContext context, _, __) {
                     return changeInventory();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'View Inventory',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return ViewInventory();
                   }));
                 },
               ),

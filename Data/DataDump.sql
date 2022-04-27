@@ -1636,3 +1636,6 @@ grant all on retaildb.userProductView to admin_role;
 grant all on retaildb.categoryUserView to admin_role;
 grant all on retaildb.protectedUserView to admin_role;
 grant all on retaildb.usableCouponView to admin_role;
+
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
