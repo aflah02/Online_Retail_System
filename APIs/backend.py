@@ -829,6 +829,11 @@ def addProductImage(productname, brandname, imageUrl):
         data.update(a_dict)
         with open(r'APIs\productLinks.json', 'w') as f:
             json.dump(data, f)
+        with open(r'APIs\productLinks.json', 'r+') as f:
+            data = json.load(f)
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
         return "Success"
     except Exception as e:
         return str(e)
@@ -843,6 +848,11 @@ def addCategoryImage(categoryName, imageUrl):
         data.update(a_dict)
         with open(r'APIs\categoryLinks.json', 'w') as f:
             json.dump(data, f)
+        with open(r'APIs\categoryLinks.json', 'r+') as f:
+            data = json.load(f)
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
         return "Success"
     except Exception as e:
         return str(e)
