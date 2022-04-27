@@ -140,7 +140,7 @@ class _FeedState extends State<Feed> {
                 'Products by Brands',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              BrandList(),
+              BrandList(userid: uid.toString()),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -17,13 +17,23 @@ class Brand {
 }
 
 class BrandList extends StatefulWidget {
-  const BrandList({Key? key}) : super(key: key);
+  final String userid;
+  const BrandList({Key? key, required this.userid}) : super(key: key);
 
   @override
   _BrandListState createState() => _BrandListState();
 }
 
 class _BrandListState extends State<BrandList> {
+  late String uid = '';
+
+  @override
+  void initState() {
+    setState(() {
+      uid = widget.userid;
+    });
+  }
+
   Future<List<Brand>> getProducts() async {
     var data = await http.get(Uri.parse('http://127.0.0.1:5000/listAllBrands'));
 
@@ -104,7 +114,9 @@ class _BrandListState extends State<BrandList> {
                               Navigator.push(context, PageRouteBuilder(
                                   pageBuilder: (BuildContext context, _, __) {
                                 return BrandPage(
-                                    name: snapshot.data[index].brandName);
+                                  name: snapshot.data[index].brandName,
+                                  uid: uid,
+                                );
                               }));
                             },
                           ),
