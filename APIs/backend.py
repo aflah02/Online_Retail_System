@@ -3,6 +3,8 @@ import mysql.connector
 import json
 import datetime
 
+from numpy import product
+
 usernamelogin="root"
 passwlogin="password"
 def connectToDB():
@@ -820,6 +822,20 @@ def addProducts(name,brandname,cost):
     except Exception as e:
         return str(e)
 
+"""Add product Image to json"""
+@app.route('/addProductImage/<string:productname>/<string:brandname>/<string:imageUrl>')
+def addProductImage(productname, brandname, imageUrl):
+    try:
+        a_dict = {f'{brandname} {productname}': f'{imageUrl}'}
+        with open(r'APIs\productLinks.json') as f:
+            data = json.load(f)
+        data.update(a_dict)
+        with open(r'APIs\productLinks.json', 'w') as f:
+            json.dump(data, f)
+        return "Success"
+    except Exception as e:
+        return str(e)
+
 #API for deleting products
 @app.route('/deleteProduct/<string:name>/<string:brandname>')
 def deleteProduct(name,brandname):
@@ -1086,6 +1102,6 @@ def viewInventory():
         return flask.jsonify(result)
     except Exception as e:
         return str(e)
-        
+
 if __name__ == '__main__':
     app.run(debug=True)
