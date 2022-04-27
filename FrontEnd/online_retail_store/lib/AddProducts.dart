@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -109,8 +112,27 @@ class _AddProductState extends State<AddProduct> {
     );
   }
 
-  Future<bool> addProduct(
-      String productName, String productBrand, String productPrice) async {
+  Future<bool> addProduct(String productName, String productBrand,
+      String productPrice, String category, String url) async {
+    var data = await http.get(Uri.parse('http://127.0.0.1:5000/addProducts/' +
+        productName +
+        '/' +
+        productBrand +
+        '/' +
+        productPrice));
+    if (data.body == 'Success') {
+      var img = await http.get(Uri.parse(
+          'http://127.0.0.1:5000/addProductImage/' +
+              productName +
+              '/' +
+              productBrand +
+              '/' +
+              url));
+      if (img.body == 'Success') {
+        return Future<bool>.value(true);
+      }
+    }
+
     return Future<bool>.value(false);
   }
 
@@ -273,8 +295,8 @@ class _AddProductState extends State<AddProduct> {
 
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
-                                await addProduct(
-                                    productName, productBrand, productPrice);
+                                await addProduct(productName, productBrand,
+                                    productPrice, productCategory, productUrl);
                                 if (authenticate == true)
                                   showDialog(
                                       context: context,

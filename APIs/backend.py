@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="1234"
+passwlogin="password"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -1221,6 +1221,22 @@ def viewInventory():
         return flask.jsonify(result)
     except Exception as e:
         return str(e)
+
+# API to show average purchased cost of each product category next to purchased products
+@app.route('/averageCategoryCost')
+def averagePurchaseCost():
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"""SELECT T.Product_ID,T.category_id,T.Cost,AVG(T.Cost) OVER( PARTITION BY T.category_id) AS Avg_Category_Cost
+FROM (SELECT P.Product_ID AS Product_ID,B.category_id AS category_id, SUM(P.Cost) AS Cost FROM items_purchased P NATURAL JOIN belongsTo B GROUP BY P.Product_ID) AS T;
+""")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

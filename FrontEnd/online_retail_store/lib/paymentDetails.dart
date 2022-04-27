@@ -18,6 +18,7 @@ class PaymentForm extends StatefulWidget {
 }
 
 class _PaymentFormState extends State<PaymentForm> {
+  placeOrder() {}
   int paymentSelect = 1;
   late FocusNode usernameField = FocusNode();
   late String username;
@@ -509,6 +510,7 @@ class _PaymentFormState extends State<PaymentForm> {
                 width: MediaQuery.of(context).size.width - 60,
                 child: TextButton.icon(
                   onPressed: () {
+                    placeOrder();
                     Navigator.pop(context);
                     Navigator.pop(context);
                   },
