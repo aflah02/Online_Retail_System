@@ -66,7 +66,17 @@ class _AddShipperState extends State<AddShipper> {
     );
   }
 
-  Future<bool> addBrand(String brandName, String brandUrl) async {
+  Future<bool> addBrand(String shipperName, String shipperSpeed) async {
+    var data = await http.get(Uri.parse('http://127.0.0.1:5000/addNewShipper/' +
+        shipperName +
+        '/' +
+        shipperSpeed));
+    if (data.body == 'Success') {
+      setState(() {
+        authenticate = true;
+      });
+      return Future<bool>.value(true);
+    }
     return Future<bool>.value(false);
   }
 

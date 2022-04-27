@@ -1,4 +1,7 @@
+import 'package:amazon_clone/amazon_clone.dart';
 import 'package:flutter/material.dart';
+import 'package:html/parser.dart';
+import 'package:http/http.dart' as http;
 
 class AddCoupon extends StatefulWidget {
   const AddCoupon({Key? key}) : super(key: key);
@@ -91,7 +94,7 @@ class _AddCouponState extends State<AddCoupon> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the product Category",
+        labelText: "Enter the month of expiry ",
         labelStyle: TextStyle(
           color: productCategoryField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -99,7 +102,7 @@ class _AddCouponState extends State<AddCoupon> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Product Category cannot be empty";
+          return "Expiry month cannot be empty";
         }
         return null;
       },
@@ -109,8 +112,23 @@ class _AddCouponState extends State<AddCoupon> {
     );
   }
 
-  Future<bool> addProduct(
-      String productName, String productBrand, String productPrice) async {
+  Future<bool> addProduct(String couponId, String couponExpiryYear,
+      String couponExpiryMonth, String userId, String discount) async {
+    var data = await http.get(Uri.parse('http://127.0.0.1:5000/addNewCoupon' +
+        '/' +
+        discount +
+        '/' +
+        couponExpiryYear +
+        '/' +
+        couponExpiryMonth +
+        '/1/' +
+        userId));
+    if (data.body == 'Success') {
+      return Future<bool>.value(true);
+      setState(() {
+        authenticate = true;
+      });
+    }
     return Future<bool>.value(false);
   }
 
@@ -136,7 +154,7 @@ class _AddCouponState extends State<AddCoupon> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.teal),
         ),
-        labelText: "Enter the Expiry date in dd/mm/yyyy",
+        labelText: "Enter the Expiry year",
         labelStyle: TextStyle(
           color: productBrandField.hasFocus ? Colors.teal : Colors.black,
         ),
@@ -251,6 +269,8 @@ class _AddCouponState extends State<AddCoupon> {
                   children: [
                     buildProductName(),
                     buildProductBrand(),
+                    buildProductCategory(),
+                    buildProductUrl(),
                     buildProductPrice(),
                     SizedBox(
                       height: 10,
@@ -271,8 +291,8 @@ class _AddCouponState extends State<AddCoupon> {
 
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
-                                await addProduct(
-                                    productName, productBrand, productPrice);
+                                await addProduct(productName, productBrand,
+                                    productCategory, productUrl, productPrice);
                                 if (authenticate == true)
                                   showDialog(
                                       context: context,
