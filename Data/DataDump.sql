@@ -1304,7 +1304,12 @@ FOR EACH ROW BEGIN
 	ELSE totalCost + (NEW.Cost) 
     END
     WHERE NEW.Order_id = order_table.Order_id;
+END $$
+DELIMITER ;
 
+DELIMITER $$
+CREATE TRIGGER `setCoupon` BEFORE INSERT ON `items_purchased`
+FOR EACH ROW BEGIN
 	UPDATE coupon_data, order_table
     Set isUsed = 
     Case
