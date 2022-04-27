@@ -882,6 +882,26 @@ def addCategoryImage(categoryName, imageUrl):
     except Exception as e:
         return str(e)
 
+"""Add brand Image to json"""
+@app.route('/addBrandImage/<string:brandName>/<string:imageUrl>')
+def addBrandImage(brandName, imageUrl):
+    try:
+        a_dict = {f'{brandName}': f'{imageUrl}'}
+        with open(r'APIs\brandlinks.json') as f:
+            data = json.load(f)
+        data.update(a_dict)
+        with open(r'APIs\brandlinks.json', 'w') as f:
+            json.dump(data, f)
+        with open(r'APIs\brandlinks.json', 'r+') as f:
+            data = json.load(f)
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
+
 #API for deleting products
 @app.route('/deleteProduct/<string:name>/<string:brandname>')
 def deleteProduct(name,brandname):
