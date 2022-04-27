@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AddBrand extends StatefulWidget {
   const AddBrand({Key? key}) : super(key: key);
@@ -66,6 +67,16 @@ class _AddBrandState extends State<AddBrand> {
   }
 
   Future<bool> addBrand(String brandName, String brandUrl) async {
+    var data = await http
+        .get(Uri.parse('http://127.0.0.1:5000/addBrand/' + brandName));
+    if (data.body == 'Success') {
+      var img = await http
+          .get(Uri.parse('http://127.0.0.1:5000/addBrandImage/' + brandUrl));
+      if (img.body == 'Success') {
+        return Future<bool>.value(true);
+      }
+    }
+
     return Future<bool>.value(false);
   }
 

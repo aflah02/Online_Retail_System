@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class UpdateCategory extends StatefulWidget {
   const UpdateCategory({Key? key}) : super(key: key);
@@ -79,7 +80,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
     }
 
     return TextFormField(
-      focusNode: productNameField,
+      focusNode: productPriceField,
       onTap: () {
         requestFocus();
       },
@@ -89,7 +90,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
         ),
         labelText: "Enter the New Category tagLine",
         labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
+          color: productPriceField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
@@ -100,13 +101,27 @@ class _UpdateCategoryState extends State<UpdateCategory> {
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productPrice = value;
       },
     );
   }
 
   Future<bool> UpdateCategory(
-      String productName, String productBrand, String price) async {
+      String categoryName, String categoryUrl, String categoryTagLine) async {
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/updateCategory/' +
+            categoryName +
+            '/' +
+            categoryTagLine));
+    if (data.body == 'Success') {
+      var img = await http.get(Uri.parse(
+          'http://127.0.0.1:5000/addCategoryImage/' +
+              categoryName +
+              '/' +
+              categoryUrl));
+      if (img.body == 'Success') return Future<bool>.value(true);
+    }
+
     return Future<bool>.value(false);
   }
 
@@ -195,7 +210,8 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                                       builder: (context) {
                                         return AlertDialog(
                                           title: Text('Database'),
-                                          content: Text('Brand Added Product'),
+                                          content: Text(
+                                              'Successfully updated Category description'),
                                           actions: [
                                             ElevatedButton(
                                                 onPressed: () {

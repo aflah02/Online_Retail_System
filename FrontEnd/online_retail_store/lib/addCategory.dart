@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AddCategory extends StatefulWidget {
   const AddCategory({Key? key}) : super(key: key);
@@ -106,7 +108,21 @@ class _AddCategoryState extends State<AddCategory> {
   }
 
   Future<bool> AddCategory(
-      String productName, String productBrand, String price) async {
+      String categoryName, String categoryTagLine, String url) async {
+    var data = await http.get(Uri.parse('http://127.0.0.1:5000/addCategory/' +
+        categoryName +
+        '/' +
+        categoryTagLine));
+    if (data.body == 'Success') {
+      var img = await http.get(Uri.parse(
+          'http://127.0.0.1:5000/addCategoryImage/' +
+              categoryName +
+              '/' +
+              url));
+      if (img.body == 'Success') {
+        return Future<bool>.value(true);
+      }
+    }
     return Future<bool>.value(false);
   }
 

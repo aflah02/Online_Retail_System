@@ -251,7 +251,7 @@ class _AddProductState extends State<AddProduct> {
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productPrice = value;
       },
     );
   }

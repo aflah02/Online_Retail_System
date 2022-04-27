@@ -902,12 +902,12 @@ def addProducts(name,brandname,cost):
 def addProductImage(productname, brandname, imageUrl):
     try:
         a_dict = {f'{brandname} {productname}': f'{imageUrl}'}
-        with open(r'APIs\productLinks.json') as f:
+        with open(r'productLinks.json') as f:
             data = json.load(f)
         data.update(a_dict)
-        with open(r'APIs\productLinks.json', 'w') as f:
+        with open(r'productLinks.json', 'w') as f:
             json.dump(data, f)
-        with open(r'APIs\productLinks.json', 'r+') as f:
+        with open(r'productLinks.json', 'r+') as f:
             data = json.load(f)
             f.seek(0)
             json.dump(data, f, indent=4)
@@ -916,17 +916,17 @@ def addProductImage(productname, brandname, imageUrl):
     except Exception as e:
         return str(e)
 
-"""Add product Image to json"""
+"""Add Category Image to json"""
 @app.route('/addCategoryImage/<string:categoryName>/<string:imageUrl>')
 def addCategoryImage(categoryName, imageUrl):
     try:
         a_dict = {f'{categoryName}': f'{imageUrl}'}
-        with open(r'APIs\categoryLinks.json') as f:
+        with open(r'categoryLinks.json') as f:
             data = json.load(f)
         data.update(a_dict)
-        with open(r'APIs\categoryLinks.json', 'w') as f:
+        with open(r'categoryLinks.json', 'w') as f:
             json.dump(data, f)
-        with open(r'APIs\categoryLinks.json', 'r+') as f:
+        with open(r'categoryLinks.json', 'r+') as f:
             data = json.load(f)
             f.seek(0)
             json.dump(data, f, indent=4)
