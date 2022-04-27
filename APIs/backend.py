@@ -4,7 +4,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="1234"
+passwlogin="password"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
