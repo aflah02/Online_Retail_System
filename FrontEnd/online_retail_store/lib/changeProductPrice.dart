@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class changeProductPrice extends StatefulWidget {
   const changeProductPrice({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
   late FocusNode productPriceField = FocusNode();
   late FocusNode productBrandField = FocusNode();
 
-  late bool authenticate = true;
+  late bool authenticate = false;
   void setAuthenticate(bool auth) {
     setState(() {
       authenticate = auth;
@@ -55,7 +57,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
       maxLength: 40,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Brand Name cannot be empty";
+          return "Product Name cannot be empty";
         }
         return null;
       },
@@ -79,7 +81,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
     }
 
     return TextFormField(
-      focusNode: productNameField,
+      focusNode: productPriceField,
       onTap: () {
         requestFocus();
       },
@@ -89,7 +91,7 @@ class _changeProductPriceState extends State<changeProductPrice> {
         ),
         labelText: "Enter the New Product price",
         labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
+          color: productPriceField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
@@ -100,13 +102,25 @@ class _changeProductPriceState extends State<changeProductPrice> {
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productPrice = value;
       },
     );
   }
 
   Future<bool> changeProductPrice(
       String productName, String productBrand, String price) async {
+    var data = await http.get(Uri.parse('http://127.0.0.1:5000/getProductID/' +
+        productName +
+        '/' +
+        productBrand));
+    var jsonData = json.decode(data.body);
+    await http.get(Uri.parse('http://127.0.0.1:5000/updateCost/' +
+        jsonData[0][0].toString() +
+        '/' +
+        price));
+    setState(() {
+      authenticate = true;
+    });
     return Future<bool>.value(false);
   }
 
