@@ -24,7 +24,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="1234"
+        passwlogin="password"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -67,7 +67,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="1234"
+        passwlogin="password"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -534,10 +534,7 @@ def addProductsToCart(productID, quantity, cartID):
         cursor=db.cursor()
         cursor.execute(f"""
         update items_contained 
-        set quantity = case 
-            when {productID} in (select product_id from items_contained where unique_id = {cartID}) 
-            then quantity + {quantity} 
-            else quantity end;
+        set quantity = quantity+{quantity} where Product_ID={productID} and Unique_id={cartID}
         """)
         db.commit()
         db.close()
