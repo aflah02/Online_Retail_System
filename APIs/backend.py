@@ -3,10 +3,8 @@ import mysql.connector
 import json
 import datetime
 
-from numpy import product
-
 usernamelogin="root"
-passwlogin="password"
+passwlogin="1234"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -184,7 +182,7 @@ def getCartTotalPostCoupon(user_id, coupon_id):
             from (select I.Unique_id,I.Product_ID,U.NAME as Username, SUM(I.Quantity*P.product_cost) as Total
             from User U, items_contained I,product P
             where P.product_id=I.Product_ID and I.Unique_id=U.id and P.product_id IN (select product_id from inventory where quantity>0) Group BY I.Unique_id,I.Product_ID) as Temp
-            group by Temp.Unique_id) as BigTemp where BigTemp.Unique_id = 1
+            group by Temp.Unique_id) as BigTemp where BigTemp.Unique_id = {user_id}
             """)
         result = cursor.fetchall()
         totalCost = float(result[0][-1])
@@ -552,6 +550,33 @@ def listAllOrders(uniqueID):
         result=cursor.fetchall()
         db.close()
         return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to add new coupon"""
+@app.route('/addNewCoupon/<string:couponID>/<int:discount>/<int:YearofExpiry>/<int:monthOfExpiry>/<int:dateofExpiry>/<int:userID>', methods=['GET','POST'])
+def addNewCoupon(couponID, discount, YearofExpiry, monthOfExpiry, dateofExpiry, userID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        date = datetime.date(YearofExpiry, monthOfExpiry, dateofExpiry).strftime('%Y/%m/%d')
+        cursor.execute(f"insert into coupon_data (Coupon_id, Discount, ExpiryDate, Unique_id) values('{couponID}',{discount},'{date}',{userID});")
+        db.commit()
+        db.close()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to add new shipper"""
+@app.route('/addNewShipper/<string:shipperName>/<string:shipperDeliverySpeed>', methods=['GET','POST'])
+def addNewShipper(shipperName, shipperDeliverySpeed):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"insert into shipper (shipper_name, Delivery_speed) values('{shipperName}',{shipperDeliverySpeed});")
+        db.commit()
+        db.close()
+        return "Success"
     except Exception as e:
         return str(e)
 
