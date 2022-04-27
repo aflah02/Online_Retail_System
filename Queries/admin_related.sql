@@ -1,7 +1,7 @@
 -- List customer orders by shipper name
 SELECT O.order_id, U.name AS "Customer Name", O.delivery_address, S.shipper_name, S.delivery_speed
-FROM order_table O, shipper S, user U
-WHERE O.shipper_id = S.shipper_id AND U.id = O.unique_id;
+FROM order_table O NATURAL JOIN shipper S INNER JOIN User U ON U.id=O.Unique_id
+WHERE S.shipper_name="Nicolas LLC";
 
 -- Update the inventory of a product by its name & brand
 UPDATE Inventory I
