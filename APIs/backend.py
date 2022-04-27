@@ -1045,6 +1045,19 @@ def getProductID(productName,brandName):
         return flask.jsonify(result)
     except Exception as e:
         return str(e)
+
+"""API endpoint to view inventory"""
+@app.route('/viewInventory')
+def viewInventory():
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"Select * from inventory")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
         
 if __name__ == '__main__':
     app.run(debug=True)
