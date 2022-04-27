@@ -567,6 +567,19 @@ def addNewCoupon(couponID, discount, YearofExpiry, monthOfExpiry, dateofExpiry, 
     except Exception as e:
         return str(e)
 
+"""API endpoint to add new shipper"""
+@app.route('/addNewShipper/<string:shipperName>/<string:shipperDeliverySpeed>', methods=['GET','POST'])
+def addNewShipper(shipperName, shipperDeliverySpeed):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"insert into shipper (shipper_name, Delivery_speed) values('{shipperName}',{shipperDeliverySpeed});")
+        db.commit()
+        db.close()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
 """API endpoint called addUser to add new User which takes 5 Strings as Input"""
 @app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['POST'])
 def addUser(Name,Address,EmailID,Password,PhoneNumber):
