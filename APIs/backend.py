@@ -3,10 +3,8 @@ import mysql.connector
 import json
 import datetime
 
-from numpy import product
-
 usernamelogin="root"
-passwlogin="password"
+passwlogin="1234"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -552,6 +550,20 @@ def listAllOrders(uniqueID):
         result=cursor.fetchall()
         db.close()
         return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to add new coupon"""
+@app.route('/addNewCoupon/<string:couponID>/<int:discount>/<int:YearofExpiry>/<int:monthOfExpiry>/<int:dateofExpiry>/<int:userID>', methods=['GET','POST'])
+def addNewCoupon(couponID, discount, YearofExpiry, monthOfExpiry, dateofExpiry, userID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        date = datetime.date(YearofExpiry, monthOfExpiry, dateofExpiry).strftime('%Y/%m/%d')
+        cursor.execute(f"insert into coupon_data (Coupon_id, Discount, ExpiryDate, Unique_id) values('{couponID}',{discount},'{date}',{userID});")
+        db.commit()
+        db.close()
+        return "Success"
     except Exception as e:
         return str(e)
 
