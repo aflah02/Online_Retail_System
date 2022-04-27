@@ -1,3 +1,4 @@
+from distutils.log import error
 import flask
 import mysql.connector
 import json
@@ -636,16 +637,68 @@ def cancelOrder(order_id):
     except Exception as e:
         return str(e)
 
-# """API endpoint called BuyNow which places order for a given user"""
-# @app.route('/BuyNow/<int:user_id>', methods=['GET'])
-# def BuyNow(user_id):
-#     try:
-#         cursor = db.cursor()
-#         cursor.execute(f"update inventory set quantity = quantity - (select quantity from items_contained where inventory.product_id = items_contained.product_id and items_contained.Unique_id = {user_id}) where product_id in (select product_id from items_contained where Unique_id = {user_id});")
-#         db.commit()
-#         return "Success"
-#     except Exception as e:
-#         return str(e)
+"""API endpoint called to check for inventories before BuyNow which places order for a given user"""
+@app.route('/checkBuyNow/<int:user_id>', methods=['GET'])
+def checkBuyNow(user_id):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"select product_id, product_name,brand_name from product where product_id IN (select items_contained.Product_ID as id from items_contained,inventory where items_contained.Unique_id={user_id} and items_contained.Product_ID=inventory.product_id and items_contained.Quantity>inventory.quantity)")
+        data=cursor.fetchall()
+        if len(data)>0:
+            db.close()
+            return flask.jsonify(data)
+        return "Success"
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to add item in billing details with input payment mode and billing address before BuyNow which places order for a given user"""
+@app.route('/addBeforeOrderBillingDetails/<string:paymentMode>/<string:Address>', methods=['GET'])
+def addBeforeOrderBillingDetails(paymentMode,Address):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"insert into billing_details (payment_mode, billing_address) values ('{paymentMode}', '{Address}')")
+        db.commit()
+        db.close()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to add item in order_table  before BuyNow which places order for a given user"""
+@app.route('/addBeforeOrderTableDetails/<string:address>/<int:userid>/<int:shipperid>', methods=['GET'])
+def addBeforeOrderTableDetails(address,userid,shipperid):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"select max(billing_id) from billing_details;")
+        data=cursor.fetchall()
+        billling=data[0][0]
+        #add shipper here as well
+        cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling})")
+        db.commit()
+        db.close()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
+"""API endpoint to add items in items_purchased before BuyNow which places order for a given user and updating inventory"""
+@app.route('/addItemsPurchased/<int:userid>', methods=['GET'])
+def addBeforeOrderTableDetails(userid):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"select max(Order_id) from order_table;")
+        data=cursor.fetchall()
+        order=data[0][0]
+        cursor.execute(f"INSERT INTO items_purchased (Order_id, Product_ID, Quantity) SELECT {order}, Product_ID, Quantity FROM items_contained where Unique_id={userid}")
+        cursor.execute(f"UPDATE inventory SET inventory.quantity=inventory.quantity - (SELECT items_contained.Quantity FROM items_contained WHERE items_contained.Unique_id={userid} and items_contained.Product_ID=inventory.product_id);")
+        db.commit()
+        db.close()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
 
 """API endpoint called emptyCart which empties cart for a particular userID"""
 @app.route('/emptyCart/<int:user_id>', methods=['GET'])
