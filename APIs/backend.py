@@ -898,7 +898,7 @@ def addProducts(name,brandname,cost):
         return str(e)
 
 """Add product Image to json"""
-@app.route('/addProductImage/<string:productname>/<string:brandname>/<string:imageUrl>')
+@app.route('/addProductImage/<string:productname>/<string:brandname>/<path:imageUrl>')
 def addProductImage(productname, brandname, imageUrl):
     try:
         a_dict = {f'{brandname} {productname}': f'{imageUrl}'}
@@ -917,7 +917,7 @@ def addProductImage(productname, brandname, imageUrl):
         return str(e)
 
 """Add Category Image to json"""
-@app.route('/addCategoryImage/<string:categoryName>/<string:imageUrl>')
+@app.route('/addCategoryImage/<string:categoryName>/<path:imageUrl>')
 def addCategoryImage(categoryName, imageUrl):
     try:
         a_dict = {f'{categoryName}': f'{imageUrl}'}
@@ -936,7 +936,7 @@ def addCategoryImage(categoryName, imageUrl):
         return str(e)
 
 """Add brand Image to json"""
-@app.route('/addBrandImage/<string:brandName>/<string:imageUrl>')
+@app.route('/addBrandImage/<string:brandName>/<path:imageUrl>')
 def addBrandImage(brandName, imageUrl):
     try:
         a_dict = {f'{brandName}': f'{imageUrl}'}
