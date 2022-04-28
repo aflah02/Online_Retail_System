@@ -249,6 +249,21 @@ def RankedByQuantitySold():
     except Exception as e:
         return str(e)
 
+"""Get Shipper ID from Shipper Name"""
+@app.route('/getShipperID/<string:shipper_name>', methods=['GET'])
+def getShipperID(shipper_name):
+    try:
+        db = connectToDB()
+        cursor = db.cursor()
+        cursor.execute(f"""
+            Select * from shipper where shipper_name = '{shipper_name}'
+        """)
+        shipper_id = cursor.fetchall()
+        db.close()
+        return flask.jsonify(shipper_id)
+    except Exception as e:
+        return str(e)
+
 """Get User Details from EmailID API Endpoint"""
 @app.route('/getUserDetailsFromEmail/<string:emailID>', methods=['GET'])
 def getUserDetails(emailID):
