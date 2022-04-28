@@ -18,6 +18,7 @@ class Product {
 }
 
 class Search extends SearchDelegate<String> {
+  late String uid = '1';
   Future<List<Product>> getItem(String name) async {
     List<Product> ret = [];
     var data = await http.get(Uri.parse(
@@ -481,7 +482,10 @@ class Search extends SearchDelegate<String> {
         uid: 1,
       );
     } else if (brands.contains(query)) {
-      return BrandPage(name: query);
+      return BrandPage(
+        name: query,
+        uid: uid,
+      );
     } else if (searches.contains(query)) {
       return generateCards(query);
     } else

@@ -102,7 +102,49 @@ class _CartState extends State<Cart> {
     return address;
   }
 
-  void increaseQuantity() async {}
+  Future<bool> increaseQuantity(int quantity, String name, String brand) async {
+    var productId = await http.get(
+        Uri.parse('http://127.0.0.1:5000/getProductID/' + name + '/' + brand));
+    var prodID = json.decode(productId.body);
+    String id = prodID[0][0].toString();
+    var data = http.get(Uri.parse(
+        'http://127.0.0.1:5000/addProductsWhenAlreadyExistsInCart/' +
+            id +
+            '/' +
+            (1).toString() +
+            '/' +
+            userid.toString()));
+
+    return Future<bool>.value(true);
+  }
+
+  Future<bool> decreaseQuantity(int quantity, String name, String brand) async {
+    var productId = await http.get(
+        Uri.parse('http://127.0.0.1:5000/getProductID/' + name + '/' + brand));
+    var prodID = json.decode(productId.body);
+    String id = prodID[0][0].toString();
+    if (quantity == 1) {
+      var data = await http.get(Uri.parse(
+          'http://127.0.0.1:5000/removeGivenProductfromGivenCart/' +
+              userid.toString() +
+              '/' +
+              id));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => super.widget));
+      return Future<bool>.value(true);
+    }
+
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/addProductsWhenAlreadyExistsInCart/' +
+            id +
+            '/' +
+            (-1).toString() +
+            '/' +
+            userid.toString()));
+
+    return Future<bool>.value(true);
+  }
+
   Widget buildCoupon() {
     @override
     void dispose() {
@@ -219,7 +261,13 @@ class _CartState extends State<Cart> {
                                       height: 30,
                                       child: TextButton(
                                         onPressed: () {
-                                          increaseQuantity();
+                                          increaseQuantity(
+                                              snapshot.data[index].quantity,
+                                              snapshot.data[index].product,
+                                              snapshot.data[index].brand);
+                                          setState(() {
+                                            snapshot.data[index].quantity += 1;
+                                          });
                                         },
                                         child: Text(
                                           '+',
@@ -246,7 +294,15 @@ class _CartState extends State<Cart> {
                                       width: 30,
                                       height: 30,
                                       child: TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          decreaseQuantity(
+                                              snapshot.data[index].quantity,
+                                              snapshot.data[index].product,
+                                              snapshot.data[index].brand);
+                                          setState(() {
+                                            snapshot.data[index].quantity -= 1;
+                                          });
+                                        },
                                         child: Text(
                                           '-',
                                           style: TextStyle(
@@ -526,7 +582,9 @@ class _CartState extends State<Cart> {
                           onPressed: () {
                             Navigator.push(context, PageRouteBuilder(
                                 pageBuilder: (BuildContext context, _, __) {
-                              return PaymentForm();
+                              return PaymentForm(
+                                uid: userid.toString(),
+                              );
                             }));
                           },
                           icon: Icon(
