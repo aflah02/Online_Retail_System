@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'viewOrders.dart';
+import 'viewCoupons.dart';
 
 class Screen2 extends StatefulWidget {
   final String name;
@@ -142,6 +143,14 @@ class _Screen2State extends State<Screen2> {
               Icons.arrow_right,
               color: Colors.white,
             ),
+            onTap: () {
+              Navigator.push(context,
+                  PageRouteBuilder(pageBuilder: (BuildContext context, _, __) {
+                return ViewCoupons(
+                  id: int.parse(uid),
+                );
+              }));
+            },
           ),
           ListTile(
             title: Text(

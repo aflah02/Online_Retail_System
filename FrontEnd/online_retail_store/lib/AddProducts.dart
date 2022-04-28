@@ -120,6 +120,19 @@ class _AddProductState extends State<AddProduct> {
         productBrand +
         '/' +
         productPrice));
+    var x = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/getCategoryID/\'' + productBrand + '\''));
+    var xjson = json.decode(x.body);
+    String categoryID = xjson[0][0].toString();
+    var z = await http.get(Uri.parse('http://127.0.0.1:5000/getProductID/' +
+        productName +
+        '/' +
+        productBrand));
+    var zjson = json.decode(z.body);
+
+    String productID = zjson[0][0];
+    var y = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/addBelongsTo/' + productID + '/' + categoryID));
     if (data.body == 'Success') {
       var img = await http.get(Uri.parse(
           'http://127.0.0.1:5000/addProductImage/' +

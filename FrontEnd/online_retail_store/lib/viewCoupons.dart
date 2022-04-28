@@ -3,6 +3,8 @@ import 'cart.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+double costAfterCoupon = 0;
+
 class ViewCoupons extends StatefulWidget {
   final int id;
   const ViewCoupons({Key? key, required this.id}) : super(key: key);
@@ -111,10 +113,11 @@ class _ViewCouponsState extends State<ViewCoupons> {
                                 child: ElevatedButton.icon(
                                   onPressed: () async {
                                     var data = await http.get(Uri.parse(
-                                        'http://127.0.0.1:5000/getCartTotalPostCoupon' +
+                                        'http://127.0.0.1:5000/getCartTotalPostCoupon/' +
                                             userid.toString() +
-                                            '/' +
-                                            snapshot.data[index].couponCode));
+                                            '/\'' +
+                                            snapshot.data[index].couponCode +
+                                            '\''));
                                     if (data.body == 'Coupon Not Found' ||
                                         data.body == 'Coupon is Used') {
                                       showDialog(
@@ -137,6 +140,10 @@ class _ViewCouponsState extends State<ViewCoupons> {
                                           });
                                       //return dialog box
                                     } else {
+                                      setState(() {
+                                        costAfterCoupon =
+                                            double.parse(data.body);
+                                      });
                                       showDialog(
                                           context: context,
                                           builder: (context) {
