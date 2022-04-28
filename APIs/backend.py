@@ -329,7 +329,7 @@ def getProductImage(brand_name, product_name):
         if key in data:
             return flask.jsonify(data[key])
         else:
-            return flask.jsonify('No image found')
+            return flask.jsonify(brand_name + ' ' + product_name)
     except Exception as e:
         return str(e)
 
@@ -1134,6 +1134,19 @@ def searchUsingCategoryName(name):
         return flask.jsonify(result)
     except Exception as e:
         return str(e)
+#API for getting category id from category name
+
+@app.route('/getCategoryID/<string:categoryName>')
+def getCategoryID(categoryName):
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"select category_id from category C where C.category_name = {categoryName}")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
 
 #add category information
 @app.route('/addCategory/<string:name>/<string:info>')
@@ -1188,7 +1201,6 @@ def updateCost(productID,cost):
         return "Success"
     except Exception as e:
         return str(e)
-
 
 
 #API for adding in belongs to table
