@@ -556,6 +556,25 @@ def addProductsToCart(productID, quantity, cartID):
     except Exception as e:
         return str(e)
 
+"""API endpoint to decrease quantity of products when the product is already in cart """
+@app.route('/decQuanProductsWhenAlreadyExistsInCart/<int:productID>/<int:cartID>')
+def decQuanProductsWhenAlreadyExistsInCart(productID, cartID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"""
+        update items_contained 
+        set quantity = quantity-1 where Product_ID={productID} and Unique_id={cartID}
+        """)
+        db.commit()
+        db.close()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
+
+
+
 """API endpoint called listAllOrders to list all Orders by a User"""
 @app.route('/listAllOrders/<int:uniqueID>')
 def listAllOrders(uniqueID):
