@@ -9,6 +9,13 @@ class InventoryItem {
   InventoryItem({required this.productID, required this.quantity});
 }
 
+class Product {
+  late String productName;
+  late String productBrand;
+
+  Product({required this.productName, required this.productBrand});
+}
+
 class ViewInventory extends StatefulWidget {
   const ViewInventory({Key? key}) : super(key: key);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'viewOrders.dart';
 
 class Screen2 extends StatefulWidget {
   final String name;
@@ -14,6 +15,8 @@ class Screen2 extends StatefulWidget {
 class _Screen2State extends State<Screen2> {
   late String userName = 'Loading';
   late String userEmail = 'Loading';
+  late String uid = '';
+  late String name = '';
 
   @override
   void initState() {
@@ -23,6 +26,17 @@ class _Screen2State extends State<Screen2> {
     });
     print(userEmail);
     getUserData();
+  }
+
+  Future<int> getUserID() async {
+    var data = await http.get(Uri.parse(
+        "http://127.0.0.1:5000/getUserDetailsFromEmail/'" + userEmail + "'"));
+    var jsonData = json.decode(data.body);
+    setState(() {
+      uid = jsonData[0][0].toString();
+      name = jsonData[0][2];
+    });
+    return jsonData[0][0];
   }
 
   Future<String> getUserData() async {
@@ -107,6 +121,15 @@ class _Screen2State extends State<Screen2> {
               Icons.arrow_right,
               color: Colors.white,
             ),
+            onTap: () async {
+              await getUserID();
+              Navigator.push(context,
+                  PageRouteBuilder(pageBuilder: (BuildContext context, _, __) {
+                return ViewInventory(
+                  uid: uid,
+                );
+              }));
+            },
           ),
           ListTile(
             title: Text(

@@ -197,6 +197,17 @@ class _CartState extends State<Cart> {
           future: getUserData(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.length == 0) {
+                return Center(
+                  child: Text(
+                    'Cart is Empty',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              }
               h = 600;
               return ListView.builder(
                 itemCount: snapshot.data.length,

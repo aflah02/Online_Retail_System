@@ -69,7 +69,7 @@ class _PaymentFormState extends State<PaymentForm> {
             Uri.parse('http://127.0.0.1:5000/addItemsPurchased/' + userId));
         if (data.body == 'Success') {
           data = await http
-              .get(Uri.parse('http://127.0.0.1:5000/emptyCart' + userId));
+              .get(Uri.parse('http://127.0.0.1:5000/emptyCart/' + userId));
           return Future<bool>.value(true);
         }
       }
