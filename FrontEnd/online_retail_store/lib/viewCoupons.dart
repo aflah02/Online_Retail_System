@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'cart.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ViewCoupons extends StatefulWidget {
   final int id;
@@ -107,7 +109,56 @@ class _ViewCouponsState extends State<ViewCoupons> {
                               Container(
                                 margin: EdgeInsets.fromLTRB(75, 0, 0, 0),
                                 child: ElevatedButton.icon(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    var data = await http.get(Uri.parse(
+                                        'http://127.0.0.1:5000/getCartTotalPostCoupon' +
+                                            userid.toString() +
+                                            '/' +
+                                            snapshot.data[index].couponCode));
+                                    if (data.body == 'Coupon Not Found' ||
+                                        data.body == 'Coupon is Used') {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text('Database'),
+                                              content: Text('Invalid Coupon'),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop('dialog');
+                                                    },
+                                                    child: Text('Close'))
+                                              ],
+                                            );
+                                          });
+                                      //return dialog box
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text('Database'),
+                                              content: Text(
+                                                  'Successfully applied coupon'),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop('dialog');
+                                                    },
+                                                    child: Text('Close'))
+                                              ],
+                                            );
+                                          });
+                                      //return success dialog box;
+                                    }
+                                  },
                                   icon: Icon(Icons.discount),
                                   label: Text('Apply Coupon'),
                                   style: ButtonStyle(

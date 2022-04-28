@@ -178,7 +178,7 @@ class _CartState extends State<Cart> {
         maxLength: 30,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Password cannot be empty";
+            return "Coupon code cannot be empty";
           }
           return null;
         },
