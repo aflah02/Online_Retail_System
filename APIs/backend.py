@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="password"
+passwlogin="1234"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -23,7 +23,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -66,7 +66,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -1218,6 +1218,19 @@ def getProductID(productName,brandName):
         db = connectToDB()
         c=db.cursor()
         c.execute(f"select product_id from product where product_name='{productName}' and brand_name='{brandName}'")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+# API that gives category id given category name
+@app.route('/getCategoryID/<string:category>')
+def getCategoryID(category):
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"select category_id from category where category_name='{category}'")
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
