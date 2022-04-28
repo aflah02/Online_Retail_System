@@ -707,7 +707,7 @@ def addItemsPurchased(userid):
         data=cursor.fetchall()
         order=data[0][0]
         cursor.execute(f"INSERT INTO items_purchased (Order_id, Product_ID, Quantity) SELECT {order}, Product_ID, Quantity FROM items_contained where Unique_id={userid}")
-        cursor.execute(f"UPDATE inventory SET inventory.quantity=inventory.quantity - (SELECT items_contained.Quantity FROM items_contained WHERE items_contained.Unique_id={userid} and items_contained.Product_ID=inventory.product_id);")
+        cursor.execute(f"UPDATE inventory, items_contained SET inventory.quantity = inventory.quantity - items_contained.Quantity WHERE items_contained.Unique_id={userid} and items_contained.Product_ID=inventory.product_id")
         db.commit()
         db.close()
         return "Success"
