@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="1234"
+passwlogin="password"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -23,7 +23,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="1234"
+        passwlogin="password"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -66,7 +66,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="1234"
+        passwlogin="password"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -789,8 +789,8 @@ def listOrders(shipper_name):
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"""SELECT O.order_id, U.name AS "Customer Name", O.delivery_address, S.shipper_name, S.delivery_speed
-                           FROM order_table O, shipper S, user U
-                           WHERE O.shipper_id = S.shipper_id AND U.id = O.unique_id AND S.shipper_name='{shipper_name}';""")
+                           FROM order_table O NATURAL JOIN shipper S INNER JOIN User U ON U.id=O.Unique_id
+                           WHERE S.shipper_name='{shipper_name}';""")
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
