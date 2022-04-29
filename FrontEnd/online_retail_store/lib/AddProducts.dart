@@ -11,7 +11,20 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
+  Future<bool> AddToInventory(String pName, String pBrand, String price) async {
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/getProductID/' + pName + '/' + pBrand));
+    var jsonData = json.decode(data.body);
+    var call = await http.get(Uri.parse('http://127.0.0.1:5000/addInventory/' +
+        jsonData[0][0].toString() +
+        '/' +
+        price));
+
+    return Future<bool>.value(false);
+  }
+
   late String productName;
+  late String quantity;
   late String productPrice;
   late String productBrand;
   late String productCategory;
@@ -24,6 +37,7 @@ class _AddProductState extends State<AddProduct> {
   late FocusNode productBrandField = FocusNode();
   late FocusNode productCategoryField = FocusNode();
   late FocusNode productUrlField = FocusNode();
+  late FocusNode quantityField = FocusNode();
 
   late bool authenticate = true;
   void setAuthenticate(bool auth) {
@@ -113,15 +127,15 @@ class _AddProductState extends State<AddProduct> {
   }
 
   Future<bool> addProduct(String productName, String productBrand,
-      String productPrice, String category, String url) async {
+      String productPrice, String category, String url, String quantity) async {
     var data = await http.get(Uri.parse('http://127.0.0.1:5000/addProducts/' +
         productName +
         '/' +
         productBrand +
         '/' +
         productPrice));
-    var x = await http.get(Uri.parse(
-        'http://127.0.0.1:5000/getCategoryID/\'' + productBrand + '\''));
+    var x = await http
+        .get(Uri.parse('http://127.0.0.1:5000/getCategoryID/' + category));
     var xjson = json.decode(x.body);
     String categoryID = xjson[0][0].toString();
     var z = await http.get(Uri.parse('http://127.0.0.1:5000/getProductID/' +
@@ -130,7 +144,7 @@ class _AddProductState extends State<AddProduct> {
         productBrand));
     var zjson = json.decode(z.body);
 
-    String productID = zjson[0][0];
+    String productID = zjson[0][0].toString();
     var y = await http.get(Uri.parse(
         'http://127.0.0.1:5000/addBelongsTo/' + productID + '/' + categoryID));
     if (data.body == 'Success') {
@@ -142,6 +156,7 @@ class _AddProductState extends State<AddProduct> {
               '/' +
               url));
       if (img.body == 'Success') {
+        AddToInventory(productName, productBrand, quantity);
         return Future<bool>.value(true);
       }
     }
@@ -216,7 +231,7 @@ class _AddProductState extends State<AddProduct> {
           color: productUrlField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
-      maxLength: 40,
+      maxLength: 400,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Product Url cannot be empty";
@@ -225,6 +240,46 @@ class _AddProductState extends State<AddProduct> {
       },
       onSaved: (value) {
         if (value != null) productUrl = value;
+      },
+    );
+  }
+
+  Widget buildProductQuantity() {
+    @override
+    void dispose() {
+      productUrlField.dispose();
+      super.dispose();
+    }
+
+    void requestFocus() {
+      setState(() {
+        FocusScope.of(context).requestFocus(quantityField);
+      });
+    }
+
+    return TextFormField(
+      focusNode: quantityField,
+      onTap: () {
+        requestFocus();
+      },
+      decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.teal),
+        ),
+        labelText: "Enter the product Quantity",
+        labelStyle: TextStyle(
+          color: quantityField.hasFocus ? Colors.teal : Colors.black,
+        ),
+      ),
+      maxLength: 400,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Quantity cannot be empty";
+        }
+        return null;
+      },
+      onSaved: (value) {
+        if (value != null) quantity = value;
       },
     );
   }
@@ -289,6 +344,7 @@ class _AddProductState extends State<AddProduct> {
                     buildProductPrice(),
                     buildProductCategory(),
                     buildProductUrl(),
+                    buildProductQuantity(),
                     SizedBox(
                       height: 10,
                     ),
@@ -308,8 +364,13 @@ class _AddProductState extends State<AddProduct> {
 
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
-                                await addProduct(productName, productBrand,
-                                    productPrice, productCategory, productUrl);
+                                await addProduct(
+                                    productName,
+                                    productBrand,
+                                    productPrice,
+                                    productCategory,
+                                    productUrl,
+                                    quantity);
                                 if (authenticate == true)
                                   showDialog(
                                       context: context,

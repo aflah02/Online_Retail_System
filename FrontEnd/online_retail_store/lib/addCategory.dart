@@ -81,7 +81,7 @@ class _AddCategoryState extends State<AddCategory> {
     }
 
     return TextFormField(
-      focusNode: productNameField,
+      focusNode: productPriceField,
       onTap: () {
         requestFocus();
       },
@@ -91,7 +91,7 @@ class _AddCategoryState extends State<AddCategory> {
         ),
         labelText: "Enter the Category tagLine",
         labelStyle: TextStyle(
-          color: productNameField.hasFocus ? Colors.teal : Colors.black,
+          color: productPriceField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
       maxLength: 40,
@@ -102,7 +102,7 @@ class _AddCategoryState extends State<AddCategory> {
         return null;
       },
       onSaved: (value) {
-        if (value != null) productName = value;
+        if (value != null) productPrice = value;
       },
     );
   }
@@ -153,7 +153,7 @@ class _AddCategoryState extends State<AddCategory> {
           color: productBrandField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
-      maxLength: 40,
+      maxLength: 400,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Category Url cannot be empty";
@@ -204,7 +204,7 @@ class _AddCategoryState extends State<AddCategory> {
                                 addProductKey.currentState!.save();
                                 // Navigator.pushNamed(context, '/Store');
                                 await AddCategory(
-                                    productName, productBrand, productPrice);
+                                    productName, productPrice, productBrand);
                                 if (authenticate == true)
                                   showDialog(
                                       context: context,
