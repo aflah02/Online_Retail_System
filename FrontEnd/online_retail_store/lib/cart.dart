@@ -414,40 +414,77 @@ class _CartState extends State<Cart> {
           future: total(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return Container(
-                  height: 80,
-                  child: Padding(
-                    padding: EdgeInsets.all(14),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Grand Total',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              '₹',
-                              style:
-                                  TextStyle(color: Colors.teal, fontSize: 13),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${snapshot.data}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
+              if (costAfterCoupon == 0.0) {
+                return Container(
+                    height: 80,
+                    child: Padding(
+                      padding: EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Grand Total',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                '₹',
+                                style:
+                                    TextStyle(color: Colors.teal, fontSize: 13),
+                              )
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ));
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${snapshot.data}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ));
+              } else {
+                return Container(
+                    height: 80,
+                    child: Padding(
+                      padding: EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Grand Total',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                '₹',
+                                style:
+                                    TextStyle(color: Colors.teal, fontSize: 13),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '$costAfterCoupon',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ));
+              }
             } else
               return Container();
           }),
