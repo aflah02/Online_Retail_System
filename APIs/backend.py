@@ -619,9 +619,15 @@ def addNewShipper(shipperName, shipperDeliverySpeed):
 @app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['POST'])
 def addUser(Name,Address,EmailID,Password,PhoneNumber):
     try:
+        usernamelogin="root"
+        passwlogin="1234"
         db = connectToDB()
         cursor=db.cursor()
         cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values(%s,%s,%s,%s,%s)" ,(Address,Name,EmailID,Password,PhoneNumber))
+        cursor.execute(f"select max(id) from user")
+        data=cursor.fetchall()
+        u=data[0][0]
+        cursor.execute(f"insert into cart_data (Unique_id) values ({u})")
         db.commit()
         db.close()
         return "Success"
