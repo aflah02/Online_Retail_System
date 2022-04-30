@@ -23,7 +23,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -66,7 +66,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -698,13 +698,14 @@ def cancelOrder(order_id):
         cursor = db.cursor()
         cursor.execute(f"Select order_table.billing_id From order_table,shipper  Where order_table.Order_id={order_id} AND order_table.Shipper_id = shipper.shipper_id and DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) < 0")
         data=cursor.fetchall()
+        print(data)
         if len(data)==0:
-            return "This order has been cancelled"
+            return "This order has been completed"
             db.close()
         cursor.execute(f"""UPDATE inventory, items_purchased SET inventory.quantity = inventory.quantity + items_purchased.Quantity WHERE items_purchased.Order_id={order_id} and items_purchased.Product_ID=inventory.product_id;
 """)
         db.commit()
-        cursor.execute(f"delete from billing_details where billing_details.billing_id  IN (Select billing_id From order_table where order_table.Order_id = 4);")
+        cursor.execute(f"delete from billing_details where billing_details.billing_id  IN (Select billing_id From order_table where order_table.Order_id = {order_id});")
         db.commit()
         db.close()
         return "Success"
