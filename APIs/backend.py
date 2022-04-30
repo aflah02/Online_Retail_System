@@ -333,6 +333,19 @@ def getProductImage(brand_name, product_name):
     except Exception as e:
         return str(e)
 
+@app.route('/getCategoryID/<string:category>')
+def getCategoryID(category):
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"select category_id from category where category_name='{category}'")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+
 """API endpoint to get URL for category Images"""
 @app.route('/getProductImage/<string:categoryName>', methods=['GET'])
 def getCategoryImage(categoryName):
