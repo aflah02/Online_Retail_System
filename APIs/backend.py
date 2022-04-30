@@ -696,8 +696,15 @@ def cancelOrder(order_id):
     try:
         db = connectToDB()
         cursor = db.cursor()
-        cursor.execute(f"""update inventory set quantity = quantity + (select quantity from items_purchased where order_id = {order_id} and inventory.product_id = items_purchased.product_id) where product_id in (select product_id from items_purchased where order_id = {order_id}); 
-            delete from items_purchased where order_id = {order_id}; delete from order_table where order_id = {order_id};""")
+        cursor.execute(f"Select order_table.billing_id From order_table,shipper  Where order_table.Order_id={order_id} AND order_table.Shipper_id = shipper.shipper_id and DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) < 0")
+        data=cursor.fetchall()
+        if len(data)==0:
+            return "This order has been cancelled"
+            db.close()
+        cursor.execute(f"""UPDATE inventory, items_purchased SET inventory.quantity = inventory.quantity + items_purchased.Quantity WHERE items_purchased.Order_id={order_id} and items_purchased.Product_ID=inventory.product_id;
+""")
+        db.commit()
+        cursor.execute(f"delete from billing_details where billing_details.billing_id  IN (Select billing_id From order_table where order_table.Order_id = 4);")
         db.commit()
         db.close()
         return "Success"

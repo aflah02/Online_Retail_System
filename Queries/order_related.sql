@@ -27,3 +27,16 @@ SET inventory.quantity=inventory.quantity - (SELECT items_contained.Quantity
   
   
   select max(billing_id) from billing_details;
+  
+  -- cancel order
+-- check whether it is undelivered or not
+Select order_table.billing_id From order_table,shipper 
+Where order_table.Order_id=3 AND order_table.Shipper_id = shipper.shipper_id and DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) < 0;
+
+-- update inventory
+UPDATE inventory, items_purchased SET inventory.quantity = inventory.quantity + items_purchased.Quantity WHERE items_purchased.Order_id=3 and items_contained.Product_ID=inventory.product_id;
+
+
+-- delete order 
+delete from billing_details where billing_details.billing_id 
+IN (Select billing_id From order_table where order_table.Order_id = 3) 
