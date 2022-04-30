@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:amazon_clone/cart.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'viewCoupons.dart';
@@ -67,7 +68,12 @@ class _PaymentFormState extends State<PaymentForm> {
                 '/' +
                 userId +
                 '/' +
-                selectedShipperId));
+                selectedShipperId +
+                '/' +
+                couponUsed));
+        setState(() {
+          couponUsed = 'null';
+        });
         data = await http.get(
             Uri.parse('http://127.0.0.1:5000/addItemsPurchased/' + userId));
         if (data.body == 'Success') {

@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'paymentDetails.dart';
 import 'viewCoupons.dart';
 
+String couponUsed = 'null';
+
 class Coupon {
   late String couponCode;
   late double discount;

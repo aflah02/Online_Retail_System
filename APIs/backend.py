@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="1234"
+passwlogin="password"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -648,7 +648,7 @@ def addUser(Name,Address,EmailID,Password,PhoneNumber):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="1234"
+        passwlogin="password"
         db = connectToDB()
         cursor=db.cursor()
         cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values ('{Address}','{Name}','{EmailID}','{Password}','{PhoneNumber}')")

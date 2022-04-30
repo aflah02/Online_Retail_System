@@ -143,6 +143,8 @@ class _ViewCouponsState extends State<ViewCoupons> {
                                       setState(() {
                                         costAfterCoupon =
                                             double.parse(data.body);
+                                        couponUsed =
+                                            snapshot.data[index].couponCode;
                                       });
                                       showDialog(
                                           context: context,
