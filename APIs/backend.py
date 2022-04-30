@@ -749,7 +749,7 @@ def addBeforeOrderTableDetails(address,userid,shipperid,coupon):
         cursor.execute(f"select max(billing_id) from billing_details;")
         data=cursor.fetchall()
         billling=data[0][0]
-        if(coupon.len==0):
+        if(coupon=="null"):
         #add shipper here as well
             cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling})")
         else:
