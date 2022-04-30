@@ -519,7 +519,7 @@ def deleteUser(userID):
             AND EXISTS (Select * From order_table,shipper 
             Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
             AND order_table.Shipper_id = shipper.shipper_id And order_table.billing_id=billing_details.billing_id);
-            delete from user where user.id = 3 AND NOT EXISTS (Select * From order_table,shipper 
+            delete from user where user.id = {userID} AND NOT EXISTS (Select * From order_table,shipper 
             Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0 
             AND order_table.Shipper_id = shipper.shipper_id);
             SELECT 
@@ -722,16 +722,19 @@ def addBeforeOrderBillingDetails(paymentMode,Address):
         return str(e)
 
 """API endpoint to add item in order_table  before BuyNow which places order for a given user"""
-@app.route('/addBeforeOrderTableDetails/<string:address>/<int:userid>/<int:shipperid>', methods=['GET'])
-def addBeforeOrderTableDetails(address,userid,shipperid):
+@app.route('/addBeforeOrderTableDetails/<string:address>/<int:userid>/<int:shipperid>/<string:coupon>', methods=['GET'])
+def addBeforeOrderTableDetails(address,userid,shipperid,coupon):
     try:
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select max(billing_id) from billing_details;")
         data=cursor.fetchall()
         billling=data[0][0]
+        if(coupon.len==0):
         #add shipper here as well
-        cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling})")
+            cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling})")
+        else:
+            cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id,couponID ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling},'{coupon}')")
         db.commit()
         db.close()
         return "Success"
@@ -1158,17 +1161,6 @@ def searchUsingCategoryName(name):
         return str(e)
 #API for getting category id from category name
 
-@app.route('/getCategoryID/<string:category>')
-def getCategoryID(category):
-    try:
-        db = connectToDB()
-        c=db.cursor()
-        c.execute(f"select category_id from category where category_name='{category}'")
-        result = c.fetchall()
-        db.close()
-        return flask.jsonify(result)
-    except Exception as e:
-        return str(e)
 
 #add category information
 @app.route('/addCategory/<string:name>/<string:info>')
