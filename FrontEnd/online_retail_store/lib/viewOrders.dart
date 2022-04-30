@@ -33,6 +33,13 @@ class ViewInventory extends StatefulWidget {
 }
 
 class _ViewInventoryState extends State<ViewInventory> {
+  late bool authenticate = true;
+  void setAuthenticate(bool auth) {
+    setState(() {
+      authenticate = auth;
+    });
+  }
+
   String userId = '1';
   @override
   void initState() {
@@ -95,7 +102,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      height: 160,
+                      height: 250,
                       child: Padding(
                         padding: EdgeInsets.all(30),
                         child: Column(
@@ -127,7 +134,73 @@ class _ViewInventoryState extends State<ViewInventory> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
-                            )
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            SizedBox(
+                                width: 160,
+                                height: 50,
+                                child: FloatingActionButton(
+                                  heroTag: "button1",
+                                  onPressed: () async {
+                                    // Navigator.pushNamed(context, '/Store');
+
+                                    if (authenticate == true)
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text('Database'),
+                                              content: Text(
+                                                  'Successfully Deleted User'),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop('dialog');
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text(
+                                                        'Back to Dashboard'))
+                                              ],
+                                            );
+                                          });
+                                    else
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Text('Database'),
+                                              content: Text(
+                                                  'Can\'t delete user. User has pending Orders'),
+                                              actions: [
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop('dialog');
+                                                    },
+                                                    child: Text('Close'))
+                                              ],
+                                            );
+                                          });
+                                  },
+                                  backgroundColor: Colors.teal,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  child: Text(
+                                    "Delete User",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                )),
                           ],
                         ),
                       ),
