@@ -1145,17 +1145,7 @@ def searchUsingCategoryName(name):
         return str(e)
 #API for getting category id from category name
 
-@app.route('/getCategoryID/<string:categoryName>')
-def getCategoryID(categoryName):
-    try:
-        db = connectToDB()
-        c=db.cursor()
-        c.execute(f"select category_id from category C where C.category_name = {categoryName}")
-        result = c.fetchall()
-        db.close()
-        return flask.jsonify(result)
-    except Exception as e:
-        return str(e)
+
 
 #add category information
 @app.route('/addCategory/<string:name>/<string:info>')
