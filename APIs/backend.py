@@ -686,7 +686,8 @@ def cancelOrder(order_id):
     try:
         db = connectToDB()
         cursor = db.cursor()
-        cursor.execute(f"update inventory set quantity = quantity + (select quantity from items_purchased where order_id = {order_id} and inventory.product_id = items_purchased.product_id) where product_id in (select product_id from items_purchased where order_id = {order_id}); delete from items_purchased where order_id = {order_id}; delete from order_table where order_id = {order_id};")
+        cursor.execute(f"""update inventory set quantity = quantity + (select quantity from items_purchased where order_id = {order_id} and inventory.product_id = items_purchased.product_id) where product_id in (select product_id from items_purchased where order_id = {order_id}); 
+            delete from items_purchased where order_id = {order_id}; delete from order_table where order_id = {order_id};""")
         db.commit()
         db.close()
         return "Success"
@@ -1289,8 +1290,8 @@ def averagePurchaseCost():
         db = connectToDB()
         c=db.cursor()
         c.execute(f"""SELECT T.Product_ID,T.category_id,T.Cost,AVG(T.Cost) OVER( PARTITION BY T.category_id) AS Avg_Category_Cost
-FROM (SELECT P.Product_ID AS Product_ID,B.category_id AS category_id, SUM(P.Cost) AS Cost FROM items_purchased P NATURAL JOIN belongsTo B GROUP BY P.Product_ID) AS T;
-""")
+        FROM (SELECT P.Product_ID AS Product_ID,B.category_id AS category_id, SUM(P.Cost) AS Cost FROM items_purchased P NATURAL JOIN belongsTo B GROUP BY P.Product_ID) AS T;
+        """)
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
