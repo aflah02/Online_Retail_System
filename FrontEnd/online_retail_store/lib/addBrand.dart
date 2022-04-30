@@ -70,8 +70,8 @@ class _AddBrandState extends State<AddBrand> {
     var data = await http
         .get(Uri.parse('http://127.0.0.1:5000/addBrand/' + brandName));
     if (data.body == 'Success') {
-      var img = await http
-          .get(Uri.parse('http://127.0.0.1:5000/addBrandImage/' + brandUrl));
+      var img = await http.get(Uri.parse(
+          'http://127.0.0.1:5000/addBrandImage/' + brandName + '/' + brandUrl));
       if (img.body == 'Success') {
         return Future<bool>.value(true);
       }
@@ -107,7 +107,7 @@ class _AddBrandState extends State<AddBrand> {
           color: brandUrlField.hasFocus ? Colors.teal : Colors.black,
         ),
       ),
-      maxLength: 40,
+      maxLength: 400,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return "Brand Url cannot be empty";

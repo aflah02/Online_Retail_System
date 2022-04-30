@@ -9,28 +9,60 @@ class InventoryItem {
   InventoryItem({required this.productID, required this.quantity});
 }
 
-class Product {
+class OrderItem {
+  late String orderid;
   late String productName;
   late String productBrand;
+  late String quantity;
+  late String orderCost;
 
-  Product({required this.productName, required this.productBrand});
+  OrderItem(
+      {required this.orderid,
+      required this.productName,
+      required this.productBrand,
+      required this.quantity,
+      required this.orderCost});
 }
 
 class ViewInventory extends StatefulWidget {
-  const ViewInventory({Key? key}) : super(key: key);
+  final String uid;
+  const ViewInventory({Key? key, required this.uid}) : super(key: key);
 
   @override
   _ViewInventoryState createState() => _ViewInventoryState();
 }
 
 class _ViewInventoryState extends State<ViewInventory> {
-  Future<List<InventoryItem>> getItems() async {
-    List<InventoryItem> ret = [];
-    var data = await http.get(Uri.parse('http://127.0.0.1:5000/viewInventory'));
+  String userId = '1';
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      userId = widget.uid;
+      print("here");
+      print(userId);
+      print('not here');
+    });
+  }
+
+  Future<List<OrderItem>> getItems() async {
+    List<OrderItem> ret = [];
+    var data = await http
+        .get(Uri.parse('http://127.0.0.1:5000/listAllOrders/' + userId));
     var jsondata = json.decode(data.body);
     for (var prod in jsondata) {
-      InventoryItem temp = InventoryItem(productID: prod[0], quantity: prod[1]);
-      ret.add(temp);
+      data = await http.get(Uri.parse(
+          'http://127.0.0.1:5000/getProductDetailsFromProductID/' +
+              prod[1].toString()));
+      var x = json.decode(data.body);
+      OrderItem oi = OrderItem(
+          orderid: prod[0].toString(),
+          productName: x[0][1],
+          productBrand: x[0][3],
+          quantity: prod[2].toString(),
+          orderCost: prod[3].toString());
+
+      ret.add(oi);
     }
     return ret;
   }
@@ -63,20 +95,34 @@ class _ViewInventoryState extends State<ViewInventory> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      height: 120,
+                      height: 160,
                       child: Padding(
                         padding: EdgeInsets.all(30),
                         child: Column(
                           children: [
                             Text(
-                              'Product ID - ${snapshot.data[index].productID}',
+                              'Order ID - ${snapshot.data[index].orderid}',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
+                              'Product - ${snapshot.data[index].productBrand} ${snapshot.data[index].productName}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
                               'Quantity - ${snapshot.data[index].quantity}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'OrderTotal - ${snapshot.data[index].orderCost}',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

@@ -23,7 +23,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -66,7 +66,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="password"
+        passwlogin="1234"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -329,7 +329,7 @@ def getProductImage(brand_name, product_name):
         if key in data:
             return flask.jsonify(data[key])
         else:
-            return flask.jsonify('No image found')
+            return flask.jsonify(brand_name + ' ' + product_name)
     except Exception as e:
         return str(e)
 
@@ -556,6 +556,25 @@ def addProductsToCart(productID, quantity, cartID):
     except Exception as e:
         return str(e)
 
+"""API endpoint to decrease quantity of products when the product is already in cart """
+@app.route('/decQuanProductsWhenAlreadyExistsInCart/<int:productID>/<int:cartID>')
+def decQuanProductsWhenAlreadyExistsInCart(productID, cartID):
+    try:
+        db = connectToDB()
+        cursor=db.cursor()
+        cursor.execute(f"""
+        update items_contained 
+        set quantity = quantity-1 where Product_ID={productID} and Unique_id={cartID}
+        """)
+        db.commit()
+        db.close()
+        return "Success"
+    except Exception as e:
+        return str(e)
+
+
+
+
 """API endpoint called listAllOrders to list all Orders by a User"""
 @app.route('/listAllOrders/<int:uniqueID>')
 def listAllOrders(uniqueID):
@@ -600,9 +619,15 @@ def addNewShipper(shipperName, shipperDeliverySpeed):
 @app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['POST'])
 def addUser(Name,Address,EmailID,Password,PhoneNumber):
     try:
+        usernamelogin="root"
+        passwlogin="1234"
         db = connectToDB()
         cursor=db.cursor()
         cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values(%s,%s,%s,%s,%s)" ,(Address,Name,EmailID,Password,PhoneNumber))
+        cursor.execute(f"select max(id) from user")
+        data=cursor.fetchall()
+        u=data[0][0]
+        cursor.execute(f"insert into cart_data (Unique_id) values ({u})")
         db.commit()
         db.close()
         return "Success"
@@ -707,7 +732,7 @@ def addItemsPurchased(userid):
         data=cursor.fetchall()
         order=data[0][0]
         cursor.execute(f"INSERT INTO items_purchased (Order_id, Product_ID, Quantity) SELECT {order}, Product_ID, Quantity FROM items_contained where Unique_id={userid}")
-        cursor.execute(f"UPDATE inventory SET inventory.quantity=inventory.quantity - (SELECT items_contained.Quantity FROM items_contained WHERE items_contained.Unique_id={userid} and items_contained.Product_ID=inventory.product_id);")
+        cursor.execute(f"UPDATE inventory, items_contained SET inventory.quantity = inventory.quantity - items_contained.Quantity WHERE items_contained.Unique_id={userid} and items_contained.Product_ID=inventory.product_id")
         db.commit()
         db.close()
         return "Success"
@@ -1115,6 +1140,19 @@ def searchUsingCategoryName(name):
         return flask.jsonify(result)
     except Exception as e:
         return str(e)
+#API for getting category id from category name
+
+@app.route('/getCategoryID/<string:categoryName>')
+def getCategoryID(categoryName):
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"select category_id from category C where C.category_name = {categoryName}")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
 
 #add category information
 @app.route('/addCategory/<string:name>/<string:info>')
@@ -1171,7 +1209,6 @@ def updateCost(productID,cost):
         return str(e)
 
 
-
 #API for adding in belongs to table
 @app.route('/addBelongsTo/<int:productID>/<int:categoryID>')
 def addBelongsTo(productID,categoryID):
@@ -1218,6 +1255,19 @@ def getProductID(productName,brandName):
         db = connectToDB()
         c=db.cursor()
         c.execute(f"select product_id from product where product_name='{productName}' and brand_name='{brandName}'")
+        result = c.fetchall()
+        db.close()
+        return flask.jsonify(result)
+    except Exception as e:
+        return str(e)
+
+# API that gives category id given category name
+@app.route('/getCategoryID/<string:category>')
+def getCategoryID(category):
+    try:
+        db = connectToDB()
+        c=db.cursor()
+        c.execute(f"select category_id from category where category_name='{category}'")
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)

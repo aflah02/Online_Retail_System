@@ -102,7 +102,49 @@ class _CartState extends State<Cart> {
     return address;
   }
 
-  void increaseQuantity() async {}
+  Future<bool> increaseQuantity(int quantity, String name, String brand) async {
+    var productId = await http.get(
+        Uri.parse('http://127.0.0.1:5000/getProductID/' + name + '/' + brand));
+    var prodID = json.decode(productId.body);
+    String id = prodID[0][0].toString();
+    var data = http.get(Uri.parse(
+        'http://127.0.0.1:5000/addProductsWhenAlreadyExistsInCart/' +
+            id +
+            '/' +
+            (1).toString() +
+            '/' +
+            userid.toString()));
+
+    return Future<bool>.value(true);
+  }
+
+  Future<bool> decreaseQuantity(int quantity, String name, String brand) async {
+    var productId = await http.get(
+        Uri.parse('http://127.0.0.1:5000/getProductID/' + name + '/' + brand));
+    var prodID = json.decode(productId.body);
+    String id = prodID[0][0].toString();
+    if (quantity == 1) {
+      var data = await http.get(Uri.parse(
+          'http://127.0.0.1:5000/removeGivenProductfromGivenCart/' +
+              userid.toString() +
+              '/' +
+              id));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => super.widget));
+      return Future<bool>.value(true);
+    }
+
+    var data = await http.get(Uri.parse(
+        'http://127.0.0.1:5000/addProductsWhenAlreadyExistsInCart/' +
+            id +
+            '/' +
+            (-1).toString() +
+            '/' +
+            userid.toString()));
+
+    return Future<bool>.value(true);
+  }
+
   Widget buildCoupon() {
     @override
     void dispose() {
@@ -136,7 +178,7 @@ class _CartState extends State<Cart> {
         maxLength: 30,
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return "Password cannot be empty";
+            return "Coupon code cannot be empty";
           }
           return null;
         },
@@ -155,6 +197,17 @@ class _CartState extends State<Cart> {
           future: getUserData(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data.length == 0) {
+                return Center(
+                  child: Text(
+                    'Cart is Empty',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              }
               h = 600;
               return ListView.builder(
                 itemCount: snapshot.data.length,
@@ -219,7 +272,13 @@ class _CartState extends State<Cart> {
                                       height: 30,
                                       child: TextButton(
                                         onPressed: () {
-                                          increaseQuantity();
+                                          increaseQuantity(
+                                              snapshot.data[index].quantity,
+                                              snapshot.data[index].product,
+                                              snapshot.data[index].brand);
+                                          setState(() {
+                                            snapshot.data[index].quantity += 1;
+                                          });
                                         },
                                         child: Text(
                                           '+',
@@ -246,7 +305,15 @@ class _CartState extends State<Cart> {
                                       width: 30,
                                       height: 30,
                                       child: TextButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          decreaseQuantity(
+                                              snapshot.data[index].quantity,
+                                              snapshot.data[index].product,
+                                              snapshot.data[index].brand);
+                                          setState(() {
+                                            snapshot.data[index].quantity -= 1;
+                                          });
+                                        },
                                         child: Text(
                                           '-',
                                           style: TextStyle(
@@ -347,40 +414,77 @@ class _CartState extends State<Cart> {
           future: total(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return Container(
-                  height: 80,
-                  child: Padding(
-                    padding: EdgeInsets.all(14),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Grand Total',
-                              style: TextStyle(fontSize: 12),
-                            ),
-                            Text(
-                              '₹',
-                              style:
-                                  TextStyle(color: Colors.teal, fontSize: 13),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${snapshot.data}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 15,
+              if (costAfterCoupon == 0.0) {
+                return Container(
+                    height: 80,
+                    child: Padding(
+                      padding: EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Grand Total',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                '₹',
+                                style:
+                                    TextStyle(color: Colors.teal, fontSize: 13),
+                              )
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ));
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '${snapshot.data}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ));
+              } else {
+                return Container(
+                    height: 80,
+                    child: Padding(
+                      padding: EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Grand Total',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              Text(
+                                '₹',
+                                style:
+                                    TextStyle(color: Colors.teal, fontSize: 13),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '$costAfterCoupon',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ));
+              }
             } else
               return Container();
           }),
@@ -526,7 +630,9 @@ class _CartState extends State<Cart> {
                           onPressed: () {
                             Navigator.push(context, PageRouteBuilder(
                                 pageBuilder: (BuildContext context, _, __) {
-                              return PaymentForm();
+                              return PaymentForm(
+                                uid: userid.toString(),
+                              );
                             }));
                           },
                           icon: Icon(
