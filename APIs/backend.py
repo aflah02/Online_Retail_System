@@ -536,10 +536,15 @@ def deleteUser(userID):
         db.commit()
         c.execute(f"""
             delete from user where user.id = {userID} AND NOT EXISTS (Select * From order_table,shipper 
-            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0 AND order_table.Unique_id = {userID}
+            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
             AND order_table.Shipper_id = shipper.shipper_id );
         """)
         db.commit()
+        c.execute(f"select * from order_table where Unique_id={userID}")
+        result=c.fetchall()
+        if len(result) == 0:
+            c.execute(f"delete from user where user.id = {userID}")
+            db.commit()
         c.execute(f"select * from user where id={userID}")
         data=c.fetchall()
         print(data)
