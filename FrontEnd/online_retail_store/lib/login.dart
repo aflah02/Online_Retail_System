@@ -1,3 +1,4 @@
+import 'package:amazon_clone/Signup.dart';
 import 'package:amazon_clone/adminDashboard.dart';
 import 'package:flutter/material.dart';
 import 'amazon_clone.dart';
@@ -238,11 +239,10 @@ class _loginState extends State<login> {
                         heroTag: "button2",
                         onPressed: () {
                           print("Submitted");
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             YoutubeClone(username: username)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Signup()));
                         },
                         child: Text(
                           "Sign Up",
@@ -261,7 +261,7 @@ class _loginState extends State<login> {
                   SizedBox(
                       width: 180,
                       child: FloatingActionButton(
-                        heroTag: "button1",
+                        heroTag: "ActionButton1",
                         onPressed: () async {
                           var state = formKey.currentState;
                           if (state == null || !state.validate()) {

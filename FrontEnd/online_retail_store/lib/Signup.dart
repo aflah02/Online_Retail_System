@@ -321,6 +321,7 @@ class _SignupState extends State<Signup> {
                   SizedBox(
                     width: 150,
                     child: FloatingActionButton(
+                      heroTag: 'SignUpButton1',
                       onPressed: () async {
                         if (formKey.currentState == null ||
                             !formKey.currentState!.validate()) {
@@ -344,8 +345,10 @@ class _SignupState extends State<Signup> {
                                   actions: [
                                     ElevatedButton(
                                         onPressed: () {
-                                          Navigator.pushNamed(
-                                              context, '/adminDashboard');
+                                          Navigator.of(context,
+                                                  rootNavigator: true)
+                                              .pop('dialog');
+                                          Navigator.pop(context);
                                         },
                                         child: Text('Close'))
                                   ],
