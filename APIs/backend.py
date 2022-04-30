@@ -529,22 +529,15 @@ def deleteUser(userID):
         c.execute(f"""
             delete from billing_details where billing_details.billing_id 
             IN (Select billing_id From order_table where order_table.Unique_id = {userID}) 
-            AND EXISTS (Select * From order_table,shipper 
-            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
-            AND order_table.Shipper_id = shipper.shipper_id And order_table.billing_id=billing_details.billing_id);
+            AND NOT EXISTS (Select * From order_table,shipper 
+            Where order_table.Unique_id={userID} and DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) < 0
+            AND order_table.Shipper_id = shipper.shipper_id);
         """)
         db.commit()
         c.execute(f"""
-            delete from user where user.id = {userID} AND NOT EXISTS (Select * From order_table,shipper 
-            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
-            AND order_table.Shipper_id = shipper.shipper_id );
+            delete from user where user.id = {userID} AND NOT EXISTS (Select * From order_table where order_table.Unique_id={userID});
         """)
         db.commit()
-        c.execute(f"select * from order_table where Unique_id={userID}")
-        result=c.fetchall()
-        if len(result) == 0:
-            c.execute(f"delete from user where user.id = {userID}")
-            db.commit()
         c.execute(f"select * from user where id={userID}")
         data=c.fetchall()
         print(data)
