@@ -543,6 +543,8 @@ def deleteUser(userID):
                 Unique_id = {userID}
         """)
         db.commit()
+        db.close()
+        db = connectToDB()
         c.execute(f"select * from user where id='{userID}'")
         data=c.fetchall()
         db.close()
