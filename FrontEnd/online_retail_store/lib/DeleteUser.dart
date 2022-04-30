@@ -63,11 +63,12 @@ class _DeleteUserState extends State<DeleteUser> {
   Future<bool> deleteUser(String userID) async {
     var data =
         await http.get(Uri.parse('http://127.0.0.1:5000/deleteUser/' + userID));
-    if (data.body == 'Success')
+    if (data.body == 'Success') {
       setAuthenticate(true);
-    else
+      return Future<bool>.value(true);
+    } else
       print(data.body);
-    return Future<bool>.value(true);
+    return Future<bool>.value(false);
   }
 
   @override
