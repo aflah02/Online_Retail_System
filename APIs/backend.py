@@ -642,16 +642,14 @@ def addNewShipper(shipperName, shipperDeliverySpeed):
         return str(e)
 
 """API endpoint called addUser to add new User which takes 5 Strings as Input"""
-@app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['GET', 'POST'])
+@app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['POST'])
 def addUser(Name,Address,EmailID,Password,PhoneNumber):
     try:
-        global usernamelogin
-        global passwlogin
         usernamelogin="root"
         passwlogin="password"
         db = connectToDB()
         cursor=db.cursor()
-        cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values ('{Address}','{Name}','{EmailID}','{Password}','{PhoneNumber}')")
+        cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values(%s,%s,%s,%s,%s)" ,(Address,Name,EmailID,Password,PhoneNumber))
         cursor.execute(f"select max(id) from user")
         data=cursor.fetchall()
         u=data[0][0]
@@ -668,7 +666,7 @@ def cartDetails(user_id):
     try:
         db = connectToDB()
         cursor = db.cursor()
-        cursor.execute(f"select P.product_name as \"Name\",P.brand_name As brand ,P.product_cost as \"Product Cost\",I.Quantity,P.product_cost*I.Quantity As Cost from product P,items_contained I where P.product_id=I.Product_ID and I.Unique_id = {user_id} and P.product_id IN (select product_id from inventory where quantity>0);")
+        cursor.execute(f"select P.product_name as \"Name\",P.brand_name As brand ,P.product_cost as \"Product Cost\",I.Quantity,P.product_cost*I.Quantity As Cost from product P,items_contained I where P.product_id=I.Product_ID and I.Unique_id = {user_id} ;")
         result = cursor.fetchall()
         db.close()
         return flask.jsonify(result)
@@ -684,7 +682,7 @@ def cartTotal():
         cursor.execute(f"""select Temp.Username, SUM(Temp.Total) as "Total cost"
             from (select I.Unique_id,I.Product_ID,U.NAME as Username, SUM(I.Quantity*P.product_cost) as Total
             from User U, items_contained I,product P
-            where P.product_id=I.Product_ID and I.Unique_id=U.id and P.product_id IN (select product_id from inventory where quantity>0) Group BY I.Unique_id,I.Product_ID) as Temp
+            where P.product_id=I.Product_ID and I.Unique_id=U.id Group BY I.Unique_id,I.Product_ID) as Temp
             group by Temp.Username""")
         result = cursor.fetchall()
         db.close()
@@ -700,14 +698,13 @@ def cancelOrder(order_id):
         cursor = db.cursor()
         cursor.execute(f"Select order_table.billing_id From order_table,shipper  Where order_table.Order_id={order_id} AND order_table.Shipper_id = shipper.shipper_id and DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) < 0")
         data=cursor.fetchall()
-        print(data)
         if len(data)==0:
-            return "This order has been completed"
+            return "This order has been cancelled"
             db.close()
         cursor.execute(f"""UPDATE inventory, items_purchased SET inventory.quantity = inventory.quantity + items_purchased.Quantity WHERE items_purchased.Order_id={order_id} and items_purchased.Product_ID=inventory.product_id;
 """)
         db.commit()
-        cursor.execute(f"delete from billing_details where billing_details.billing_id  IN (Select billing_id From order_table where order_table.Order_id = {order_id});")
+        cursor.execute(f"delete from billing_details where billing_details.billing_id  IN (Select billing_id From order_table where order_table.Order_id = 4);")
         db.commit()
         db.close()
         return "Success"
@@ -751,7 +748,7 @@ def addBeforeOrderTableDetails(address,userid,shipperid,coupon):
         cursor.execute(f"select max(billing_id) from billing_details;")
         data=cursor.fetchall()
         billling=data[0][0]
-        if(coupon=="null"):
+        if(coupon.len==0):
         #add shipper here as well
             cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling})")
         else:
