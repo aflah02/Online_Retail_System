@@ -706,7 +706,7 @@ def addBeforeOrderBillingDetails(paymentMode,Address):
         return str(e)
 
 """API endpoint to add item in order_table  before BuyNow which places order for a given user"""
-@app.route('/addBeforeOrderTableDetails/<string:address>/<int:userid>/<int:shipperid>,<string:coupon>', methods=['GET'])
+@app.route('/addBeforeOrderTableDetails/<string:address>/<int:userid>/<int:shipperid>/<string:coupon>', methods=['GET'])
 def addBeforeOrderTableDetails(address,userid,shipperid,coupon):
     try:
         db = connectToDB()
@@ -718,7 +718,7 @@ def addBeforeOrderTableDetails(address,userid,shipperid,coupon):
         #add shipper here as well
             cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling})")
         else:
-            cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id,couponID ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling},{coupon})")
+            cursor.execute(f"insert into order_table (Delivery_Address,Shipper_id, Date_Time, Unique_id, billing_id,couponID ) values ('{address}',{shipperid},CURDATE(), {userid}, {billling},'{coupon}')")
         db.commit()
         db.close()
         return "Success"
