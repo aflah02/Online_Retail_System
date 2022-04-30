@@ -642,14 +642,16 @@ def addNewShipper(shipperName, shipperDeliverySpeed):
         return str(e)
 
 """API endpoint called addUser to add new User which takes 5 Strings as Input"""
-@app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['POST'])
+@app.route('/addUser/<string:Name>/<string:Address>/<string:EmailID>/<string:Password>/<string:PhoneNumber>', methods=['GET', 'POST'])
 def addUser(Name,Address,EmailID,Password,PhoneNumber):
     try:
+        global usernamelogin
+        global passwlogin
         usernamelogin="root"
         passwlogin="password"
         db = connectToDB()
         cursor=db.cursor()
-        cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values(%s,%s,%s,%s,%s)" ,(Address,Name,EmailID,Password,PhoneNumber))
+        cursor.execute("insert into user (Address, Name, EmailID, Password, PhoneNumber) values ('{Address}','{Name}','{EmailID}','{Password}','{PhoneNumber}')")
         cursor.execute(f"select max(id) from user")
         data=cursor.fetchall()
         u=data[0][0]

@@ -40,7 +40,8 @@ UPDATE inventory, items_purchased SET inventory.quantity = inventory.quantity + 
 -- delete order 
 delete from billing_details where billing_details.billing_id 
 IN (Select billing_id From order_table where order_table.Order_id = 4);
-
+use retaildb;
 select * from order_table where Order_id=4;
 select * from items_purchased where Order_id=4;
+select * from items_purchased where Order_id in (select Order_id from order_table where Unique_id = 1);
 select * from inventory;
