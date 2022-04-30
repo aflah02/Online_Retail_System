@@ -519,7 +519,7 @@ def deleteUser(userID):
             AND EXISTS (Select * From order_table,shipper 
             Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
             AND order_table.Shipper_id = shipper.shipper_id And order_table.billing_id=billing_details.billing_id);
-            delete from user where user.id = 3 AND NOT EXISTS (Select * From order_table,shipper 
+            delete from user where user.id = {userID} AND NOT EXISTS (Select * From order_table,shipper 
             Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0 
             AND order_table.Shipper_id = shipper.shipper_id);
             SELECT 
