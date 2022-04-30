@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="password"
+passwlogin="1234"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -539,9 +539,12 @@ def deleteUser(userID):
         db.commit()
         db.close()
         db = connectToDB()
+        print("yes")
         c.execute(f"select * from user where id='{userID}'")
+        print("no")
         data=c.fetchall()
         db.close()
+        print("no")
         if len(data) == 0:
             return "Success"
         else:
