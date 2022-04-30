@@ -532,19 +532,19 @@ def deleteUser(userID):
             AND EXISTS (Select * From order_table,shipper 
             Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0
             AND order_table.Shipper_id = shipper.shipper_id And order_table.billing_id=billing_details.billing_id);
+        """)
+        db.commit()
+        c.execute(f"""
             delete from user where user.id = {userID} AND NOT EXISTS (Select * From order_table,shipper 
-            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0 
-            AND order_table.Shipper_id = shipper.shipper_id);
-        """, multi=True)
+            Where DATEDIFF(CURRENT_DATE, DATE_ADD(order_table.Date_Time, INTERVAL shipper.Delivery_speed DAY)) > 0 AND order_table.Unique_id = {userID}
+            AND order_table.Shipper_id = shipper.shipper_id );
+        """)
+        db.commit()
+        c.execute(f"select * from user where id={userID}")
+        data=c.fetchall()
+        print(data)
         db.commit()
         db.close()
-        db = connectToDB()
-        print("yes")
-        c.execute(f"select * from user where id='{userID}'")
-        print("no")
-        data=c.fetchall()
-        db.close()
-        print("no")
         if len(data) == 0:
             return "Success"
         else:
