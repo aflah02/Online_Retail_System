@@ -9,6 +9,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'Screen2.dart';
 
+String globalUserID = '1';
+
 class Feed extends StatefulWidget {
   final String t;
   const Feed({Key? key, required this.t}) : super(key: key);
@@ -37,6 +39,7 @@ class _FeedState extends State<Feed> {
     var jsonData = json.decode(data.body);
     setState(() {
       uid = jsonData[0][0];
+      globalUserID = uid.toString();
       name = jsonData[0][2];
     });
     return jsonData[0][0];

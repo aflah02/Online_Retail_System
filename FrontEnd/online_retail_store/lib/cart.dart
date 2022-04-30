@@ -1,3 +1,4 @@
+import 'package:amazon_clone/landingpage.dart';
 import 'package:amazon_clone/viewCoupons.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -34,8 +35,7 @@ Future<List<Coupon>> getCoupons(int userid) async {
         expiry: coup[2],
         uniqueId: coup[3],
         isUsed: coup[4]);
-
-    ret.add(temp);
+    if (coup[4] == 0) ret.add(temp);
   }
   return ret;
 }
@@ -67,7 +67,7 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   late String _username;
   int userid = 1;
-  late String name;
+  late String name = globalUserName;
   late String email;
   late String mobileNumber;
   String grandTotal = 'Loading';
@@ -87,7 +87,11 @@ class _CartState extends State<Cart> {
     var total = await http.get(Uri.parse('http://127.0.0.1:5000/cartTotal/'));
     var gtotal = json.decode(total.body);
 
-    grandTotal = gtotal[userid - 1][1];
+    if (gtotal[userid - 1][0] == name)
+      grandTotal = gtotal[userid - 1][1];
+    else {
+      grandTotal = 0.toString();
+    }
     return grandTotal;
   }
 
@@ -123,6 +127,7 @@ class _CartState extends State<Cart> {
         Uri.parse('http://127.0.0.1:5000/getProductID/' + name + '/' + brand));
     var prodID = json.decode(productId.body);
     String id = prodID[0][0].toString();
+
     if (quantity == 1) {
       var data = await http.get(Uri.parse(
           'http://127.0.0.1:5000/removeGivenProductfromGivenCart/' +
@@ -135,10 +140,8 @@ class _CartState extends State<Cart> {
     }
 
     var data = await http.get(Uri.parse(
-        'http://127.0.0.1:5000/addProductsWhenAlreadyExistsInCart/' +
+        'http://127.0.0.1:5000/decQuanProductsWhenAlreadyExistsInCart/' +
             id +
-            '/' +
-            (-1).toString() +
             '/' +
             userid.toString()));
 
@@ -208,7 +211,7 @@ class _CartState extends State<Cart> {
                   ),
                 );
               }
-              h = 600;
+
               return ListView.builder(
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {

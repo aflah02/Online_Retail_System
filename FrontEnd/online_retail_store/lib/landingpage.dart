@@ -3,6 +3,8 @@ import 'cart.dart';
 import 'Screen2.dart';
 import 'feed.dart';
 
+String globalUserName = '';
+
 class LandingPage extends StatefulWidget {
   final String uName;
   const LandingPage({Key? key, required this.uName}) : super(key: key);
@@ -17,6 +19,9 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     _username = widget.uName;
+    setState(() {
+      globalUserName = _username;
+    });
 
     print(_username);
     screens = [

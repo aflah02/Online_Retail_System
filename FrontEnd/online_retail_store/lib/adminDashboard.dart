@@ -12,6 +12,7 @@ import 'UpdateShipper.dart';
 import 'AddCoupons.dart';
 import 'ViewInventory.dart';
 import 'UpdateCoupons.dart';
+import 'DeleteUser.dart';
 
 class dashboard extends StatefulWidget {
   const dashboard({Key? key}) : super(key: key);
@@ -239,6 +240,24 @@ class _dashboardState extends State<dashboard> {
                   Navigator.push(context, PageRouteBuilder(
                       pageBuilder: (BuildContext context, _, __) {
                     return AddCoupon();
+                  }));
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Delete User',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                trailing: Icon(
+                  Icons.arrow_right,
+                  color: Colors.white,
+                ),
+                onTap: () {
+                  Navigator.push(context, PageRouteBuilder(
+                      pageBuilder: (BuildContext context, _, __) {
+                    return const DeleteUser();
                   }));
                 },
               ),

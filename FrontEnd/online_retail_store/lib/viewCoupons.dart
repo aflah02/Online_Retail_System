@@ -154,6 +154,13 @@ class _ViewCouponsState extends State<ViewCoupons> {
                                               actions: [
                                                 ElevatedButton(
                                                     onPressed: () {
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  super
+                                                                      .widget));
                                                       Navigator.of(context,
                                                               rootNavigator:
                                                                   true)

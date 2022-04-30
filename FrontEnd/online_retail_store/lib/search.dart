@@ -1,3 +1,4 @@
+import 'package:amazon_clone/feed.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -479,12 +480,12 @@ class Search extends SearchDelegate<String> {
     if (categories.contains(query)) {
       return CategoryPage(
         category: query,
-        uid: 1,
+        uid: int.parse(globalUserID),
       );
     } else if (brands.contains(query)) {
       return BrandPage(
         name: query,
-        uid: uid,
+        uid: globalUserID,
       );
     } else if (searches.contains(query)) {
       return generateCards(query);

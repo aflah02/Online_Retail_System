@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'viewCoupons.dart';
 import 'package:flutter/material.dart';
 
 class Shipper {
@@ -45,6 +45,9 @@ class _PaymentFormState extends State<PaymentForm> {
 
   Future<bool> placeOrder() async {
     //remove from inventory - if can't then display error
+    setState(() {
+      costAfterCoupon = 0;
+    });
     var data = await http
         .get(Uri.parse('http://127.0.0.1:5000/checkBuyNow/' + userId));
     if (data.body == 'Success') {

@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="1234"
+passwlogin="password"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -23,7 +23,7 @@ def authenticateUser(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="1234"
+        passwlogin="password"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from user where EmailID='{username}' and Password='{passw}'")
@@ -66,7 +66,7 @@ def authenticateAdmin(username,passw):
         global usernamelogin
         global passwlogin
         usernamelogin="root"
-        passwlogin="1234"
+        passwlogin="password"
         db = connectToDB()
         cursor = db.cursor()
         cursor.execute(f"select * from admin_table where username='{username}' and passKey='{passw}'")
@@ -451,7 +451,7 @@ def listAvailableCoupons():
     try:
         db = connectToDB()
         cursor=db.cursor()
-        cursor.execute("Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE;")
+        cursor.execute("Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE and coupon_data.isUsed = {0};")
         result=cursor.fetchall()
         db.close()
         return flask.jsonify(result)
@@ -464,7 +464,7 @@ def listAvailableCouponsForUser(userID):
     try:
         db = connectToDB()
         cursor=db.cursor()
-        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE and Unique_id = {userID} and isUsed = 0;")
+        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE and Unique_id = {userID} and coupon_data.isUsed = {0};")
         result=cursor.fetchall()
         db.close()
         return flask.jsonify(result)
@@ -555,6 +555,22 @@ def addProductsToCart(productID, quantity, cartID):
         return "Success"
     except Exception as e:
         return str(e)
+
+# """API endpoint to add products when the product is already in cart it increases it's quantity by a given quantity"""
+# @app.route('/markCouponAsUsed/<string:couponID>')
+# def markCouponAsUsed(couponID):
+#     try:
+#         db = connectToDB()
+#         cursor=db.cursor()
+#         cursor.execute(f"""
+#         update items_contained 
+#         set quantity = quantity+{quantity} where Product_ID={productID} and Unique_id={cartID}
+#         """)
+#         db.commit()
+#         db.close()
+#         return "Success"
+#     except Exception as e:
+#         return str(e)
 
 """API endpoint to decrease quantity of products when the product is already in cart """
 @app.route('/decQuanProductsWhenAlreadyExistsInCart/<int:productID>/<int:cartID>')
@@ -980,12 +996,12 @@ def addCategoryImage(categoryName, imageUrl):
 def addBrandImage(brandName, imageUrl):
     try:
         a_dict = {f'{brandName}': f'{imageUrl}'}
-        with open(r'APIs\brandlinks.json') as f:
+        with open(r'brandlinks.json') as f:
             data = json.load(f)
         data.update(a_dict)
-        with open(r'APIs\brandlinks.json', 'w') as f:
+        with open(r'brandlinks.json', 'w') as f:
             json.dump(data, f)
-        with open(r'APIs\brandlinks.json', 'r+') as f:
+        with open(r'brandlinks.json', 'r+') as f:
             data = json.load(f)
             f.seek(0)
             json.dump(data, f, indent=4)
@@ -1142,12 +1158,12 @@ def searchUsingCategoryName(name):
         return str(e)
 #API for getting category id from category name
 
-@app.route('/getCategoryID/<string:categoryName>')
-def getCategoryID(categoryName):
+@app.route('/getCategoryID/<string:category>')
+def getCategoryID(category):
     try:
         db = connectToDB()
         c=db.cursor()
-        c.execute(f"select category_id from category C where C.category_name = {categoryName}")
+        c.execute(f"select category_id from category where category_name='{category}'")
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
@@ -1255,19 +1271,6 @@ def getProductID(productName,brandName):
         db = connectToDB()
         c=db.cursor()
         c.execute(f"select product_id from product where product_name='{productName}' and brand_name='{brandName}'")
-        result = c.fetchall()
-        db.close()
-        return flask.jsonify(result)
-    except Exception as e:
-        return str(e)
-
-# API that gives category id given category name
-@app.route('/getCategoryID/<string:category>')
-def getCategoryID(category):
-    try:
-        db = connectToDB()
-        c=db.cursor()
-        c.execute(f"select category_id from category where category_name='{category}'")
         result = c.fetchall()
         db.close()
         return flask.jsonify(result)
