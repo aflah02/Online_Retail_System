@@ -5,7 +5,7 @@ import json
 import datetime
 
 usernamelogin="root"
-passwlogin="password"
+passwlogin="1234"
 def connectToDB():
     db = mysql.connector.connect(
         host="localhost",
@@ -464,7 +464,7 @@ def listAvailableCouponsForUser(userID):
     try:
         db = connectToDB()
         cursor=db.cursor()
-        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE and Unique_id = {userID};")
+        cursor.execute(f"Select * from coupon_data where coupon_data.ExpiryDate >= CURRENT_DATE and Unique_id = {userID} and isUsed = 0;")
         result=cursor.fetchall()
         db.close()
         return flask.jsonify(result)
