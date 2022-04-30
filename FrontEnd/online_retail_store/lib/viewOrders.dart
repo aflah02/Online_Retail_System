@@ -33,13 +33,14 @@ class ViewInventory extends StatefulWidget {
 }
 
 class _ViewInventoryState extends State<ViewInventory> {
-  late bool authenticate = true;
+  late bool authenticate = false;
   void setAuthenticate(bool auth) {
     setState(() {
       authenticate = auth;
     });
   }
 
+  int iter = 1;
   String userId = '1';
   @override
   void initState() {
@@ -50,6 +51,16 @@ class _ViewInventoryState extends State<ViewInventory> {
       print(userId);
       print('not here');
     });
+  }
+
+  Future<bool> deleteOrder(String orderid) async {
+    var data = await http.get(
+        Uri.parse('http://127.0.0.1:5000/cancelOrder/' + orderid.toString()));
+    if (data.body == 'Success') {
+      setAuthenticate(true);
+      return Future<bool>.value(true);
+    }
+    return Future<bool>.value(false);
   }
 
   Future<List<OrderItem>> getItems() async {
@@ -101,6 +112,8 @@ class _ViewInventoryState extends State<ViewInventory> {
                 return ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
+                    String tag = 'Button' + iter.toString();
+                    iter++;
                     return Container(
                       height: 250,
                       child: Padding(
@@ -142,10 +155,11 @@ class _ViewInventoryState extends State<ViewInventory> {
                                 width: 160,
                                 height: 50,
                                 child: FloatingActionButton(
-                                  heroTag: "button1",
+                                  heroTag: tag,
                                   onPressed: () async {
                                     // Navigator.pushNamed(context, '/Store');
-
+                                    await deleteOrder(
+                                        snapshot.data[index].orderid);
                                     if (authenticate == true)
                                       showDialog(
                                           context: context,
@@ -153,7 +167,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                                             return AlertDialog(
                                               title: Text('Database'),
                                               content: Text(
-                                                  'Successfully Deleted User'),
+                                                  'Successfully Deleted Order'),
                                               actions: [
                                                 ElevatedButton(
                                                     onPressed: () {
@@ -175,7 +189,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                                             return AlertDialog(
                                               title: Text('Database'),
                                               content: Text(
-                                                  'Can\'t delete user. User has pending Orders'),
+                                                  'Can\'t delete Order. Contact Admin'),
                                               actions: [
                                                 ElevatedButton(
                                                     onPressed: () {
@@ -194,7 +208,7 @@ class _ViewInventoryState extends State<ViewInventory> {
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(10))),
                                   child: Text(
-                                    "Delete User",
+                                    "Delete Order",
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
