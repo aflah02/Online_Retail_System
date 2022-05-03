@@ -24,7 +24,7 @@
 - Install the following python dependencies:
   - [flask](https://flask.palletsprojects.com/en/2.1.x/)
   - [mysql-connector](https://github.com/mysql/mysql-connector-python)
-- Replace with your MySQL Server credentials [here]() in `backend.py`
+- Replace with your MySQL Server credentials [here](https://github.com/aflah02/DBMS_Project/blob/b0e70229fc58b750a9858b558403c4ee734182d5/APIs/backend.py#L7) in `backend.py`
 - Run `backend.py`
 
 ## To run frontend 👉:
