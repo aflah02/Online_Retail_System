@@ -39,4 +39,4 @@
  - The Entity Relation Diagram used to design this project:
    ![ERD](https://raw.githubusercontent.com/aflah02/DBMS_Project/main/Diagrams/ERD.png)
   
-Made with  by [Faizan](https://github.com/FaizanHaider20083), [Aflah](https://github.com/aflah02), [Shivaansh](https://github.com/shivaansh2020122) & [Aryaman](https://github.com/rainaarya)
+Made by [Faizan](https://github.com/FaizanHaider20083), [Aflah](https://github.com/aflah02), [Shivaansh](https://github.com/shivaansh2020122) & [Aryaman](https://github.com/rainaarya)
