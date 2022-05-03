@@ -7,11 +7,14 @@
 # Some Cool Features 🕵️:
 - Fully functional ordering, cancelling, cart system and coupons.
 - Over 150 Products in diverse categories
+- Choice of shipper depending on choice of shipper speed
 - Supports multiple brands
 - Allows searching based on multiple parameters such as brand names, category names and product names
 - Ranks products based on best selling (quantity and cost wise) in the app homepage
 - Gives admins a separate dashboard to modify the app
 - Admins can add, remove and update products with the click of a button
+- Admins can also add new brands, categories and shippers
+- Admins also reserve the power to remove users with some constraints
 - Proper care has been taken to use views to hide confidential information away from users and admins 
 
 # Setup Instructions:
