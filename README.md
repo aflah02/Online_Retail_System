@@ -1,5 +1,5 @@
 # Online Retail System
-
+- A Cross Platform Online Retail System App Built Using Python and Flutter for our Fundamentals of Database Management System (CSE202) Course at IIITD
 - Built using Python and Flutter 🎉
 - Backend is Flask APIs returning data from a MySQL Database 🧑‍💻
 - Frontend is a cross-platform application built using Flutter 🔍
