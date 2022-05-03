@@ -32,6 +32,6 @@
 - Run it after starting backend and viola enjoy 🎇
 
 ## Notes:
- - The project scope and proposal can be found [here](Final Project proposal.pdf)
+ - The project scope and proposal can be found [here](/Final Project proposal.pdf)
  - The Entity Relation Diagram used to design this project:
    ![ERD](Diagrams\ERD.png)
