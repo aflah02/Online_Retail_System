@@ -34,4 +34,4 @@
 ## Notes:
  - The project scope and proposal can be found [here](https://github.com/aflah02/DBMS_Project/blob/main/Final%20Project%20proposal.pdf)
  - The Entity Relation Diagram used to design this project:
-   ![ERD](\Diagrams\ERD.png)
+   ![ERD](https://raw.githubusercontent.com/aflah02/DBMS_Project/main/Diagrams/ERD.png)
