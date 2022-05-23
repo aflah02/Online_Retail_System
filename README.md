@@ -32,6 +32,7 @@
 
 ## To run frontend 👉:
 - Build the app located in `FrontEnd/` by following instructions [here](https://www.geeksforgeeks.org/how-to-install-flutter-on-visual-studio-code/)
+- An APK Version is also located [here](https://github.com/aflah02/DBMS_Project/blob/main/DBMS.apk)
 - Run it after starting backend and viola enjoy 🎇
 
 ## Notes:
